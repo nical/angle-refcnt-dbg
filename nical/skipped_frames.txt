@@ -4,5 +4,13 @@ xul.dll!MessageLoop::RunHandler
 nss3.dll!_PR_NativeRunThread
 xul.dll!NS_ProcessNextEvent
 xul.dll!nsThread::ThreadFunc
-nss3.dll!pr_root
 xul.dll!mozilla::WebGLContext::Create::<lambda>
+xul.dll!mozilla::ipc::MessageChannel::DispatchMessage
+xul.dll!mozilla::ipc::MessageChannel::DispatchSyncMessage
+xul.dll!mozilla::ipc::MessageChannel::RunMessage
+xul.dll!mozilla::ipc::MessageChannel::DispatchMessage
+ucrtbase.dll!00007ff95c051bb2
+kernel32.dll!00007ff95c817614
+mozglue.dll!mozilla::interceptor::FuncHook<mozilla::interceptor::WindowsDllInterceptor<mozilla::interceptor::VMSharingPolicyShared>,void (*)(int, void *, void *)>::operator()<int &,void *&,void *&>
+mozglue.dll!patched_BaseThreadInitThunk
+ntdll.dll!00007ff95e5c26a1

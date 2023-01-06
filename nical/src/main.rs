@@ -1,4 +1,4 @@
-use std::{io::{self, BufRead}, collections::HashSet};
+use std::{io::{self, BufRead}, collections::{HashSet, HashMap}};
 
 struct Event {
     ref_count_before: i64,
@@ -17,6 +17,14 @@ fn main() {
     let mut skipped_frames = HashSet::new();
     iter_file_lines("skipped_frames.txt", &mut |line| {
         skipped_frames.insert(line.to_string());
+    }).unwrap();
+
+    let mut renamed_frames = HashMap::new();
+    iter_file_lines("renamed_frames.txt", &mut |line| {
+        let mut line = line.split(" ");
+        let from = line.next().unwrap_or("qwertyuiop").to_string();
+        let to = line.next().unwrap_or("qwertyuiop").to_string();
+        renamed_frames.insert(from, to);
     }).unwrap();
 
     let mut events: Vec<Event> = Vec::new();
@@ -55,8 +63,11 @@ fn main() {
 
         if parse_stack {
             if line.starts_with("\t") {
-                let frame = line[1..].to_string();
+                let mut frame = line[1..].to_string();
                 if frame.len() > 2 && !skipped_frames.contains(&frame) {
+                    if let Some(name) = renamed_frames.get(&frame) {
+                        frame = name.clone();
+                    }
                     events.last_mut().unwrap().stack.push(frame);
                 }
             } else {
@@ -126,7 +137,7 @@ fn print_tree(events: &[Event], args: &[String]) {
         });
 
         let mut tabs = common_depth;
-        for frame in &event.stack[common_depth..] {
+        for frame in &stack[common_depth..] {
             indent(tabs);
             println!("{:?}", frame);
             tabs += 1;
