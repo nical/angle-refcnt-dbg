@@ -1,0 +1,8 @@
+xul.dll!mozilla::ipc::MessagePumpForNonMainThreads::Run
+xul.dll!MessageLoop::RunInternal
+xul.dll!MessageLoop::RunHandler
+nss3.dll!_PR_NativeRunThread
+xul.dll!NS_ProcessNextEvent
+xul.dll!nsThread::ThreadFunc
+nss3.dll!pr_root
+xul.dll!mozilla::WebGLContext::Create::<lambda>

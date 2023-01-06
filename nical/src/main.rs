@@ -1,4 +1,4 @@
-use std::io::{self, BufRead};
+use std::{io::{self, BufRead}, collections::HashSet};
 
 struct Event {
     ref_count_before: i64,
@@ -14,12 +14,16 @@ fn main() {
 
     println!("parsing file {:?}, command {:?}", file_name, command);
 
-    let file = std::fs::File::open(file_name).unwrap();
+    let mut skipped_frames = HashSet::new();
+    iter_file_lines("skipped_frames.txt", &mut |line| {
+        skipped_frames.insert(line.to_string());
+    }).unwrap();
 
     let mut events: Vec<Event> = Vec::new();
 
     let mut parse_stack = false;
 
+    let file = std::fs::File::open(file_name).unwrap();
     for line in io::BufReader::new(file).lines() {
         let line = line.unwrap();
         if line.starts_with("####") {
@@ -51,7 +55,10 @@ fn main() {
 
         if parse_stack {
             if line.starts_with("\t") {
-                events.last_mut().unwrap().stack.push(line[1..].to_string());
+                let frame = line[1..].to_string();
+                if frame.len() > 2 && !skipped_frames.contains(&frame) {
+                    events.last_mut().unwrap().stack.push(frame);
+                }
             } else {
                 parse_stack = false;
             }
@@ -132,4 +139,15 @@ fn print_tree(events: &[Event], args: &[String]) {
 
         prev_stack = stack;
     }
+}
+
+fn iter_file_lines(file_name: &str, cb: &mut dyn FnMut(&str)) -> Result<(), std::io::Error> {
+    let file = std::fs::File::open(file_name)?;
+
+    for line in io::BufReader::new(file).lines() {
+        let line = line.unwrap();
+        cb(&line);
+    }
+
+    Ok(())
 }
