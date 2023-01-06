@@ -1,0 +1,251 @@
+---
+source: src/main.rs
+expression: "CallStack::parser().parse(data).unwrap()"
+---
+CallStack {
+    frames: [
+        WithSymbols {
+            module: "d3d11.dll",
+            symbol_name: "TComObject<NOutermost::CDevice>::AddRef",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "d3d11_3SDKLayers.dll",
+            symbol_name: "CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "d3d11_3SDKLayers.dll",
+            symbol_name: "ATL::CComObjectRootBase::InternalQueryInterface",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "d3d11_3SDKLayers.dll",
+            symbol_name: "CLayeredObject<NDebug::CDevice>::QueryInterface",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "d3d11.dll",
+            symbol_name: "ATL::AtlInternalQueryInterface",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "d3d11_3SDKLayers.dll",
+            symbol_name: "CLayeredObject<NDebug::CDevice>::CContainedObject::QueryInterface",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "libGLESv2.dll",
+            symbol_name: "rx::Renderer11::initializeD3DDevice",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "libGLESv2.dll",
+            symbol_name: "rx::Renderer11::initialize",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "libGLESv2.dll",
+            symbol_name: "rx::CreateRendererD3D",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "libGLESv2.dll",
+            symbol_name: "rx::DisplayD3D::initialize",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "libGLESv2.dll",
+            symbol_name: "egl::Display::initialize",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "libGLESv2.dll",
+            symbol_name: "egl::Initialize",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "libGLESv2.dll",
+            symbol_name: "EGL_Initialize",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "libEGL.dll",
+            symbol_name: "eglInitialize",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::gl::GLLibraryEGL::fInitialize",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::gl::EglDisplay::Create",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::gl::GetAndInitDisplay",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::gl::GetAndInitDisplayForAccelANGLE",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::gl::GLLibraryEGL::CreateDisplayLocked",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::gl::GLLibraryEGL::DefaultDisplay",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::gl::DefaultEglDisplay",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::gl::GLContextProviderEGL::CreateHeadless",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::WebGLContext::CreateAndInitGL::<lambda_0>::operator()",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::WebGLContext::CreateAndInitGL::<lambda>",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::WebGLContext::CreateAndInitGL",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::WebGLContext::Create::<lambda>",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::WebGLContext::Create",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::HostWebGLContext::Create",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::dom::WebGLParent::RecvInitialize",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::dom::PWebGLParent::OnMessageReceived",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::gfx::PCanvasManagerParent::OnMessageReceived",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::ipc::MessageChannel::DispatchSyncMessage",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::ipc::MessageChannel::DispatchMessage",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::ipc::MessageChannel::RunMessage",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::ipc::MessageChannel::MessageTask::Run",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "nsThread::ProcessNextEvent",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "NS_ProcessNextEvent",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "mozilla::ipc::MessagePumpForNonMainThreads::Run",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "MessageLoop::RunInternal",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "MessageLoop::RunHandler",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "MessageLoop::Run",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "xul.dll",
+            symbol_name: "nsThread::ThreadFunc",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "nss3.dll",
+            symbol_name: "_PR_NativeRunThread",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "nss3.dll",
+            symbol_name: "pr_root",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "ucrtbase.dll",
+            symbol_name: "thread_start<unsigned int (__cdecl*)(void *),1>",
+            source_location: None,
+        },
+        ExternalCode {
+            address: 0x2147C35002F,
+        },
+        WithSymbols {
+            module: "mozglue.dll",
+            symbol_name: "mozilla::interceptor::FuncHook<mozilla::interceptor::WindowsDllInterceptor<mozilla::interceptor::VMSharingPolicyShared>,void (*)(int, void *, void *)>::operator()<int &,void *&,void *&>",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "mozglue.dll",
+            symbol_name: "patched_BaseThreadInitThunk",
+            source_location: None,
+        },
+        WithSymbols {
+            module: "ntdll.dll",
+            symbol_name: "RtlUserThreadStart",
+            source_location: None,
+        },
+    ],
+}
