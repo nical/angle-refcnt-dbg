@@ -236,14 +236,8 @@ fn parse_call_stack() {
 
 #[derive(Debug, Eq, PartialEq)]
 enum StackFrame {
-    ExternalCode {
-        address: Address,
-    },
-    Symbolicated {
-        module: String,
-        symbol_name: String,
-        source_location: Option<SourceLocation>,
-    },
+    ExternalCode { address: Address },
+    Symbolicated { module: String, symbol_name: String },
 }
 
 fn u64_address_value_debug_pair() -> impl Parser<char, (Address, u64), Error = Simple<char>> {
@@ -311,7 +305,6 @@ impl StackFrame {
                 .map(|(module, symbol_name)| Self::Symbolicated {
                     module,
                     symbol_name,
-                    source_location: None,
                 });
         choice((external_code, symbolicated_stack_frame))
             .labelled("inner stack frame line")
@@ -327,7 +320,6 @@ fn parse_symbolicated_stack_frames() {
         StackFrame::Symbolicated {
             module: "a".to_string(),
             symbol_name: "b".to_string(),
-            source_location: None
         }
     );
     assert_eq!(
@@ -339,7 +331,6 @@ fn parse_symbolicated_stack_frames() {
             module: "d3d11_3SDKLayers.dll".to_string(),
             symbol_name: "CLayeredObject<NDebug::CDevice>::CContainedObject::Release"
                 .to_string(),
-            source_location: None
         }
     );
     assert!(StackFrame::parser().parse("\td3d11_").is_err());
@@ -811,7 +802,6 @@ fn main() -> anyhow::Result<()> {
                         StackFrame::Symbolicated {
                             module,
                             symbol_name,
-                            source_location: _,
                         } => write!(f, "{module}!{symbol_name}"),
                     });
                     println!("{:>frames_up$}\\ {stack_frame}", "", frames_up = idx);

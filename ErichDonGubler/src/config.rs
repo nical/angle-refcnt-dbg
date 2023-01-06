@@ -49,7 +49,6 @@ impl StackFrameMatcher {
                 StackFrame::Symbolicated {
                     module,
                     symbol_name,
-                    source_location: _,
                 },
             ) => {
                 m.as_ref().map_or(true, |m| m == module)
