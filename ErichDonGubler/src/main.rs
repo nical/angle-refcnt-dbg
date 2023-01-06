@@ -628,7 +628,7 @@ fn main() -> anyhow::Result<()> {
                 num_dupe_start_events: 0,
             };
             let misbehavior_help_msg = "If you're looking for root causes of program misbehavior, \
-                then you may have found a lead your problem!";
+                then you may have found a lead to the cause of the problem!";
             let destructor_event =
                 lazy_format!("{:?}", RefcountEventKindName::Destructor).fg(Color::Magenta);
             let only_support_one_thing_msg =
