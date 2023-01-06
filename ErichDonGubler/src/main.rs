@@ -1,4 +1,10 @@
-use std::{fs, num::NonZeroU64, ops::Range, path::PathBuf};
+use std::{
+    fmt::{self, Debug, Formatter},
+    fs,
+    num::NonZeroU64,
+    ops::Range,
+    path::PathBuf,
+};
 
 use anyhow::{anyhow, bail, Context};
 use arcstr::ArcStr;
@@ -26,6 +32,7 @@ struct CliArgs {
 #[derive(Debug, clap::Parser)]
 enum CliSubcommand {
     Lint,
+    ShowExec,
 }
 
 macro_rules! start_of_event {
@@ -232,13 +239,12 @@ fn parse_call_stack() {
     insta::assert_debug_snapshot!(CallStack::parser().parse(data).unwrap());
 }
 
-#[derive(custom_debug::Debug)]
-#[cfg_attr(test, derive(Eq, PartialEq))]
+#[derive(Debug, Eq, PartialEq)]
 enum StackFrame {
     ExternalCode {
         address: Address,
     },
-    WithSymbols {
+    Symbolicated {
         module: String,
         symbol_name: String,
         source_location: Option<SourceLocation>,
@@ -263,11 +269,16 @@ fn u64_from_all_digits() -> impl Parser<char, u64, Error = Simple<char>> {
         .map(|digits| u64::from_str_radix(&digits, 16).unwrap())
 }
 
-#[derive(custom_debug::Debug)]
-#[debug(format = "{value:#010X}")]
-#[cfg_attr(test, derive(Eq, PartialEq))]
+#[derive(Eq, PartialEq)]
 struct Address {
     value: u64,
+}
+
+impl Debug for Address {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        let Self { value } = self;
+        write!(f, "{value:#010X}")
+    }
 }
 
 impl Address {
@@ -302,7 +313,7 @@ impl StackFrame {
         let symbolicated_stack_frame =
             module
                 .then(symbol_name)
-                .map(|(module, symbol_name)| Self::WithSymbols {
+                .map(|(module, symbol_name)| Self::Symbolicated {
                     module,
                     symbol_name,
                     source_location: None,
@@ -318,7 +329,7 @@ impl StackFrame {
 fn parse_symbolicated_stack_frames() {
     assert_eq!(
         StackFrame::parser().parse("\ta!b\n").unwrap(),
-        StackFrame::WithSymbols {
+        StackFrame::Symbolicated {
             module: "a".to_string(),
             symbol_name: "b".to_string(),
             source_location: None
@@ -329,7 +340,7 @@ fn parse_symbolicated_stack_frames() {
             "\td3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release\n"
         )
         .unwrap(),
-        StackFrame::WithSymbols {
+        StackFrame::Symbolicated {
             module: "d3d11_3SDKLayers.dll".to_string(),
             symbol_name: "CLayeredObject<NDebug::CDevice>::CContainedObject::Release"
                 .to_string(),
@@ -344,8 +355,7 @@ fn parse_symbolicated_stack_frames() {
 }
 
 // OPT: intern frame names, source names?
-#[derive(Debug)]
-#[cfg_attr(test, derive(Eq, PartialEq))]
+#[derive(Debug, Eq, PartialEq)]
 struct SourceLocation {
     file_path: PathBuf,
     line: u64,
@@ -402,7 +412,7 @@ impl StackFrameMatcher {
                     module: m,
                     symbol_name: sn,
                 },
-                StackFrame::WithSymbols {
+                StackFrame::Symbolicated {
                     module,
                     symbol_name,
                     source_location: _,
@@ -459,113 +469,106 @@ fn main() -> anyhow::Result<()> {
             .into()
     };
 
+    let RefcountEventParsingConfig {
+        count_at_start,
+        stack_matchers,
+    } = {
+        let config_path = input_dir.join(config_toml!());
+        toml::from_str(&fs::read_to_string(&config_path).with_context(|| {
+            format!(
+                "failed to read configuration from {}",
+                config_path.display()
+            )
+        })?)
+        .context(concat!("failed to deserialize `", config_toml!(), "`"))?
+    };
+
+    // OPT: We might be paying a minor perf penalty for not pre-allocating here?
+    let (events_opt, errs) =
+        RefcountEventLog::parser(&stack_matchers[..]).parse_recovery(&vs_output_window_text[..]);
+
+    struct Reporter {
+        vs_output_window_text_path_str: ArcStr,
+        vs_output_window_text: ArcStr,
+    }
+
+    impl Reporter {
+        fn report(
+            &self,
+            kind: ReportKind,
+            start: usize,
+            configure: impl FnOnce(&mut ReportBuilder<(ArcStr, Range<usize>)>),
+        ) {
+            let Self {
+                vs_output_window_text_path_str,
+                vs_output_window_text,
+            } = self;
+
+            let mut report = Report::build(kind, vs_output_window_text_path_str.clone(), start);
+            configure(&mut report);
+            report
+                .finish()
+                .eprint(sources([(
+                    vs_output_window_text_path_str.clone(),
+                    vs_output_window_text.clone(),
+                )]))
+                .unwrap();
+        }
+
+        fn label(&self, span: Range<usize>) -> Label<(ArcStr, Range<usize>)> {
+            Label::new((self.vs_output_window_text_path_str.clone(), span))
+        }
+    }
+
+    let reporter = Reporter {
+        vs_output_window_text_path_str,
+        vs_output_window_text: vs_output_window_text.clone(),
+    };
+
+    if !errs.is_empty() {
+        // TODO: This is not a great way to determine if something is a warning or error.
+        // We should let the error API of the parser report with finer granularity.
+        let report_kind = if events_opt.is_some() {
+            ReportKind::Warning
+        } else {
+            ReportKind::Error
+        };
+        for e in errs {
+            let msg = match e.reason() {
+                SimpleReason::Unexpected => "unexpected input".to_owned(),
+                SimpleReason::Unclosed { span, delimiter } => {
+                    todo!("use span {span:?} and delimiter {delimiter:?}")
+                }
+                SimpleReason::Custom(msg) => msg.to_owned(),
+            };
+
+            let mut label = reporter.label(e.span()).with_color(Color::Red);
+            if e.expected().count() != 0 || e.found().is_some() {
+                let found = e.found();
+                label = label.with_message(format!(
+                    "Expected {}, found {}",
+                    lazy_format!(|f| { f.debug_list().entries(e.expected()).finish() })
+                        .fg(Color::Green),
+                    lazy_format!("{found:?}").fg(Color::Magenta),
+                ))
+            }
+            reporter.report(report_kind, e.span().start, |report| {
+                report.set_message(format!("Failed to parse refcount event from file: {msg}"));
+                report.add_label(label);
+                if let Some(label) = e.label() {
+                    report.set_note(format!(
+                        "The parser state was labelled as {}, in case it helps with \
+                                debugging. Hit Erich up; he probably borked something.",
+                        lazy_format!("{label:?}").fg(Color::Yellow)
+                    ));
+                }
+            });
+        }
+        bail!("one or more errors found during parsing; see above logs for more details");
+    }
+
     match subcommand {
         CliSubcommand::Lint => {
-            let RefcountEventParsingConfig {
-                count_at_start,
-                stack_matchers,
-            } = {
-                let config_path = input_dir.join(config_toml!());
-                toml::from_str(&fs::read_to_string(&config_path).with_context(|| {
-                    format!(
-                        "failed to read configuration from {}",
-                        config_path.display()
-                    )
-                })?)
-                .context(concat!(
-                    "failed to deserialize `",
-                    config_toml!(),
-                    "`"
-                ))?
-            };
-
-            struct Reporter {
-                vs_output_window_text_path_str: ArcStr,
-                vs_output_window_text: ArcStr,
-            }
-
-            impl Reporter {
-                fn report(
-                    &self,
-                    kind: ReportKind,
-                    start: usize,
-                    configure: impl FnOnce(&mut ReportBuilder<(ArcStr, Range<usize>)>),
-                ) {
-                    let Self {
-                        vs_output_window_text_path_str,
-                        vs_output_window_text,
-                    } = self;
-
-                    let mut report =
-                        Report::build(kind, vs_output_window_text_path_str.clone(), start);
-                    configure(&mut report);
-                    report
-                        .finish()
-                        .eprint(sources([(
-                            vs_output_window_text_path_str.clone(),
-                            vs_output_window_text.clone(),
-                        )]))
-                        .unwrap();
-                }
-
-                fn label(&self, span: Range<usize>) -> Label<(ArcStr, Range<usize>)> {
-                    Label::new((self.vs_output_window_text_path_str.clone(), span))
-                }
-            }
-
-            // OPT: We might be paying a minor perf penalty for not pre-allocating here?
-            let (events_opt, errs) = RefcountEventLog::parser(&stack_matchers[..])
-                .parse_recovery(&vs_output_window_text[..]);
-
-            let reporter = Reporter {
-                vs_output_window_text_path_str,
-                vs_output_window_text: vs_output_window_text.clone(),
-            };
-
-            if !errs.is_empty() {
-                // TODO: This is not a great way to determine if something is a warning or error.
-                // We should let the error API of the parser report with finer granularity.
-                let report_kind = if events_opt.is_some() {
-                    ReportKind::Warning
-                } else {
-                    ReportKind::Error
-                };
-                for e in errs {
-                    let msg = match e.reason() {
-                        SimpleReason::Unexpected => "unexpected input".to_owned(),
-                        SimpleReason::Unclosed { span, delimiter } => {
-                            todo!("use span {span:?} and delimiter {delimiter:?}")
-                        }
-                        SimpleReason::Custom(msg) => msg.to_owned(),
-                    };
-
-                    let mut label = reporter.label(e.span()).with_color(Color::Red);
-                    if e.expected().count() != 0 || e.found().is_some() {
-                        let found = e.found();
-                        label = label.with_message(format!(
-                            "Expected {}, found {}",
-                            lazy_format!(|f| { f.debug_list().entries(e.expected()).finish() })
-                                .fg(Color::Green),
-                            lazy_format!("{found:?}").fg(Color::Magenta),
-                        ))
-                    }
-                    reporter.report(report_kind, e.span().start, |report| {
-                        report.set_message(format!(
-                            "Failed to parse refcount event from file: {msg}"
-                        ));
-                        report.add_label(label);
-                        if let Some(label) = e.label() {
-                            report.set_note(format!(
-                                "The parser state was labelled as {}, in case it helps with \
-                                debugging. Hit Erich up; he probably borked something.",
-                                lazy_format!("{label:?}").fg(Color::Yellow)
-                            ));
-                        }
-                    });
-                }
-                bail!("one or more errors found during parsing; see above logs for more details");
-            }
-
             let RefcountEventLog { events } =
                 events_opt.context("unrecoverable errors encountered while parsing, aborting")?;
 
@@ -794,7 +797,7 @@ fn main() -> anyhow::Result<()> {
                                 lazy_format!("{:?}", event.kind_name()).fg(Color::Red)
                             )));
                             report.set_note(format!("computed refcount state: {computed:?}"));
-                            report.set_help(only_support_one_thing_msg);
+                            report.set_help(misbehavior_help_msg);
                         });
                         found_issue = true;
                     }
@@ -847,6 +850,68 @@ fn main() -> anyhow::Result<()> {
             } else {
                 Ok(())
             }
+        }
+        CliSubcommand::ShowExec => {
+            let mut event_iter = events_opt
+                .iter()
+                .flat_map(|log| log.events.iter().map(|Spanned(event, _span)| event));
+            let mut previous_event = match event_iter.next() {
+                None => {
+                    println!("! no events found");
+                    return Ok(());
+                }
+                Some(event) => event,
+            };
+
+            let wind_up = |idx, event: &RefcountEvent| {
+                let frames = &event.callstack.frames;
+                for (idx, frame) in frames.iter().rev().enumerate().skip(idx) {
+                    let stack_frame = lazy_format!(|f| match frame {
+                        StackFrame::ExternalCode { address } => write!(f, "{address:?}"),
+                        StackFrame::Symbolicated {
+                            module,
+                            symbol_name,
+                            source_location: _,
+                        } => write!(f, "{module}!{symbol_name}"),
+                    });
+                    println!("{:>frames_up$}\\ {stack_frame}", "", frames_up = idx);
+                }
+                println!("{:>frames_up$}|", "", frames_up = frames.len());
+                println!(
+                    "{:>frames_up$}* {:?} of {:?} -> {}",
+                    "",
+                    event.kind_name(),
+                    event.address,
+                    event.count,
+                    frames_up = frames.len()
+                );
+            };
+            let wind_down = |frames: &[StackFrame], idx| {
+                println!(
+                    "{0:>space$}{0:_>frames_down$}|",
+                    "",
+                    space = idx,
+                    frames_down = frames.len().checked_sub(idx).unwrap()
+                );
+            };
+
+            wind_up(0, &previous_event);
+            for next_event in event_iter.take(5) {
+                let previous_frames = &previous_event.callstack.frames;
+
+                let shared_up_to_idx = previous_frames
+                    .iter()
+                    .rev()
+                    .zip(next_event.callstack.frames.iter().rev())
+                    .position(|(f1, f2)| f1 != f2)
+                    .unwrap();
+                wind_down(previous_frames, shared_up_to_idx);
+                wind_up(shared_up_to_idx, next_event);
+                previous_event = next_event;
+            }
+            wind_down(&previous_event.callstack.frames, 0);
+
+            Ok(())
         }
     }
 }
