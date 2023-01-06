@@ -647,7 +647,6 @@ fn main() -> anyhow::Result<()> {
                     // We should already have done something about this, so skippit.
                     Some(Spanned(event, span)) => match event {
                         RefcountEvent {
-                            count,
                             kind: RefcountEventKind::Start { .. },
                             ..
                         } => {
