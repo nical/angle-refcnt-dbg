@@ -619,6 +619,8 @@ fn main() -> anyhow::Result<()> {
                 refcounted pointer. Make sure you record only a single refcount lifecycle for \
                 now.";
 
+            let computed_note = |computed: &_| format!("computed refcount state: {computed:?}");
+
             loop {
                 // TODO: Unify diagnostic colors for event operation identifiers?
                 // TODO: dedupe computed printing
@@ -636,15 +638,11 @@ fn main() -> anyhow::Result<()> {
                                 computed.num_dupe_start_events.checked_add(1).unwrap();
                             reporter.report(ReportKind::Error, span.start, |report| {
                                 report.set_message("multiple start events found");
-                                report.set_help(
-                                    "This tool does not currently support more than a single \
-                                    lifecycle of refcounted pointer. Make sure you record only a \
-                                    single refcount lifecycle for now.",
-                                );
+                                report.set_help(only_support_one_thing_msg);
                                 report.add_label(
                                     reporter.label(span.clone()).with_message(format!("")),
                                 );
-                                report.set_note(format!("computed refcount state: {computed:?}"));
+                                report.set_note(computed_note(&computed));
                             });
                             found_issue = true;
                         }
@@ -693,9 +691,7 @@ fn main() -> anyhow::Result<()> {
                                                 }
                                             })
                                         ));
-                                        report.set_note(format!(
-                                            "computed refcount state: {computed:?}"
-                                        ));
+                                        report.set_note(computed_note(&computed));
                                     });
                                     found_issue = true;
                                 }
@@ -723,7 +719,7 @@ fn main() -> anyhow::Result<()> {
                                         ),
                                     ));
                                     report.set_help(misbehavior_help_msg);
-                                    report.set_note(format!("computed refcount state: {computed:?}"));
+                                report.set_note(computed_note(&computed));
                                 });
                                     found_issue = true;
                                     break;
@@ -746,8 +742,7 @@ fn main() -> anyhow::Result<()> {
                                     "This is either a bug in this tool, or something _spooky_ in \
                                     the logged code."
                                 );
-                                    report
-                                        .set_note(format!("computed refcount state: {computed:?}"));
+                                    report.set_note(computed_note(&computed));
                                 });
                                 found_issue = true;
                             }
@@ -759,7 +754,7 @@ fn main() -> anyhow::Result<()> {
                             vs_output_window_text.len() - 1, // TODO: is this a sensible value?
                             |report| {
                                 report.set_message("log ends while refcount is above 0");
-                                report.set_note(format!("computed refcount state: {computed:?}"));
+                                report.set_note(computed_note(&computed));
                                 report.set_help(misbehavior_help_msg);
                             },
                         );
