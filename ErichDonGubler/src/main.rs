@@ -2,7 +2,6 @@ use std::{
     cmp::Ordering,
     fmt::{self, Debug, Formatter},
     fs,
-    num::NonZeroU64,
     ops::Range,
     path::PathBuf,
 };
@@ -55,6 +54,8 @@ pub struct Spanned<T>(T, Range<usize>);
 #[derive(Debug)]
 struct RefcountEvent {
     address: Address,
+    /// TODO: This doesn't take into account the size of the refcount maybe _not_ being 64 bits. We
+    /// should do that, if this ever needs to be robust.
     count: u64,
     callstack: CallStack,
     kind: RefcountEventKind,
@@ -368,9 +369,6 @@ struct RefcountEventLog {
 
 #[derive(Debug, Deserialize)]
 struct RefcountEventParsingConfig {
-    /// TODO: This doesn't take into account the size of the refcount maybe _not_ being 64 bits. We
-    /// should do that, if this ever needs to be robust.
-    count_at_start: NonZeroU64,
     #[serde(rename = "stack_matcher")]
     stack_matchers: Vec<CallStackMatcher>,
 }
@@ -470,10 +468,7 @@ fn main() -> anyhow::Result<()> {
             .into()
     };
 
-    let RefcountEventParsingConfig {
-        count_at_start,
-        stack_matchers,
-    } = {
+    let RefcountEventParsingConfig { stack_matchers } = {
         let config_path = input_dir.join(config_toml!());
         toml::from_str(&fs::read_to_string(&config_path).with_context(|| {
             format!(
@@ -570,18 +565,37 @@ fn main() -> anyhow::Result<()> {
 
     match subcommand {
         CliSubcommand::Lint => {
+            let start_event = lazy_format!("{:?}", RefcountEventKindName::Start).fg(Color::Green);
+
             let RefcountEventLog { events } =
                 events_opt.context("unrecoverable errors encountered while parsing, aborting")?;
 
-            match events.first() {
+            let mut found_issue = false;
+            let count_at_start = match events.first() {
                 Some(Spanned(
                     RefcountEvent {
                         kind: RefcountEventKind::Start { .. },
+                        count,
                         ..
                     },
-                    _,
-                ))
-                | None => (),
+                    span,
+                )) => {
+                    if *count == 0 {
+                        reporter.report(ReportKind::Error, span.start, |report| {
+                            report.set_message(format!("refcount start event has count of 0"));
+                            report.add_label(reporter.label(span.clone()).with_message(format!(
+                                "this {start_event} event has a refcount of 0, which is almost \
+                                certainly wrong",
+                            )));
+                        });
+                        found_issue = true;
+                    }
+                    *count
+                }
+                None => {
+                    log::info!("no events found, so log is trivially linted");
+                    return Ok(());
+                }
                 Some(Spanned(event, span)) => {
                     reporter.report(ReportKind::Warning, span.start, |report| {
                         let start_event =
@@ -602,15 +616,14 @@ fn main() -> anyhow::Result<()> {
                         more details"
                     )
                 }
-            }
+            };
 
             // TODO: handle multiple refcount lifecycles?
             // TODO: use a smaller span for errors, track spans in parsed things
             let mut events = events.iter().skip(1); // skipping the start event we
                                                     // validated earlier
-            let mut found_issue = false;
             let mut computed = ComputedRefcount {
-                refcount: count_at_start.get(),
+                refcount: count_at_start,
                 num_unidentified: 0,
                 num_dupe_start_events: 0,
             };
