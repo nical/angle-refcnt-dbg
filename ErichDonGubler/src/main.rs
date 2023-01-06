@@ -17,13 +17,15 @@ use serde::Deserialize;
 
 #[derive(Debug, clap::Parser)]
 struct CliArgs {
+    #[clap(long, default_value = ".")]
+    input_dir: PathBuf,
     #[clap(subcommand)]
     subcommand: CliSubcommand,
 }
 
 #[derive(Debug, clap::Parser)]
 enum CliSubcommand {
-    Run { input_dir: PathBuf },
+    Lint,
 }
 
 macro_rules! start_of_event {
@@ -43,25 +45,35 @@ macro_rules! config_toml {
 pub struct Spanned<T>(T, Range<usize>);
 
 #[derive(Debug)]
-enum RefcountEvent {
-    // TODO: parse this
-    Start {
-        variable_name: String,
-        address: Address,
-        callstack: CallStack,
-    },
-    Increment {
-        callstack: CallStack,
-    },
-    Decrement {
-        callstack: CallStack,
-    },
-    Destructor {
-        callstack: CallStack,
-    },
-    Unidentified {
-        callstack: CallStack,
-    },
+struct RefcountEvent {
+    address: Address,
+    count: u64,
+    callstack: CallStack,
+    kind: RefcountEventKind,
+}
+
+#[derive(Debug)]
+enum RefcountEventKind {
+    Start { variable_name: String },
+    Modify { kind: RefcountModifyKind },
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum RefcountModifyKind {
+    Increment,
+    Decrement,
+    Destructor,
+    Unidentified,
+}
+
+impl From<Classification> for RefcountModifyKind {
+    fn from(value: Classification) -> Self {
+        match value {
+            Classification::Increment => Self::Increment,
+            Classification::Decrement => Self::Decrement,
+            Classification::Destructor => Self::Destructor,
+        }
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -71,8 +83,8 @@ struct ComputedRefcount {
     num_dupe_start_events: u64,
 }
 
-#[derive(Debug)]
-enum RefcountEventKind {
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum RefcountEventKindName {
     Start,
     Increment,
     Decrement,
@@ -80,14 +92,22 @@ enum RefcountEventKind {
     Unidentified,
 }
 
+impl From<RefcountModifyKind> for RefcountEventKindName {
+    fn from(value: RefcountModifyKind) -> Self {
+        match value {
+            RefcountModifyKind::Increment => Self::Increment,
+            RefcountModifyKind::Decrement => Self::Decrement,
+            RefcountModifyKind::Destructor => Self::Destructor,
+            RefcountModifyKind::Unidentified => Self::Unidentified,
+        }
+    }
+}
+
 impl RefcountEvent {
-    pub fn kind(&self) -> RefcountEventKind {
-        match self {
-            Self::Start { .. } => RefcountEventKind::Start,
-            Self::Increment { .. } => RefcountEventKind::Increment,
-            Self::Decrement { .. } => RefcountEventKind::Decrement,
-            Self::Destructor { .. } => RefcountEventKind::Destructor,
-            Self::Unidentified { .. } => RefcountEventKind::Unidentified,
+    pub fn kind_name(&self) -> RefcountEventKindName {
+        match &self.kind {
+            RefcountEventKind::Start { .. } => RefcountEventKindName::Start,
+            &RefcountEventKind::Modify { kind, .. } => kind.into(),
         }
     }
 
@@ -101,39 +121,40 @@ impl RefcountEvent {
         )))
         .ignore_then(
             choice((
-                just("Ref count for device was modified:").ignore_then(
-                    CallStack::parser().labelled("call stack").map(
-                        |callstack| match stack_matchers
-                            .iter()
-                            .find_map(|matcher| matcher.matches(&callstack))
-                        {
-                            Some(classification) => match classification {
-                                Classification::Increment => RefcountEvent::Increment { callstack },
-                                Classification::Decrement => RefcountEvent::Decrement { callstack },
-                                Classification::Destructor => {
-                                    RefcountEvent::Destructor { callstack }
-                                }
-                            },
-                            None => RefcountEvent::Unidentified { callstack },
-                        },
-                    ),
-                ),
-                just("Starting to track refs `")
-                    .ignore_then(ident().labelled("COM object identifier"))
-                    .then_ignore(just("` at "))
-                    .then(just("0x").ignore_then(Address::parser().labelled("refcount address")))
+                just("Ref count was changed for ")
+                    .ignore_then(u64_address_value_debug_pair())
                     .then_ignore(just(":"))
                     .then(CallStack::parser().labelled("call stack"))
-                    .map(|((variable_name, address), callstack)| Self::Start {
-                        variable_name,
+                    .map(|((address, count), callstack)| {
+                        let kind = stack_matchers
+                            .iter()
+                            .find_map(|matcher| matcher.matches(&callstack))
+                            .map(Into::into)
+                            .unwrap_or(RefcountModifyKind::Unidentified);
+                        Self {
+                            address,
+                            count,
+                            callstack,
+                            kind: RefcountEventKind::Modify { kind },
+                        }
+                    }),
+                just("Starting to track refs for `")
+                    .ignore_then(ident().labelled("COM object identifier"))
+                    .then_ignore(just("` at "))
+                    .then(u64_address_value_debug_pair())
+                    .then_ignore(just(":"))
+                    .then(CallStack::parser().labelled("call stack"))
+                    .map(|((variable_name, (address, count)), callstack)| Self {
+                        kind: RefcountEventKind::Start { variable_name },
                         address,
+                        count,
                         callstack,
                     }),
             ))
-            .labelled("event body"),
+            .labelled("event body")
+            .map_with_span(Spanned),
         )
         .labelled("refcount event")
-        .map_with_span(Spanned)
     }
 }
 
@@ -224,6 +245,24 @@ enum StackFrame {
     },
 }
 
+fn u64_address_value_debug_pair() -> impl Parser<char, (Address, u64), Error = Simple<char>> {
+    just("0x")
+        .ignore_then(Address::parser().labelled("changed refcount address"))
+        .then_ignore(just(" {0x"))
+        .then(u64_from_all_digits())
+        .then_ignore(just("}"))
+}
+
+fn u64_from_all_digits() -> impl Parser<char, u64, Error = Simple<char>> {
+    filter(char::is_ascii_hexdigit)
+        .repeated()
+        .exactly(16)
+        .labelled("full ASCII hex digits of `u64`")
+        // OPT: s/String/&str?
+        .map(|digits| String::from_iter(digits.into_iter()))
+        .map(|digits| u64::from_str_radix(&digits, 16).unwrap())
+}
+
 #[derive(custom_debug::Debug)]
 #[debug(format = "{value:#010X}")]
 #[cfg_attr(test, derive(Eq, PartialEq))]
@@ -233,14 +272,7 @@ struct Address {
 
 impl Address {
     fn parser() -> impl Parser<char, Self, Error = Simple<char>> {
-        filter(char::is_ascii_hexdigit)
-            .repeated()
-            .exactly(16)
-            .labelled("ASCII hex digits of addresss")
-            // OPT: s/String/&str?
-            .map(|digits| String::from_iter(digits.into_iter()))
-            .map(|digits| u64::from_str_radix(&digits, 16).unwrap())
-            .map(|value| Self { value })
+        u64_from_all_digits().map(|value| Self { value })
     }
 }
 
@@ -410,23 +442,25 @@ fn main() -> anyhow::Result<()> {
         .parse_default_env()
         .init();
 
-    let CliArgs { subcommand } = CliArgs::parse();
+    let CliArgs {
+        input_dir,
+        subcommand,
+    } = CliArgs::parse();
+
+    let vs_output_window_text_path = input_dir.join("vs-output-window.txt");
+    // TODO: better coercion to `ArcStr` plz
+    let vs_output_window_text_path_str = vs_output_window_text_path.to_str().unwrap();
+    let vs_output_window_text_path_str = ArcStr::from(vs_output_window_text_path_str.to_owned());
+
+    // OPT: buffered reading a chunk at a time for parsing plz
+    let vs_output_window_text: ArcStr = {
+        fs::read_to_string(&vs_output_window_text_path)
+            .context("failed to read {vs_output_window_text_path:?}")?
+            .into()
+    };
 
     match subcommand {
-        CliSubcommand::Run { input_dir } => {
-            let vs_output_window_text_path = input_dir.join("vs-output-window.txt");
-            // TODO: better coercion to `ArcStr` plz
-            let vs_output_window_text_path_str = vs_output_window_text_path.to_str().unwrap();
-            let vs_output_window_text_path_str =
-                ArcStr::from(vs_output_window_text_path_str.to_owned());
-
-            // OPT: buffered reading a chunk at a time for parsing plz
-            let vs_output_window_text: ArcStr = {
-                fs::read_to_string(&vs_output_window_text_path)
-                    .context("failed to read {vs_output_window_text_path:?}")?
-                    .into()
-            };
-
+        CliSubcommand::Lint => {
             let RefcountEventParsingConfig {
                 count_at_start,
                 stack_matchers,
@@ -536,15 +570,22 @@ fn main() -> anyhow::Result<()> {
                 events_opt.context("unrecoverable errors encountered while parsing, aborting")?;
 
             match events.first() {
-                Some(Spanned(RefcountEvent::Start { .. }, _)) | None => (),
+                Some(Spanned(
+                    RefcountEvent {
+                        kind: RefcountEventKind::Start { .. },
+                        ..
+                    },
+                    _,
+                ))
+                | None => (),
                 Some(Spanned(event, span)) => {
                     reporter.report(ReportKind::Warning, span.start, |report| {
                         let start_event =
-                            lazy_format!("{:?}", RefcountEventKind::Start).fg(Color::Green);
+                            lazy_format!("{:?}", RefcountEventKindName::Start).fg(Color::Green);
                         report.set_message(format!("first refcount event is not a start"));
                         report.add_label(reporter.label(span.clone()).with_message(format!(
                             "expected a {start_event} event, but found this {} event instead",
-                            lazy_format!("{:?}", event.kind()).fg(Color::Yellow),
+                            lazy_format!("{:?}", event.kind_name()).fg(Color::Yellow),
                         )));
                         report.set_help(format!(
                             "This tool expects a single {start_event} event before all others. \
@@ -572,7 +613,7 @@ fn main() -> anyhow::Result<()> {
             let misbehavior_help_msg = "If you're looking for root causes of program misbehavior, \
                 then you may have found a lead your problem!";
             let destructor_event =
-                lazy_format!("{:?}", RefcountEventKind::Destructor).fg(Color::Magenta);
+                lazy_format!("{:?}", RefcountEventKindName::Destructor).fg(Color::Magenta);
             let only_support_one_thing_msg =
                 "This tool does not currently support more than a single lifecycle of single \
                 refcounted pointer. Make sure you record only a single refcount lifecycle for \
@@ -586,29 +627,11 @@ fn main() -> anyhow::Result<()> {
                 match events.next() {
                     // We should already have done something about this, so skippit.
                     Some(Spanned(event, span)) => match event {
-                        RefcountEvent::Unidentified { .. } => {
-                            computed.num_unidentified =
-                                computed.num_unidentified.checked_add(1).unwrap();
-                            reporter.report(ReportKind::Error, span.start, |report| {
-                                report.set_message(format!("failed to classify event"));
-                                report.add_label(reporter.label(span.clone()).with_message(
-                                    format!(
-                                        "could not classify this event based on its call stack \
-                                        from current configuration; refcounts are going to be \
-                                        wrong!"
-                                    ),
-                                ));
-                                report.set_help(format!(concat!(
-                                    "You should change your `[[stack_matcher]]` configuration \
-                                        in your `",
-                                    config_toml!(),
-                                    "` so that it classifies this call stack correctly."
-                                )));
-                                report.set_note(format!("computed refcount state: {computed:?}"));
-                            });
-                            found_issue = true;
-                        }
-                        RefcountEvent::Start { .. } => {
+                        RefcountEvent {
+                            count,
+                            kind: RefcountEventKind::Start { .. },
+                            ..
+                        } => {
                             computed.num_dupe_start_events =
                                 computed.num_dupe_start_events.checked_add(1).unwrap();
                             reporter.report(ReportKind::Error, span.start, |report| {
@@ -625,34 +648,109 @@ fn main() -> anyhow::Result<()> {
                             });
                             found_issue = true;
                         }
-                        RefcountEvent::Increment { .. } => {
-                            computed.refcount = computed.refcount.checked_add(1).unwrap()
-                            // TODO: `INFO`-level logging
-                        }
-                        RefcountEvent::Decrement { .. } => {
-                            computed.refcount = computed.refcount.checked_sub(1).unwrap();
-                            // TODO: `INFO`-level logging
-                            if computed.refcount == 0 {
-                                // TODO: `INFO`-level logging
-                                break;
-                            }
-                        }
-                        RefcountEvent::Destructor { .. } => {
-                            reporter.report(ReportKind::Warning, span.start, |report| {
-                                report.set_message("destructor called before refcount was zero");
-                                // TODO: track previous event span?
-                                report.add_label(reporter.label(span.clone()).with_message(
-                                    format!(
+                        RefcountEvent {
+                            count,
+                            kind: RefcountEventKind::Modify { kind, .. },
+                            ..
+                        } => {
+                            match kind {
+                                RefcountModifyKind::Unidentified { .. } => {
+                                    computed.num_unidentified =
+                                        computed.num_unidentified.checked_add(1).unwrap();
+                                    let suggested_match = match *count {
+                                        c if c == computed.refcount - 1 => Some("decrement"),
+                                        c if c == computed.refcount.checked_add(1).unwrap() => {
+                                            Some("increment")
+                                        }
+                                        _ => None,
+                                    };
+                                    reporter.report(ReportKind::Error, span.start, |report| {
+                                        report.set_message(format!("failed to classify event"));
+                                        report.add_label(
+                                            reporter.label(span.clone()).with_message(format!(
+                                            "could not classify this event based on its call stack \
+                                            from current configuration; refcounts are going to be \
+                                            wrong!"
+                                        )),
+                                        );
+                                        report.set_help(format!(
+                                            concat!(
+                                                "You should change your `[[stack_matcher]]` \
+                                                configuration in your `",
+                                                config_toml!(),
+                                                "` so that it classifies this call stack \
+                                                correctly.{}"
+                                            ),
+                                            lazy_format!(|f| {
+                                                match suggested_match {
+                                                    None => Ok(()),
+                                                    Some(suggested_match) => write!(
+                                                        f,
+                                                        " Perhaps this should be marked as {}?",
+                                                        lazy_format!("{suggested_match:?}")
+                                                            .fg(Color::Yellow)
+                                                    ),
+                                                }
+                                            })
+                                        ));
+                                        report.set_note(format!(
+                                            "computed refcount state: {computed:?}"
+                                        ));
+                                    });
+                                    found_issue = true;
+                                }
+                                RefcountModifyKind::Increment { .. } => {
+                                    computed.refcount = computed.refcount.checked_add(1).unwrap()
+                                    // TODO: `INFO`-level logging
+                                }
+                                RefcountModifyKind::Decrement { .. } => {
+                                    computed.refcount = computed.refcount.checked_sub(1).unwrap();
+                                    // TODO: `INFO`-level logging
+                                    if computed.refcount == 0 {
+                                        // TODO: `INFO`-level logging
+                                        break;
+                                    }
+                                }
+                                RefcountModifyKind::Destructor { .. } => {
+                                    reporter.report(ReportKind::Warning, span.start, |report| {
+                                    report.set_message("destructor called before refcount was zero");
+                                    // TODO: track previous event span?
+                                    report.add_label(reporter.label(span.clone()).with_message(
+                                        format!(
+                                            "This {} operation happened while the refcount was still \
+                                            positive, which is invalid.",
+                                            destructor_event
+                                        ),
+                                    ));
+                                    report.set_help(misbehavior_help_msg);
+                                    report.set_note(format!("computed refcount state: {computed:?}"));
+                                });
+                                    found_issue = true;
+                                    break;
+                                }
+                            };
+                            if computed.refcount != *count {
+                                reporter.report(ReportKind::Error, span.start, |report| {
+                                    report.set_message(
+                                        "refcount in log diverges from computed value",
+                                    );
+                                    // TODO: track previous event span?
+                                    report.add_label(reporter.label(span.clone()).with_message(
+                                        format!(
                                         "This {} operation happened while the refcount was still \
                                         positive, which is invalid.",
                                         destructor_event
                                     ),
-                                ));
-                                report.set_help(misbehavior_help_msg);
-                                report.set_note(format!("computed refcount state: {computed:?}"));
-                            });
-                            found_issue = true;
-                            break;
+                                    ));
+                                    report.set_help(
+                                    "This is either a bug in this tool, or something _spooky_ in \
+                                    the logged code."
+                                );
+                                    report
+                                        .set_note(format!("computed refcount state: {computed:?}"));
+                                });
+                                found_issue = true;
+                            }
                         }
                     },
                     None => {
@@ -660,7 +758,7 @@ fn main() -> anyhow::Result<()> {
                             ReportKind::Warning,
                             vs_output_window_text.len() - 1, // TODO: is this a sensible value?
                             |report| {
-                                report.set_message("no destructor found in log");
+                                report.set_message("log ends while refcount is above 0");
                                 report.set_note(format!("computed refcount state: {computed:?}"));
                                 report.set_help(misbehavior_help_msg);
                             },
@@ -672,18 +770,33 @@ fn main() -> anyhow::Result<()> {
             }
 
             match events.clone().next() {
-                Some(Spanned(RefcountEvent::Destructor { .. }, _)) => {
-                    if let Some(Spanned(event, span)) = events.next() {
+                Some(Spanned(
+                    RefcountEvent {
+                        kind:
+                            RefcountEventKind::Modify {
+                                kind: RefcountModifyKind::Destructor,
+                            },
+                        ..
+                    },
+                    _, // TODO: use this span as part of a label
+                )) => {
+                    if let Some(Spanned(event, span)) = events.nth(1) {
+                        let extra_maybe = if event.kind_name() == RefcountEventKindName::Destructor
+                        {
+                            "extra "
+                        } else {
+                            ""
+                        };
                         let remaining_event_count = events.count();
                         reporter.report(ReportKind::Error, span.start, |report| {
                             report.set_message(format!(
                                 "expected destructor call as final operation"
                             ));
                             report.add_label(reporter.label(span.clone()).with_message(format!(
-                                "this {} operation and {remaining_event_count} other refcount \
-                                operations were logged after the refcount reached 0 and was \
-                                destroyed",
-                                lazy_format!("{:?}", event.kind()).fg(Color::Red)
+                                "this {extra_maybe}{} operation and {remaining_event_count} other \
+                                refcount operation(s) were logged after the refcount reached 0 \
+                                and was destroyed",
+                                lazy_format!("{:?}", event.kind_name()).fg(Color::Red)
                             )));
                             report.set_note(format!("computed refcount state: {computed:?}"));
                             report.set_help(only_support_one_thing_msg);
@@ -697,7 +810,7 @@ fn main() -> anyhow::Result<()> {
                         report.add_label(reporter.label(span.clone()).with_message(format!(
                             "this {} operation was called after the refcount was computed to \
                             reach 0, but a {destructor_event} event was expected",
-                            lazy_format!("{:?}", event.kind()).fg(Color::Red)
+                            lazy_format!("{:?}", event.kind_name()).fg(Color::Red)
                         )));
                         report.set_help(misbehavior_help_msg);
                         report.set_note(format!("computed refcount state: {computed:?}"));
@@ -714,7 +827,10 @@ fn main() -> anyhow::Result<()> {
                         ReportKind::Warning,
                         vs_output_window_text.len() - 1,
                         |report| {
-                            report.set_message(format!("no {destructor_event} found in log"));
+                            report.set_message(format!(
+                                "no events remain in log after the previous one (TODO: add span), \
+                                but a {destructor_event} event was expected"
+                            ));
                             // format!(
                             //     "expected destructor call as next operation after refcount was \
                             //         computed to reach 0, but no more events are found (computed: \
