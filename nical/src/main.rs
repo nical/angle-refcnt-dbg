@@ -2,7 +2,7 @@ use std::{io::{self, BufRead}, collections::{HashSet, HashMap}};
 
 struct Event {
     ref_count_before: i64,
-    ref_count_after: Option<i64>,
+    ref_count_after: i64,
     stack: Vec<String>,
     reverse_stack: Vec<String>,
 }
@@ -30,10 +30,12 @@ fn main() {
     let mut events: Vec<Event> = Vec::new();
 
     let mut parse_stack = false;
+    let mut prev_refcnt = 2; // Seems to start at two
 
     let file = std::fs::File::open(file_name).unwrap();
     for line in io::BufReader::new(file).lines() {
         let line = line.unwrap();
+        // marker for an interesting event.
         if line.starts_with("####") {
             let mut refcnt_str = String::new();
             for c in line[40..].chars() {
@@ -45,16 +47,13 @@ fn main() {
 
             let refcnt = refcnt_str.parse::<i64>().unwrap();
 
-            if let Some(prev) = events.last_mut() {
-                prev.ref_count_after = Some(refcnt);
-            }
-
             events.push(Event {
-                ref_count_before: refcnt,
-                ref_count_after: None,
+                ref_count_before: prev_refcnt,
+                ref_count_after: refcnt,
                 stack: Vec::new(),
                 reverse_stack: Vec::new(),
             });
+            prev_refcnt = refcnt;
 
             parse_stack = true;
 
@@ -62,15 +61,22 @@ fn main() {
         }
 
         if parse_stack {
+            // stack frames conveniently start with a recognizable character (tab).
             if line.starts_with("\t") {
                 let mut frame = line[1..].to_string();
                 if frame.len() > 2 && !skipped_frames.contains(&frame) {
                     if let Some(name) = renamed_frames.get(&frame) {
                         frame = name.clone();
                     }
-                    events.last_mut().unwrap().stack.push(frame);
+                    let stack = &mut events.last_mut().unwrap().stack;
+                    // Skip over recursions.
+                    if stack.last() != Some(&frame) {
+                        stack.push(frame);
+                    }
                 }
             } else {
+                // Stop as soon as there is a line that does not start with a tab
+                // to avoid picking up som log.
                 parse_stack = false;
             }
         }
@@ -94,8 +100,7 @@ fn main() {
 }
 
 fn event_symbol(event: &Event) -> &'static str {
-    let ref_count_after = event.ref_count_after.unwrap_or(1234567);
-    match ref_count_after - event.ref_count_before {
+    match event.ref_count_after - event.ref_count_before {
         1 => "++",
         -1 => "--",
         _ => "!!",
@@ -110,9 +115,8 @@ fn print_events(events: &[Event], args: &[String]) {
     };
 
     for event in events {
-        let ref_count_after = event.ref_count_after.unwrap_or(1234567);
         let symbol = event_symbol(event);
-        println!("{} ref {} -> {:?}", symbol, event.ref_count_before, ref_count_after);
+        println!("{} ref {} -> {:?}", symbol, event.ref_count_before, event.ref_count_after);
         for i in 0..stack_depth {
             if event.stack.len() <= i {
                 break;

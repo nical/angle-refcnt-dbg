@@ -116,3 +116,36 @@ xul.dll!mozilla::MethodDispatcher<mozilla::WebGLMethodDispatcher,96,void (mozill
 xul.dll!mozilla::MethodDispatcher<mozilla::WebGLMethodDispatcher,97,void (mozilla::HostWebGLContext::*)(const std::vector<unsigned int,std::allocator<unsigned int>> &) const,&mozilla::HostWebGLContext::DrawBuffers>::DispatchCommand<mozilla::HostWebGLContext>
 xul.dll!mozilla::MethodDispatcher<mozilla::WebGLMethodDispatcher,98,void (mozilla::HostWebGLContext::*)(unsigned long long) const,&mozilla::HostWebGLContext::BindVertexArray>::DispatchCommand<mozilla::HostWebGLContext>
 xul.dll!mozilla::ipc::MessageChannel::MessageTask::Run
+xul.dll!MessageLoop::Run
+xul.dll!nsThread::ProcessNextEvent
+xul.dll!mozilla::gfx::PCanvasManagerParent::OnMessageReceived
+xul.dll!mozilla::dom::PWebGLParent::OnMessageReceived
+libGLESv2.dll!EGL_Initialize
+libGLESv2.dll!EGL_CreatePbufferSurface
+libGLESv2.dll!EGL_DestroySurface
+libGLESv2.dll!EGL_CreatePbufferSurface
+libGLESv2.dll!EGL_MakeCurrent
+libGLESv2.dll!EGL_CreatePbufferSurface
+libGLESv2.dll!EGL_StreamPostD3DTextureANGLE
+libGLESv2.dll!EGL_StreamConsumerReleaseKHR
+libGLESv2.dll!EGL_MakeCurrent
+libGLESv2.dll!EGL_DestroySurface
+libGLESv2.dll!EGL_Terminate
+libGLESv2.dll!rx::Context11::onMakeCurrent
+libGLESv2.dll!rx::Context11::finish
+libGLESv2.dll!rx::Context11::drawArrays
+libGLESv2.dll!rx::Context11::drawArraysInstanced
+libGLESv2.dll!GL_Finish
+libGLESv2.dll!GL_RenderbufferStorage
+libGLESv2.dll!GL_BufferData
+libGLESv2.dll!GL_Clear
+libGLESv2.dll!GL_BlitFramebuffer
+libGLESv2.dll!GL_BufferData
+libGLESv2.dll!GL_DrawArrays
+libGLESv2.dll!GL_DrawArraysInstanced
+libGLESv2.dll!GL_DeleteTextures
+libGLESv2.dll!GL_DeleteRenderbuffers
+libGLESv2.dll!GL_DeleteTextures
+libGLESv2.dll!GL_DeleteBuffers
+libGLESv2.dll!GL_DeleteProgram
+libGLESv2.dll!GL_DeleteVertexArrays
