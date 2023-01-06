@@ -1,4 +1,5 @@
 use std::{
+    cmp::Ordering,
     fmt::{self, Debug, Formatter},
     fs,
     num::NonZeroU64,
@@ -886,17 +887,21 @@ fn main() -> anyhow::Result<()> {
                     frames_up = frames.len()
                 );
             };
-            let wind_down = |frames: &[StackFrame], idx| {
-                println!(
-                    "{0:>space$}{0:_>frames_down$}|",
-                    "",
-                    space = idx,
-                    frames_down = frames.len().checked_sub(idx).unwrap()
-                );
+            let wind_down = |frames: &[StackFrame], idx| match frames.len().cmp(&idx) {
+                Ordering::Less => unreachable!(),
+                Ordering::Equal => (),
+                Ordering::Greater => {
+                    println!(
+                        "{0:>space$}{0:_>frames_down$}|",
+                        "",
+                        space = idx,
+                        frames_down = frames.len().checked_sub(idx).unwrap()
+                    );
+                }
             };
 
             wind_up(0, &previous_event);
-            for next_event in event_iter.take(5) {
+            for next_event in event_iter {
                 let previous_frames = &previous_event.callstack.frames;
 
                 let shared_up_to_idx = previous_frames
@@ -904,7 +909,7 @@ fn main() -> anyhow::Result<()> {
                     .rev()
                     .zip(next_event.callstack.frames.iter().rev())
                     .position(|(f1, f2)| f1 != f2)
-                    .unwrap();
+                    .unwrap_or(previous_frames.len());
                 wind_down(previous_frames, shared_up_to_idx);
                 wind_up(shared_up_to_idx, next_event);
                 previous_event = next_event;
