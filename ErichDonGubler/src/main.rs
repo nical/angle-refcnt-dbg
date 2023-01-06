@@ -306,7 +306,7 @@ impl StackFrame {
                 .at_least(1)
                 // TODO: max bounds?
                 // OPT: eww, y u no `str`?
-                .map(|cs| String::from_iter(cs))
+                .map(String::from_iter)
         };
         let module = chars_until(|c| non_newline(c) && *c != '!')
             .then_ignore(just("!"))
@@ -437,7 +437,7 @@ impl RefcountEventLog {
     fn parser(
         stack_matchers: &[CallStackMatcher],
     ) -> impl Parser<char, Self, Error = Simple<char>> + '_ {
-        RefcountEvent::parser(&stack_matchers)
+        RefcountEvent::parser(stack_matchers)
             .repeated()
             .at_least(1)
             .labelled("refcount event log")
@@ -582,7 +582,7 @@ fn main() -> anyhow::Result<()> {
                 )) => {
                     if *count == 0 {
                         reporter.report(ReportKind::Error, span.start, |report| {
-                            report.set_message(format!("refcount start event has count of 0"));
+                            report.set_message("refcount start event has count of 0");
                             report.add_label(reporter.label(span.clone()).with_message(format!(
                                 "this {start_event} event has a refcount of 0, which is almost \
                                 certainly wrong",
@@ -600,7 +600,7 @@ fn main() -> anyhow::Result<()> {
                     reporter.report(ReportKind::Warning, span.start, |report| {
                         let start_event =
                             lazy_format!("{:?}", RefcountEventKindName::Start).fg(Color::Green);
-                        report.set_message(format!("first refcount event is not a start"));
+                        report.set_message("first refcount event is not a start");
                         report.add_label(reporter.label(span.clone()).with_message(format!(
                             "expected a {start_event} event, but found this {} event instead",
                             lazy_format!("{:?}", event.kind_name()).fg(Color::Yellow),
@@ -655,9 +655,10 @@ fn main() -> anyhow::Result<()> {
                             reporter.report(ReportKind::Error, span.start, |report| {
                                 report.set_message("multiple start events found");
                                 report.set_help(only_support_one_thing_msg);
-                                report.add_label(
-                                    reporter.label(span.clone()).with_message(format!("")),
-                                );
+                                report.add_label(reporter.label(span.clone()).with_message(
+                                    "this {start_event} event occurs after the first one (TODO: \
+                                    span)",
+                                ));
                                 report.set_note(computed_note(&computed));
                             });
                             found_issue = true;
@@ -679,13 +680,13 @@ fn main() -> anyhow::Result<()> {
                                         _ => None,
                                     };
                                     reporter.report(ReportKind::Error, span.start, |report| {
-                                        report.set_message(format!("failed to classify event"));
+                                        report.set_message("failed to classify event");
                                         report.add_label(
-                                            reporter.label(span.clone()).with_message(format!(
-                                            "could not classify this event based on its call stack \
-                                            from current configuration; refcounts are going to be \
-                                            wrong!"
-                                        )),
+                                            reporter.label(span.clone()).with_message(
+                                                "could not classify this event based on its call
+                                                stack from current configuration; refcounts are \
+                                                going to be wrong!",
+                                            ),
                                         );
                                         report.set_help(format!(
                                             concat!(
@@ -800,9 +801,7 @@ fn main() -> anyhow::Result<()> {
                         };
                         let remaining_event_count = events.count();
                         reporter.report(ReportKind::Error, span.start, |report| {
-                            report.set_message(format!(
-                                "expected destructor call as final operation"
-                            ));
+                            report.set_message("expected destructor call as final operation");
                             report.add_label(reporter.label(span.clone()).with_message(format!(
                                 "this {extra_maybe}{} operation and {remaining_event_count} other \
                                 refcount operation(s) were logged after the refcount reached 0 \
@@ -818,7 +817,7 @@ fn main() -> anyhow::Result<()> {
                 }
                 Some(Spanned(event, span)) => {
                     reporter.report(ReportKind::Warning, span.start, |report| {
-                        report.set_message(format!("expected destructor call as final operation"));
+                        report.set_message("expected destructor call as final operation");
                         report.add_label(reporter.label(span.clone()).with_message(format!(
                             "this {} operation was called after the refcount was computed to \
                             reach 0, but a {destructor_event} event was expected",
@@ -913,7 +912,7 @@ fn main() -> anyhow::Result<()> {
                 }
             };
 
-            wind_up(0, &previous_event);
+            wind_up(0, previous_event);
             for next_event in event_iter {
                 let previous_frames = &previous_event.callstack.frames;
 
