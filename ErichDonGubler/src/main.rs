@@ -812,6 +812,7 @@ fn main() -> anyhow::Result<()> {
                             report.set_note(format!("computed refcount state: {computed:?}"));
                             report.set_help(misbehavior_help_msg);
                         });
+                        // TODO: point label at `Destructor` op right before this
                         found_issue = true;
                     }
                 }
