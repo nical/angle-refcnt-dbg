@@ -139,7 +139,7 @@ fn print_tree(events: &[Event], args: &[String]) {
         let mut tabs = common_depth;
         for frame in &stack[common_depth..] {
             indent(tabs);
-            println!("{:?}", frame);
+            println!("{}", frame);
             tabs += 1;
         }
 
