@@ -1,0 +1,2 @@
+d3d11.dll!00007ff958479f4d    # this is the redundant addref inside each dtor..
+d3d11.dll!00007ff958479f7e    # .. and its matching release.

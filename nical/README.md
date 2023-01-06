@@ -19,6 +19,9 @@ There is an example of the generated tree in `tmp/tree.txt`
 
 To ignore frames, add new lines to `skipped_frames.txt`.
 To rename a frame into something else add lines to `renamed_frames.txt`
+To skip entire sub-trees, add a the root of the skipped subtree to `skipped_subtrees.txt`
+
+You can add `# comments` to these files, they will be ignored, leading and trailoing whitespaces are also trimmed.
 
 # To generate the dump from visual studio
 

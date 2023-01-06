@@ -5,6 +5,15 @@ struct Event {
     ref_count_after: i64,
     stack: Vec<String>,
     reverse_stack: Vec<String>,
+    skip: bool,
+}
+
+fn strip_comment(line: &str) -> &str {
+    if line.contains("#") {
+        return line.split("#").next().unwrap().trim();
+    }
+
+    line.trim()
 }
 
 fn main() {
@@ -16,12 +25,17 @@ fn main() {
 
     let mut skipped_frames = HashSet::new();
     iter_file_lines("skipped_frames.txt", &mut |line| {
-        skipped_frames.insert(line.to_string());
+        skipped_frames.insert(strip_comment(line).to_string());
+    }).unwrap();
+
+    let mut skipped_subtrees = HashSet::new();
+    iter_file_lines("skipped_subtrees.txt", &mut |line| {
+        skipped_subtrees.insert(strip_comment(line).to_string());
     }).unwrap();
 
     let mut renamed_frames = HashMap::new();
     iter_file_lines("renamed_frames.txt", &mut |line| {
-        let mut line = line.split(" ");
+        let mut line = strip_comment(line).split(" ");
         let from = line.next().unwrap_or("qwertyuiop").to_string();
         let to = line.next().unwrap_or("qwertyuiop").to_string();
         renamed_frames.insert(from, to);
@@ -52,6 +66,7 @@ fn main() {
                 ref_count_after: refcnt,
                 stack: Vec::new(),
                 reverse_stack: Vec::new(),
+                skip: false,
             });
             prev_refcnt = refcnt;
 
@@ -68,10 +83,16 @@ fn main() {
                     if let Some(name) = renamed_frames.get(&frame) {
                         frame = name.clone();
                     }
-                    let stack = &mut events.last_mut().unwrap().stack;
+                    let event = &mut events.last_mut().unwrap();
+
+                    // mark the event if the stack frame is in the skip list for sub-trees.
+                    if skipped_subtrees.contains(&frame) {
+                        event.skip = true;
+                    }
+
                     // Skip over recursions.
-                    if stack.last() != Some(&frame) {
-                        stack.push(frame);
+                    if event.stack.last() != Some(&frame) {
+                        event.stack.push(frame);
                     }
                 }
             } else {
@@ -81,6 +102,8 @@ fn main() {
             }
         }
     }
+
+    events.retain(|e| !e.skip);
 
     for event in &mut events {
         event.reverse_stack = event.stack.iter().rev().cloned().collect();
