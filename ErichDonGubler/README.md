@@ -28,32 +28,8 @@ Two things you'll need:
 	 +-- config.toml
 	```
 
-	Erich's current contents of `config.toml` are:
-
-	```toml
-	count_at_start = 2
-
-	[[stack_matcher]]
-	classification = "increment"
-	[[stack_matcher.top]]
-	type = "symbolicated"
-	module = "d3d11.dll"
-	symbol_name = "TComObject<NOutermost::CDevice>::AddRef"
-
-	[[stack_matcher]]
-	classification = "decrement"
-	[[stack_matcher.top]]
-	type = "symbolicated"
-	module = "d3d11.dll"
-	symbol_name = "TComObject<NOutermost::CDevice>::Release"
-
-	[[stack_matcher]]
-	classification = "destructor"
-	[[stack_matcher.top]]
-	type = "symbolicated"
-	module = "d3d11.dll"
-	symbol_name = "TComObject<NOutermost::CDevice>::~TComObject<NOutermost::CDevice>"
-	```
+	See [`config.toml`](./angle-rebase/config.toml) for the configuration currently being used to
+	solve the ANGLE rebase.
 
 Use `cargo run`. It should answer your questions, and if it's not...then that's
 a bug!
