@@ -158,3 +158,19 @@
 199: ID3D11RenderTargetView balanced (++20/--20)
 251: ID3D11RenderTargetView balanced (++20/--20)
 257: ID3D11RenderTargetView balanced (++20/--20)
+
+60: ID3D11PixelShader balanced (++2/--2) 
+115: ID3D11PixelShader balanced (++2/--2) 
+226: ID3D11PixelShader balanced (++2/--2) 
+245: ID3D11PixelShader balanced (++2/--2) 
+
+74: ID3D11RasterizerState balanced (++2/--2) 
+75: ID3D11RasterizerState balanced (++2/--2) 
+315: ID3D11RasterizerState balanced (++2/--2) 
+318: ID3D11RasterizerState balanced (++2/--2) 
+
+128: ID3D11BlendState balanced (++1/--1) 
+279: ID3D11BlendState balanced (++1/--1)
+
+327: Matches 5 # ID3D11Debug
+

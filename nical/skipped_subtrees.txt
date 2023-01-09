@@ -39,3 +39,15 @@ libGLESv2.dll!rx::TypedData<ID3D11Buffer>::~TypedData
 # ID3D11RenderTargetView balanced (++20/--20)
 libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11RenderTargetView>
 libGLESv2.dll!rx::TypedData<ID3D11RenderTargetView>::~TypedData
+
+# ID3D11PixelShader balanced (++3/--3)
+libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11PixelShader>
+libGLESv2.dll!rx::TypedData<ID3D11PixelShader>::~TypedData
+
+# ID3D11RasterizerState balaned (++2/--2)
+libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11RasterizerState>
+libGLESv2.dll!rx::TypedData<ID3D11RasterizerState>::~TypedData
+
+# ID3D11BlendState balanced (++1/--1)
+libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11BlendState>
+libGLESv2.dll!rx::TypedData<ID3D11BlendState>::~TypedData

@@ -80,7 +80,7 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0
 | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
 | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#8) Matches 7
+| | | | | | | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#8) 
 | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
 | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | | | -- ref 6 -> 5    (#9) 
@@ -104,18 +104,18 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCEstablishCyclicReferences
 | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
 | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#12) ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped ++] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] 
-[skipped ++] 
+| | | | | | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#12) 
+[#13 skipped ++] 
+[#14 skipped ++] 
+[#15 skipped --] 
+[#16 skipped --] 
+[#17 skipped ++] 
+[#18 skipped ++] 
+[#19 skipped --] 
+[#20 skipped ++] 
+[#21 skipped --] 
+[#22 skipped ++] 
+[#23 skipped ++] 
 | | | | | xul.dll!mozilla::gl::GLContextEGL::CreateGLContext
 | | | | | | xul.dll!RefPtr<mozilla::gl::GLContextEGL>::~RefPtr
 | | | | | | | xul.dll!RefPtr<mozilla::gl::GLContextEGL>::ConstRemovingRefPtrTraits<mozilla::gl::GLContextEGL>::Release
@@ -139,7 +139,7 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CBlendState>::CContainedObject::Release
 | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CUseCountedObject<NOutermost::CDeviceChild>::Release
 | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 9 -> 10    (#24) First event that diverges with Erich's recording
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 9 -> 10    (#24) 
 | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCBreakCyclicReferences
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCBreakCyclicReferences
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::Release
@@ -147,12 +147,12 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 10 -> 9    (#25) 
 | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 9 -> 8    (#26) 
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] Matches 31
+[#27 skipped ++] 
+[#28 skipped --] 
+[#29 skipped --] 
+[#30 skipped ++] 
+[#31 skipped --] 
+[#32 skipped --] 
 | | | | | xul.dll!mozilla::gl::GLContextEGL::CreatePBufferSurfaceTryingPowerOfTwo
 | | | | | | libEGL.dll!eglCreatePbufferSurface
 | | | | | | | libGLESv2.dll!egl::CreatePbufferSurface
@@ -189,76 +189,39 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | | d3d11.dll!ATL::CComPtrBase<ID3D11BlendState>::~CComPtrBase<ID3D11BlendState>
 | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
 | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | -- ref 7 -> 6    (#36) ID3D11RenderTargetView balanced (++20/--20)
+| | | | | | | | | | | | | | | | | | | | | -- ref 7 -> 6    (#36) 
 | | | | | | | | | | | | | | | | | d3d11.dll!NOutermost::CDevice::CreateLayeredChild
 | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCEstablishCyclicReferences
 | | | | | | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCEstablishCyclicReferences
 | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
 | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | | | | | | | | | | ++ ref 6 -> 7    (#37) 
-[skipped ++] 
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Query matching 321
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] 
-[skipped --] 
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] ID3D11VertexShader balanced (++6/--6)
-ntdll.dll!TppWorkerThread
-| ntdll.dll!TppWorkpExecuteCallback
-| | msvcp140.dll!Concurrency::details::`anonymous namespace'::_Task_scheduler_callback
-| | | libGLESv2.dll!Concurrency::details::_DefaultPPLTaskScheduler::_PPLTaskChore::_Callback
-| | | | libGLESv2.dll!Concurrency::details::_PPLTaskHandle<unsigned char,Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>,Concurrency::details::_TaskProcHandle>::invoke
-| | | | | libGLESv2.dll!Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>::_Perform
-| | | | | | libGLESv2.dll!Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>::_Init
-| | | | | | | libGLESv2.dll!Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>::_LogWorkItemAndInvokeUserLambda<std::function<unsigned char ()>>
-| | | | | | | | libGLESv2.dll!std::_Func_impl_no_alloc<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\ppltasks.h:2356:16',unsigned char>::_Do_call
-| | | | | | | | | libGLESv2.dll!std::_Invoker_ret<unsigned char>::_Call<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\ppltasks.h:2356:16' &>
-| | | | | | | | | | libGLESv2.dll!std::invoke<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\ppltasks.h:2356:16' &>
-| | | | | | | | | | | libGLESv2.dll!std::_Func_impl_no_alloc<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',void>::_Do_call
-| | | | | | | | | | | | libGLESv2.dll!std::_Invoker_ret<void>::_Call<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44' &>
-| | | | | | | | | | | | | libGLESv2.dll!std::invoke<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44' &>
-| | | | | | | | | | | | | | libGLESv2.dll!std::_Task_async_state<void>::_Task_async_state<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>>::<lambda_1>::operator()
-| | | | | | | | | | | | | | | libGLESv2.dll!std::_Func_impl_no_alloc<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>,void>::_Do_call
-| | | | | | | | | | | | | | | | libGLESv2.dll!std::_Invoker_ret<void>::_Call<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'> &>
-| | | | | | | | | | | | | | | | | libGLESv2.dll!std::invoke<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'> &>
-| | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>::operator()
-| | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Invoke_stored<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>
-| | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Invoke_stored_explicit<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54',0>
-| | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::invoke<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>
-| | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::getPixelExecutableForCachedOutputLayout
-| | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::compileToExecutable
-| | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::loadExecutable
-| | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::allocateResource<WrappedArray<unsigned char>,rx::Resource11<ID3D11PixelShader>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11PixelShader>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::CreatePixelShader
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreatePixelShader
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreatePixelShader_Worker
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateAndRecreateLayeredChild<SD3D11LayeredPixelShaderCreationArgs>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!NOutermost::CDevice::CreateLayeredChild
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCEstablishCyclicReferences
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 13 -> 14    (#60) 
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[process_root]
+[#38 skipped ++] 
+[#39 skipped ++] 
+[#40 skipped --] 
+[#41 skipped --] 
+[#42 skipped ++] 
+[#43 skipped ++] 
+[#44 skipped --] 
+[#45 skipped ++] 
+[#46 skipped --] 
+[#47 skipped ++] 
+[#48 skipped ++] 
+[#49 skipped ++] 
+[#50 skipped ++] 
+[#51 skipped ++] 
+[#52 skipped --] 
+[#53 skipped --] 
+[#54 skipped ++] 
+[#55 skipped --] 
+[#56 skipped ++] 
+[#57 skipped --] 
+[#58 skipped ++] 
+[#59 skipped ++] 
+[#60 skipped ++] 
+[#61 skipped ++] 
+[#62 skipped ++] 
+[#63 skipped ++] 
 | xul.dll!mozilla::ipc::MessageChannel::DispatchAsyncMessage
 | | xul.dll!mozilla::dom::WebGLParent::RecvDispatchCommands
 | | | xul.dll!std::apply<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/dom/canvas/WebGLCommandQueue.h:245:11',std::tuple<unsigned long long,mozilla::layers::TextureType,bool,mozilla::webgl::SwapChainOptions> &>
@@ -284,34 +247,19 @@ ntdll.dll!TppWorkerThread
 | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCEstablishCyclicReferences
 | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
 | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 17 -> 18    (#64) ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped ++] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-| | | | | | | | | libGLESv2.dll!gl::Framebuffer::clear
-| | | | | | | | | | libGLESv2.dll!rx::Framebuffer11::clearImpl
-| | | | | | | | | | | libGLESv2.dll!rx::Clear11::clearFramebuffer
-| | | | | | | | | | | | libGLESv2.dll!rx::Clear11::ensureResourcesInitialized
-| | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::allocateResource<D3D11_RASTERIZER_DESC,rx::Resource11<ID3D11RasterizerState>>
-| | | | | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11RasterizerState>
-| | | | | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::CreateRasterizerState_Worker<D3D11_RASTERIZER_DESC>
-| | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateRasterizerState_Forwarder<D3D11_RASTERIZER_DESC>
-| | | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateRasterizerState_Worker
-| | | | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateAndRecreateLayeredChild<SD3D11_3LayeredRasterizerStateCreationArgs>
-| | | | | | | | | | | | | | | | | | | | d3d11.dll!NOutermost::CDevice::CreateLayeredChild
-| | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCEstablishCyclicReferences
-| | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | ++ ref 20 -> 21    (#75) 
-| | | | | | | | | | | | | | | | | | | | | | | | ++ ref 21 -> 22    (#76) 
+| | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 17 -> 18    (#64) 
+[#65 skipped ++] 
+[#66 skipped ++] 
+[#67 skipped --] 
+[#68 skipped --] 
+[#69 skipped ++] 
+[#70 skipped --] 
+[#71 skipped ++] 
+[#72 skipped --] 
+[#73 skipped ++] 
+[#74 skipped ++] 
+[#75 skipped ++] 
+[#76 skipped ++] 
 | | | | | | | xul.dll!mozilla::gl::SwapChain::Acquire
 | | | | | | | | xul.dll!mozilla::gl::SurfaceFactory::CreateShared
 | | | | | | | | | xul.dll!mozilla::gl::SharedSurface_ANGLEShareHandle::Create
@@ -333,7 +281,7 @@ ntdll.dll!TppWorkerThread
 | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0
 | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
 | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 22 -> 23    (#77) Matches 76
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 22 -> 23    (#77) 
 | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
 | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | | | | | | | | -- ref 23 -> 22    (#78) 
@@ -357,26 +305,26 @@ ntdll.dll!TppWorkerThread
 | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCEstablishCyclicReferences
 | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
 | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 22 -> 23    (#81) ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped ++] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11SamplerState balanced (+8/-8)
-[skipped ++] ID3D11SamplerState balanced (+8/-8)
-[skipped ++] ID3D11DepthStencilState balanced (+2/-2)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] matches 312 (blit shader)
-[skipped ++] ID3D11InputLayout balanced  +3/-3
-[skipped ++] ID3D11VertexShader balanced (++6/--6)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
+| | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 22 -> 23    (#81) 
+[#82 skipped ++] 
+[#83 skipped ++] 
+[#84 skipped --] 
+[#85 skipped --] 
+[#86 skipped ++] 
+[#87 skipped ++] 
+[#88 skipped --] 
+[#89 skipped ++] 
+[#90 skipped --] 
+[#91 skipped ++] 
+[#92 skipped ++] 
+[#93 skipped ++] 
+[#94 skipped ++] 
+[#95 skipped ++] 
+[#96 skipped ++] 
+[#97 skipped ++] 
+[#98 skipped ++] 
+[#99 skipped ++] 
+[#100 skipped ++] 
 | | xul.dll!mozilla::dom::WebGLParent::RecvTexImage
 | | | xul.dll!mozilla::webgl::TexUnpackImage::TexOrSubImage
 | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitSdToFramebuffer
@@ -481,51 +429,8 @@ ntdll.dll!TppWorkerThread
 | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
 | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | | | -- ref 38 -> 37    (#115) 
-ntdll.dll!TppWorkerThread
-| ntdll.dll!TppWorkpExecuteCallback
-| | msvcp140.dll!Concurrency::details::`anonymous namespace'::_Task_scheduler_callback
-| | | libGLESv2.dll!Concurrency::details::_DefaultPPLTaskScheduler::_PPLTaskChore::_Callback
-| | | | libGLESv2.dll!Concurrency::details::_PPLTaskHandle<unsigned char,Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>,Concurrency::details::_TaskProcHandle>::invoke
-| | | | | libGLESv2.dll!Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>::_Perform
-| | | | | | libGLESv2.dll!Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>::_Init
-| | | | | | | libGLESv2.dll!Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>::_LogWorkItemAndInvokeUserLambda<std::function<unsigned char ()>>
-| | | | | | | | libGLESv2.dll!std::_Func_impl_no_alloc<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\ppltasks.h:2356:16',unsigned char>::_Do_call
-| | | | | | | | | libGLESv2.dll!std::_Invoker_ret<unsigned char>::_Call<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\ppltasks.h:2356:16' &>
-| | | | | | | | | | libGLESv2.dll!std::invoke<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\ppltasks.h:2356:16' &>
-| | | | | | | | | | | libGLESv2.dll!std::_Func_impl_no_alloc<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',void>::_Do_call
-| | | | | | | | | | | | libGLESv2.dll!std::_Invoker_ret<void>::_Call<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44' &>
-| | | | | | | | | | | | | libGLESv2.dll!std::invoke<`lambda at C:/PROGRA~1/MICROS~2/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44' &>
-| | | | | | | | | | | | | | libGLESv2.dll!std::_Task_async_state<void>::_Task_async_state<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>>::<lambda_1>::operator()
-| | | | | | | | | | | | | | | libGLESv2.dll!std::_Func_impl_no_alloc<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>,void>::_Do_call
-| | | | | | | | | | | | | | | | libGLESv2.dll!std::_Invoker_ret<void>::_Call<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'> &>
-| | | | | | | | | | | | | | | | | libGLESv2.dll!std::invoke<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'> &>
-| | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>::operator()
-| | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Invoke_stored<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>
-| | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Invoke_stored_explicit<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54',0>
-| | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::invoke<`lambda at C:/Users/Erich/workspace/mozilla-source/mozilla-unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>
-| | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::getPixelExecutableForCachedOutputLayout
-| | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::compileToExecutable
-| | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::loadExecutable
-| | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::allocateResource<WrappedArray<unsigned char>,rx::Resource11<ID3D11PixelShader>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11PixelShader>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::CreatePixelShader
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreatePixelShader
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreatePixelShader_Worker
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateAndRecreateLayeredChild<SD3D11LayeredPixelShaderCreationArgs>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!NOutermost::CDevice::CreateLayeredChild
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCEstablishCyclicReferences
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 37 -> 38    (#116) ID3D11VertexShader balanced (++6/--6)
-[skipped ++] 
-[process_root]
-| xul.dll!mozilla::ipc::MessageChannel::DispatchAsyncMessage
-| | xul.dll!mozilla::dom::WebGLParent::RecvTexImage
-| | | xul.dll!mozilla::webgl::TexUnpackImage::TexOrSubImage
-| | | | xul.dll!mozilla::gl::GLBlitHelper::BlitSdToFramebuffer
-| | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitDescriptor
-| | | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitAngleYCbCr
+[#116 skipped ++] 
+[#117 skipped ++] 
 | | | | | | | xul.dll!mozilla::gl::DrawBlitProg::Draw
 | | | | | | | | libGLESv2.dll!glDrawArrays
 | | | | | | | | | libGLESv2.dll!gl::Context::drawArrays
@@ -547,64 +452,50 @@ ntdll.dll!TppWorkerThread
 | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCEstablishCyclicReferences
 | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
 | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 39 -> 40    (#118) ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped ++] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-| | | | | | | | | | libGLESv2.dll!rx::StateManager11::updateState
-| | | | | | | | | | | libGLESv2.dll!rx::StateManager11::syncBlendState
-| | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::getBlendState
-| | | | | | | | | | | | | libGLESv2.dll!rx::RenderStateCache::getBlendState
-| | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::allocateResource<D3D11_BLEND_DESC,rx::Resource11<ID3D11BlendState>>
-| | | | | | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11BlendState>
-| | | | | | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::CreateBlendState
-| | | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateBlendState_Worker
-| | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CClassLinkage>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | d3d11.dll!CUseCountedObject<NOutermost::CDeviceChild>::AddRef
-| | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCEstablishCyclicReferences
-| | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | ++ ref 42 -> 43    (#129) ID3D11DepthStencilState balanced (+2/-2)
-[skipped ++] ID3D11SamplerState balanced (+8/-8)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11InputLayout balanced  +3/-3
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 39 -> 40    (#118) 
+[#119 skipped ++] 
+[#120 skipped ++] 
+[#121 skipped --] 
+[#122 skipped --] 
+[#123 skipped ++] 
+[#124 skipped --] 
+[#125 skipped ++] 
+[#126 skipped --] 
+[#127 skipped ++] 
+[#128 skipped ++] 
+[#129 skipped ++] 
+[#130 skipped ++] 
+[#131 skipped ++] 
+[#132 skipped ++] 
+[#133 skipped --] 
+[#134 skipped ++] 
+[#135 skipped --] 
+[#136 skipped ++] 
+[#137 skipped ++] 
+[#138 skipped --] 
+[#139 skipped ++] 
+[#140 skipped --] 
+[#141 skipped ++] 
+[#142 skipped ++] 
+[#143 skipped --] 
+[#144 skipped ++] 
+[#145 skipped --] 
+[#146 skipped ++] 
+[#147 skipped ++] 
+[#148 skipped ++] 
+[#149 skipped ++] 
+[#150 skipped ++] 
+[#151 skipped ++] 
+[#152 skipped ++] 
+[#153 skipped ++] 
+[#154 skipped --] 
+[#155 skipped --] 
+[#156 skipped ++] 
+[#157 skipped --] 
+[#158 skipped --] 
+[#159 skipped ++] 
+[#160 skipped --] 
+[#161 skipped --] 
 | | | | | | | xul.dll!RefPtr<ID3D11Texture2D>::~RefPtr
 | | | | | | | | xul.dll!RefPtr<ID3D11Texture2D>::ConstRemovingRefPtrTraits<ID3D11Texture2D>::Release
 | | | | | | | | | xul.dll!mozilla::RefPtrTraits<ID3D11Texture2D>::Release
@@ -636,19 +527,19 @@ ntdll.dll!TppWorkerThread
 | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | -- ref 50 -> 49    (#169) 
 | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | -- ref 49 -> 48    (#170) ID3D11SamplerState balanced (+8/-8)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11InputLayout balanced  +3/-3
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped ++] ============================== Shut down the WebGL context after this =================================
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped --] 
+| | | | | | | | | | | | | -- ref 49 -> 48    (#170) 
+[#171 skipped ++] 
+[#172 skipped ++] 
+[#173 skipped --] 
+[#174 skipped ++] 
+[#175 skipped --] 
+[#176 skipped ++] 
+[#177 skipped ++] 
+[#178 skipped ++] 
+[#179 skipped ++] 
+[#180 skipped ++] 
+[#181 skipped --] 
+[#182 skipped --] 
 | | xul.dll!mozilla::dom::WebGLParent::Recv__delete__
 | | | xul.dll!mozilla::UniquePtr<mozilla::HostWebGLContext,mozilla::DefaultDelete<mozilla::HostWebGLContext>>::reset
 | | | | xul.dll!mozilla::HostWebGLContext::~HostWebGLContext
@@ -684,21 +575,21 @@ ntdll.dll!TppWorkerThread
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 53 -> 52    (#184) 
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 52 -> 51    (#185) 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped --] 
+[#186 skipped ++] 
+[#187 skipped --] 
+[#188 skipped --] 
+[#189 skipped ++] 
+[#190 skipped --] 
+[#191 skipped --] 
+[#192 skipped ++] 
+[#193 skipped --] 
+[#194 skipped --] 
+[#195 skipped ++] 
+[#196 skipped --] 
+[#197 skipped --] 
+[#198 skipped ++] 
+[#199 skipped --] 
+[#200 skipped --] 
 | | | | | | | | | xul.dll!nsTArray_Impl<RefPtr<mozilla::WebGLTexture>,nsTArrayInfallibleAllocator>::Clear
 | | | | | | | | | | xul.dll!nsTArray_Impl<RefPtr<mozilla::WebGLTexture>,nsTArrayInfallibleAllocator>::ClearAndRetainStorage
 | | | | | | | | | | | xul.dll!nsTArray_Impl<RefPtr<mozilla::WebGLTexture>,nsTArrayInfallibleAllocator>::DestructRange
@@ -732,83 +623,59 @@ ntdll.dll!TppWorkerThread
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 47 -> 46    (#202) 
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 46 -> 45    (#203) 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11VertexShader balanced (++6/--6)
-[skipped --] 
+[#204 skipped ++] 
+[#205 skipped --] 
+[#206 skipped --] 
+[#207 skipped ++] 
+[#208 skipped --] 
+[#209 skipped --] 
+[#210 skipped ++] 
+[#211 skipped --] 
+[#212 skipped --] 
+[#213 skipped ++] 
+[#214 skipped --] 
+[#215 skipped --] 
+[#216 skipped ++] 
+[#217 skipped --] 
+[#218 skipped --] 
+[#219 skipped ++] 
+[#220 skipped --] 
+[#221 skipped --] 
+[#222 skipped ++] 
+[#223 skipped --] 
+[#224 skipped --] 
+[#225 skipped ++] 
+[#226 skipped --] 
+[#227 skipped --] 
+[#228 skipped ++] 
+[#229 skipped --] 
+[#230 skipped --] 
+[#231 skipped ++] 
+[#232 skipped --] 
+[#233 skipped --] 
+[#234 skipped ++] 
+[#235 skipped --] 
+[#236 skipped --] 
+[#237 skipped ++] 
+[#238 skipped --] 
+[#239 skipped --] 
 | | | | | | | | | xul.dll!mozilla::gl::GLContext::MarkDestroyed
 | | | | | | | | | | xul.dll!mozilla::UniquePtr<mozilla::gl::GLBlitHelper,mozilla::DefaultDelete<mozilla::gl::GLBlitHelper>>::operator=
 | | | | | | | | | | | xul.dll!mozilla::UniquePtr<mozilla::gl::GLBlitHelper,mozilla::DefaultDelete<mozilla::gl::GLBlitHelper>>::reset
 | | | | | | | | | | | | xul.dll!mozilla::DefaultDelete<mozilla::gl::GLBlitHelper>::operator()
 | | | | | | | | | | | | | xul.dll!mozilla::gl::GLBlitHelper::~GLBlitHelper
-| | | | | | | | | | | | | | xul.dll!mozilla::gl::DrawBlitProg::~DrawBlitProg
-| | | | | | | | | | | | | | | xul.dll!mozilla::gl::GLContext::fDeleteProgram
-| | | | | | | | | | | | | | | | libGLESv2.dll!glDeleteProgram
-| | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Context::deleteProgram
-| | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::ShaderProgramManager::deleteProgram
-| | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::ShaderProgramManager::deleteObject<gl::Program,gl::ShaderProgramID>
-| | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Program::onDestroy
-| | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::ProgramImpl>
-| | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Program11::~Program11
-| | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::~ProgramD3D
-| | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::reset
-| | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::vector<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>,std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>::clear
-| | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Destroy_range<std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Default_allocator_traits<std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>::destroy<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::PixelExecutable::~PixelExecutable
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::ShaderExecutableD3D>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ShaderExecutable11::~ShaderExecutable11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11<ID3D11PixelShader>::~Resource11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11Base<ID3D11PixelShader,rx::UniquePtr,rx::TypedData<ID3D11PixelShader>>::~Resource11Base
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::TypedData<ID3D11PixelShader>::~TypedData
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CBlendState>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CUseCountedObject<NOutermost::CDeviceChild>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 38 -> 39    (#225) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCBreakCyclicReferences
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 39 -> 38    (#226) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 38 -> 37    (#227) 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
 | | | | | | | | | | | | | | xul.dll!RefPtr<ID3D11Device>::~RefPtr
 | | | | | | | | | | | | | | | xul.dll!RefPtr<ID3D11Device>::ConstRemovingRefPtrTraits<ID3D11Device>::Release
 | | | | | | | | | | | | | | | | xul.dll!mozilla::RefPtrTraits<ID3D11Device>::Release
 | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
 | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | | | | -- ref 33 -> 32    (#240) 
-[skipped ++] 
-[skipped --] ID3D11VertexShader balanced (++6/--6)
-[skipped --] 
+[#241 skipped ++] 
+[#242 skipped --] 
+[#243 skipped --] 
+[#244 skipped ++] 
+[#245 skipped --] 
+[#246 skipped --] 
 | | | | | | | | | xul.dll!RefPtr<mozilla::gl::GLContext>::operator=
 | | | | | | | | | | xul.dll!RefPtr<mozilla::gl::GLContext>::assign_assuming_AddRef
 | | | | | | | | | | | xul.dll!RefPtr<mozilla::gl::GLContext>::ConstRemovingRefPtrTraits<mozilla::gl::GLContext>::Release
@@ -816,39 +683,6 @@ ntdll.dll!TppWorkerThread
 | | | | | | | | | | | | | xul.dll!mozilla::detail::GenericRefCounted<0>::Release
 | | | | | | | | | | | | | | xul.dll!mozilla::gl::GLContextEGL::~GLContextEGL
 | | | | | | | | | | | | | | | xul.dll!mozilla::gl::DestroySurface
-| | | | | | | | | | | | | | | | libEGL.dll!eglMakeCurrent
-| | | | | | | | | | | | | | | | | libGLESv2.dll!egl::Display::releaseContext
-| | | | | | | | | | | | | | | | | | libGLESv2.dll!egl::Display::releaseContextImpl
-| | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Context::onDestroy
-| | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::State::reset
-| | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Program::release
-| | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Program::deleteSelf
-| | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::ShaderProgramManager::deleteProgram
-| | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::ShaderProgramManager::deleteObject<gl::Program,gl::ShaderProgramID>
-| | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Program::onDestroy
-| | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::ProgramImpl>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Program11::~Program11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::~ProgramD3D
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::reset
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::vector<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>,std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>::clear
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Destroy_range<std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Default_allocator_traits<std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>::destroy<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::PixelExecutable::~PixelExecutable
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::ShaderExecutableD3D>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ShaderExecutable11::~ShaderExecutable11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11<ID3D11PixelShader>::~Resource11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11Base<ID3D11PixelShader,rx::UniquePtr,rx::TypedData<ID3D11PixelShader>>::~Resource11Base
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::TypedData<ID3D11PixelShader>::~TypedData
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CBlendState>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CUseCountedObject<NOutermost::CDeviceChild>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 31 -> 32    (#244) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCBreakCyclicReferences
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 32 -> 31    (#245) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 31 -> 30    (#246) 
 | | | | | | | | | | | | | | | | xul.dll!mozilla::gl::EglDisplay::fDestroySurface
 | | | | | | | | | | | | | | | | | xul.dll!mozilla::gl::GLLibraryEGL::fDestroySurface
 | | | | | | | | | | | | | | | | | | libEGL.dll!eglDestroySurface
@@ -873,18 +707,18 @@ ntdll.dll!TppWorkerThread
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 31 -> 30    (#248) 
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 30 -> 29    (#249) 
-[skipped ++] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
+[#250 skipped ++] 
+[#251 skipped --] 
+[#252 skipped --] 
+[#253 skipped ++] 
+[#254 skipped --] 
+[#255 skipped --] 
+[#256 skipped ++] 
+[#257 skipped --] 
+[#258 skipped --] 
+[#259 skipped ++] 
+[#260 skipped --] 
+[#261 skipped --] 
 | | | | | | | | | | | | | | | xul.dll!std::shared_ptr<mozilla::gl::EglDisplay>::~shared_ptr
 | | | | | | | | | | | | | | | | xul.dll!std::_Ptr_base<mozilla::gl::EglDisplay>::_Decref
 | | | | | | | | | | | | | | | | | xul.dll!std::_Ref_count_base::_Decref
@@ -899,105 +733,70 @@ ntdll.dll!TppWorkerThread
 | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
 | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 25 -> 24    (#262) 
-[skipped ++] 
-[skipped --] ID3D11InputLayout balanced  +3/-3
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11InputLayout balanced  +3/-3
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
+[#263 skipped ++] 
+[#264 skipped --] 
+[#265 skipped --] 
+[#266 skipped ++] 
+[#267 skipped --] 
+[#268 skipped --] 
+[#269 skipped ++] 
+[#270 skipped --] 
+[#271 skipped --] 
+[#272 skipped ++] 
+[#273 skipped --] 
+[#274 skipped --] 
+[#275 skipped ++] 
+[#276 skipped --] 
+[#277 skipped --] 
+[#278 skipped ++] 
+[#279 skipped --] 
+[#280 skipped --] 
+[#281 skipped ++] 
+[#282 skipped --] 
+[#283 skipped --] 
+[#284 skipped ++] 
+[#285 skipped --] 
+[#286 skipped --] 
+[#287 skipped ++] 
+[#288 skipped --] 
+[#289 skipped --] 
+[#290 skipped ++] 
+[#291 skipped --] 
+[#292 skipped --] 
+[#293 skipped ++] 
+[#294 skipped --] 
+[#295 skipped --] 
+[#296 skipped ++] 
+[#297 skipped --] 
+[#298 skipped --] 
+[#299 skipped ++] 
+[#300 skipped --] 
+[#301 skipped --] 
+[#302 skipped ++] 
+[#303 skipped --] 
+[#304 skipped --] 
+[#305 skipped ++] 
+[#306 skipped --] 
+[#307 skipped --] 
+[#308 skipped ++] 
+[#309 skipped --] 
+[#310 skipped --] 
+[#311 skipped ++] 
+[#312 skipped --] 
+[#313 skipped --] 
+[#314 skipped ++] 
+[#315 skipped --] 
+[#316 skipped --] 
+[#317 skipped ++] 
+[#318 skipped --] 
+[#319 skipped --] 
+[#320 skipped ++] 
+[#321 skipped --] 
+[#322 skipped --] 
 | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::DisplayD3D::terminate
 | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::RendererD3D>
 | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::~Renderer11
 | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::releaseDeviceResources
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::RenderStateCache::clear
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!angle::base::MRUCacheBase<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>,std::hash<rx::d3d11::BlendStateKey>,angle::base::MRUCacheHashMap>::Clear
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::list<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,std::allocator<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>>>::clear
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_List_node<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,void *>::_Free_non_head<std::allocator<std::_List_node<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,void *>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_List_node<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,void *>::_Freenode<std::allocator<std::_List_node<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,void *>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Default_allocator_traits<std::allocator<std::_List_node<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,void *>>>::destroy<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>::~pair
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11<ID3D11BlendState>::~Resource11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11Base<ID3D11BlendState,rx::UniquePtr,rx::TypedData<ID3D11BlendState>>::~Resource11Base
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::TypedData<ID3D11BlendState>::~TypedData
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CBlendState>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CUseCountedObject<NOutermost::CDeviceChild>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 19 -> 20    (#278) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCBreakCyclicReferences
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 20 -> 19    (#279) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 19 -> 18    (#280) 
-[skipped ++] 
-[skipped --] ID3D11DepthStencilState balanced (+2/-2)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11SamplerState balanced (+8/-8)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11SamplerState balanced (+8/-8)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11VertexShader balanced (++6/--6)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11InputLayout balanced  +3/-3
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11DepthStencilState balanced (+2/-2)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11SamplerState balanced (+8/-8)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11SamplerState balanced (+8/-8)
-[skipped --] 
-[skipped ++] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped --] 
-[skipped ++] 
-[skipped --] matches 96 (blit shader)
-[skipped --] 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::Clear11>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Clear11::~Clear11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11<ID3D11RasterizerState>::~Resource11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11Base<ID3D11RasterizerState,rx::UniquePtr,rx::TypedData<ID3D11RasterizerState>>::~Resource11Base
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::TypedData<ID3D11RasterizerState>::~TypedData
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CBlendState>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CUseCountedObject<NOutermost::CDeviceChild>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 7 -> 8    (#314) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCBreakCyclicReferences
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 8 -> 7    (#315) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 7 -> 6    (#316) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 6 -> 7    (#317) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCBreakCyclicReferences
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 7 -> 6    (#318) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 6 -> 5    (#319) 
-[skipped ++] 
-[skipped --] ID3D11Query matching 47
-[skipped --] 
 | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeRelease<ID3D11DeviceContext *>
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CBlendState>::CContainedObject::Release
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CUseCountedObject<NOutermost::CDeviceChild>::Release

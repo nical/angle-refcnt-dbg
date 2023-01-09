@@ -195,7 +195,7 @@ fn print_events(events: &[Event], args: &[String]) {
     for event in events {
         let symbol = event_symbol(event);
         if event.skip {
-            println!("[skipped {}]", symbol);
+            println!("[#{} skipped {}]", event.idx, symbol);
             continue;
         }
         println!("{} ref {} -> {:?}", symbol, event.ref_count_before, event.ref_count_after);
@@ -237,7 +237,7 @@ fn print_tree(events: &[Event], args: &[String]) {
         }
 
         if event.skip {
-            println!("[skipped {}] {}", symbol, event.annotation);
+            println!("[#{} skipped {}] {}", event.idx, symbol, event.annotation);
             continue;
         }
 

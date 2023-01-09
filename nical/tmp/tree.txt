@@ -74,18 +74,18 @@ parsing file "tmp/vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | | -- ref 6 -> 5    (#10) 
 | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#11) 
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] 
-[skipped --] 
+[#12 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
+[#13 skipped ++] 
+[#14 skipped --] 
+[#15 skipped --] ID3D11RenderTargetView balanced (++20/--20)
+[#16 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
+[#17 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#18 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#19 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#20 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#21 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#22 skipped ++] 
+[#23 skipped --] 
 | | | | | xul.dll!mozilla::gl::EglDisplay::fDestroySurface
 | | | | | | xul.dll!mozilla::gl::GLLibraryEGL::fDestroySurface
 | | | | | | | libEGL.dll!eglDestroySurface
@@ -102,12 +102,12 @@ parsing file "tmp/vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef52da80
 | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847a046
 | | | | | | | | | | | | | | | | | | | | -- ref 8 -> 7    (#24) First event that diverges with Erich's recording
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped --] 
-[skipped --] 
+[#25 skipped ++] 
+[#26 skipped --] 
+[#27 skipped --] ID3D11RenderTargetView balanced (++20/--20)
+[#28 skipped ++] 
+[#29 skipped --] 
+[#30 skipped --] 
 | | | | | xul.dll!mozilla::gl::GLContextEGL::CreatePBufferSurfaceTryingPowerOfTwo
 | | | | | | libEGL.dll!eglCreatePbufferSurface
 | | | | | | | libGLESv2.dll!egl::CreatePbufferSurface
@@ -139,49 +139,33 @@ parsing file "tmp/vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | | -- ref 6 -> 5    (#34) 
 | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#35) 
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Query matching 321
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] 
-[skipped ++] 
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] ID3D11VertexShader balanced (++6/--6)
-ntdll.dll!00007ff95e5c31aa
-| ntdll.dll!00007ff95e5d2260
-| | msvcp140.dll!00007ff94fc837c9
-| | | libGLESv2.dll!Concurrency::details::_DefaultPPLTaskScheduler::_PPLTaskChore::_Callback
-| | | | libGLESv2.dll!rx::ProgramD3D::getPixelExecutableForCachedOutputLayout
-| | | | | libGLESv2.dll!rx::Renderer11::compileToExecutable
-| | | | | | libGLESv2.dll!rx::Renderer11::loadExecutable
-| | | | | | | libGLESv2.dll!rx::Renderer11::allocateResource<WrappedArray<unsigned char>,rx::Resource11<ID3D11PixelShader>>
-| | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11PixelShader>
-| | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
-| | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef51a965
-| | | | | | | | | | | d3d11.dll!00007ff958476f48
-| | | | | | | | | | | | d3d11.dll!00007ff9584771c3
-| | | | | | | | | | | | | d3d11.dll!00007ff958477254
-| | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | ++ ref 14 -> 15    (#60) 
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[process_root]
+[#36 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
+[#37 skipped ++] 
+[#38 skipped --] 
+[#39 skipped --] ID3D11RenderTargetView balanced (++20/--20)
+[#40 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
+[#41 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#42 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#43 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#44 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#45 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#46 skipped ++] ID3D11Buffer balanced (++26/--26)
+[#47 skipped ++] ID3D11Query matching 321
+[#48 skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#49 skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#50 skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#51 skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#52 skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#53 skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#54 skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#55 skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#56 skipped --] 
+[#57 skipped ++] 
+[#58 skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#59 skipped ++] ID3D11VertexShader balanced (++6/--6)
+[#60 skipped ++] ID3D11PixelShader balanced (++2/--2)
+[#61 skipped ++] ID3D11Buffer balanced (++26/--26)
+[#62 skipped ++] ID3D11Buffer balanced (++26/--26)
 | xul.dll!mozilla::ipc::MessageChannel::DispatchAsyncMessage
 | | xul.dll!mozilla::dom::WebGLParent::RecvDispatchCommands
 | | | xul.dll!mozilla::HostWebGLContext::Present
@@ -200,29 +184,18 @@ ntdll.dll!00007ff95e5c31aa
 | | | | | | | | | | | | | | | | d3d11.dll!00007ff95844d337
 | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | | | | | | ++ ref 17 -> 18    (#63) 
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-| | | | | | libGLESv2.dll!gl::Framebuffer::clear
-| | | | | | | libGLESv2.dll!rx::Framebuffer11::clearImpl
-| | | | | | | | libGLESv2.dll!rx::Clear11::clearFramebuffer
-| | | | | | | | | libGLESv2.dll!rx::Clear11::ensureResourcesInitialized
-| | | | | | | | | | libGLESv2.dll!rx::Renderer11::allocateResource<D3D11_RASTERIZER_DESC,rx::Resource11<ID3D11RasterizerState>>
-| | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11RasterizerState>
-| | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
-| | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef53cbdb
-| | | | | | | | | | | | | | d3d11.dll!00007ff958466d76
-| | | | | | | | | | | | | | | d3d11.dll!00007ff95846588c
-| | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | ++ ref 20 -> 21    (#74) 
-| | | | | | | | | | | | | | | | | ++ ref 21 -> 22    (#75) 
+[#64 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
+[#65 skipped ++] 
+[#66 skipped --] 
+[#67 skipped --] ID3D11RenderTargetView balanced (++20/--20)
+[#68 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#69 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#70 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#71 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#72 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#73 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
+[#74 skipped ++] ID3D11RasterizerState balanced (++2/--2)
+[#75 skipped ++] ID3D11RasterizerState balanced (++2/--2)
 | | | | xul.dll!mozilla::gl::SwapChain::Acquire
 | | | | | xul.dll!mozilla::gl::SurfaceFactory::CreateShared
 | | | | | | xul.dll!mozilla::gl::SharedSurface_ANGLEShareHandle::Create
@@ -257,25 +230,25 @@ ntdll.dll!00007ff95e5c31aa
 | | | | | | | | | | | | | | | | | | | | -- ref 23 -> 22    (#79) 
 | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | | | | | | | ++ ref 22 -> 23    (#80) 
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11SamplerState balanced (+8/-8)
-[skipped ++] ID3D11SamplerState balanced (+8/-8)
-[skipped ++] ID3D11DepthStencilState balanced (+2/-2)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] matches 312 (blit shader)
-[skipped ++] ID3D11InputLayout balanced  +3/-3
-[skipped ++] ID3D11VertexShader balanced (++6/--6)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
+[#81 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
+[#82 skipped ++] 
+[#83 skipped --] 
+[#84 skipped --] ID3D11RenderTargetView balanced (++20/--20)
+[#85 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
+[#86 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#87 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#88 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#89 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#90 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#91 skipped ++] ID3D11Buffer balanced (++26/--26)
+[#92 skipped ++] ID3D11SamplerState balanced (+8/-8)
+[#93 skipped ++] ID3D11SamplerState balanced (+8/-8)
+[#94 skipped ++] ID3D11DepthStencilState balanced (+2/-2)
+[#95 skipped ++] ID3D11Buffer balanced (++26/--26)
+[#96 skipped ++] matches 312 (blit shader)
+[#97 skipped ++] ID3D11InputLayout balanced  +3/-3
+[#98 skipped ++] ID3D11VertexShader balanced (++6/--6)
+[#99 skipped ++] ID3D11Buffer balanced (++26/--26)
 | | xul.dll!mozilla::dom::WebGLParent::RecvTexImage
 | | | xul.dll!mozilla::webgl::TexUnpackImage::TexOrSubImage
 | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitSdToFramebuffer
@@ -344,30 +317,8 @@ ntdll.dll!00007ff95e5c31aa
 | | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::~ComPtr
 | | | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::InternalRelease
 | | | | | | | | | | | | | | | | -- ref 38 -> 37    (#114) 
-ntdll.dll!00007ff95e5c31aa
-| ntdll.dll!00007ff95e5d2260
-| | msvcp140.dll!00007ff94fc837c9
-| | | libGLESv2.dll!Concurrency::details::_DefaultPPLTaskScheduler::_PPLTaskChore::_Callback
-| | | | libGLESv2.dll!rx::ProgramD3D::getPixelExecutableForCachedOutputLayout
-| | | | | libGLESv2.dll!rx::Renderer11::compileToExecutable
-| | | | | | libGLESv2.dll!rx::Renderer11::loadExecutable
-| | | | | | | libGLESv2.dll!rx::Renderer11::allocateResource<WrappedArray<unsigned char>,rx::Resource11<ID3D11PixelShader>>
-| | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11PixelShader>
-| | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
-| | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef51a965
-| | | | | | | | | | | d3d11.dll!00007ff958476f48
-| | | | | | | | | | | | d3d11.dll!00007ff9584771c3
-| | | | | | | | | | | | | d3d11.dll!00007ff958477254
-| | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | ++ ref 37 -> 38    (#115) 
-[skipped ++] ID3D11VertexShader balanced (++6/--6)
-[process_root]
-| xul.dll!mozilla::ipc::MessageChannel::DispatchAsyncMessage
-| | xul.dll!mozilla::dom::WebGLParent::RecvTexImage
-| | | xul.dll!mozilla::webgl::TexUnpackImage::TexOrSubImage
-| | | | xul.dll!mozilla::gl::GLBlitHelper::BlitSdToFramebuffer
-| | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitDescriptor
-| | | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitAngleYCbCr
+[#115 skipped ++] ID3D11PixelShader balanced (++2/--2)
+[#116 skipped ++] ID3D11VertexShader balanced (++6/--6)
 | | | | | | | xul.dll!mozilla::gl::DrawBlitProg::Draw
 | | | | | | | | libGLESv2.dll!glDrawArrays
 | | | | | | | | | libGLESv2.dll!gl::Context::drawArrays
@@ -385,87 +336,77 @@ ntdll.dll!00007ff95e5c31aa
 | | | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95844d337
 | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | | | | | | | | | | | ++ ref 39 -> 40    (#117) 
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11RenderTargetView balanced (++20/--20)
-| | | | | | | | | | libGLESv2.dll!rx::StateManager11::updateState
-| | | | | | | | | | | libGLESv2.dll!rx::StateManager11::syncBlendState
-| | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::getBlendState
-| | | | | | | | | | | | | libGLESv2.dll!rx::RenderStateCache::getBlendState
-| | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::allocateResource<D3D11_BLEND_DESC,rx::Resource11<ID3D11BlendState>>
-| | | | | | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11BlendState>
-| | | | | | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef5182b6
-| | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847499d
-| | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847ac0f
-| | | | | | | | | | | | | | | | | | | | ++ ref 42 -> 43    (#128) 
-[skipped ++] ID3D11DepthStencilState balanced (+2/-2)
-[skipped ++] ID3D11SamplerState balanced (+8/-8)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11InputLayout balanced  +3/-3
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] 
+[#118 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
+[#119 skipped ++] 
+[#120 skipped --] 
+[#121 skipped --] ID3D11RenderTargetView balanced (++20/--20)
+[#122 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#123 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#124 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#125 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#126 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#127 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
+[#128 skipped ++] ID3D11BlendState balanced (++1/--1)
+[#129 skipped ++] ID3D11DepthStencilState balanced (+2/-2)
+[#130 skipped ++] ID3D11SamplerState balanced (+8/-8)
+[#131 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#132 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#133 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#134 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#135 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#136 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#137 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#138 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#139 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#140 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#141 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#142 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#143 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#144 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#145 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#146 skipped ++] ID3D11Buffer balanced (++26/--26)
+[#147 skipped ++] ID3D11Buffer balanced (++26/--26)
+[#148 skipped ++] ID3D11Buffer balanced (++26/--26)
+[#149 skipped ++] ID3D11Buffer balanced (++26/--26)
+[#150 skipped ++] ID3D11InputLayout balanced  +3/-3
+[#151 skipped ++] ID3D11Buffer balanced (++26/--26)
+[#152 skipped ++] 
+[#153 skipped --] 
+[#154 skipped --] 
+[#155 skipped ++] 
+[#156 skipped --] 
+[#157 skipped --] 
+[#158 skipped ++] 
+[#159 skipped --] 
+[#160 skipped --] 
+[#161 skipped ++] 
+[#162 skipped --] 
 | | | | | | | xul.dll!RefPtr<ID3D11Texture2D>::~RefPtr
 | | | | | | | | xul.dll!RefPtr<ID3D11Texture2D>::ConstRemovingRefPtrTraits<ID3D11Texture2D>::Release
 | | | | | | | | | xul.dll!mozilla::RefPtrTraits<ID3D11Texture2D>::Release
 | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef52da80
 | | | | | | | | | | | d3d11.dll!00007ff95847a046
 | | | | | | | | | | | | -- ref 51 -> 50    (#163) 
-[skipped ++] 
-[skipped --] 
+[#164 skipped ++] 
+[#165 skipped --] 
 | | | | | | | | | | | | -- ref 50 -> 49    (#166) 
-[skipped ++] 
-[skipped --] 
+[#167 skipped ++] 
+[#168 skipped --] 
 | | | | | | | | | | | | -- ref 49 -> 48    (#169) 
-[skipped ++] ID3D11SamplerState balanced (+8/-8)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped --] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
-[skipped ++] ID3D11InputLayout balanced  +3/-3
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] ============================== Shut down the WebGL context after this =================================
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped --] 
+[#170 skipped ++] ID3D11SamplerState balanced (+8/-8)
+[#171 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#172 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#173 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#174 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
+[#175 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
+[#176 skipped ++] ID3D11InputLayout balanced  +3/-3
+[#177 skipped ++] ID3D11Buffer balanced (++26/--26)
+[#178 skipped ++] ID3D11Buffer balanced (++26/--26)
+[#179 skipped ++] 
+[#180 skipped --] ============================== Shut down the WebGL context after this =================================
+[#181 skipped --] ID3D11RenderTargetView balanced (++20/--20)
+[#182 skipped ++] 
+[#183 skipped --] 
 | | xul.dll!mozilla::dom::WebGLParent::Recv__delete__
 | | | xul.dll!mozilla::UniquePtr<mozilla::HostWebGLContext,mozilla::DefaultDelete<mozilla::HostWebGLContext>>::reset
 | | | | xul.dll!mozilla::HostWebGLContext::~HostWebGLContext
@@ -493,23 +434,23 @@ ntdll.dll!00007ff95e5c31aa
 | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef52da80
 | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847a046
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 52 -> 51    (#184) 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped --] 
+[#185 skipped ++] 
+[#186 skipped --] 
+[#187 skipped --] 
+[#188 skipped ++] 
+[#189 skipped --] 
+[#190 skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#191 skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#192 skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#193 skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#194 skipped ++] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#195 skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#196 skipped --] DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+[#197 skipped ++] 
+[#198 skipped --] 
+[#199 skipped --] ID3D11RenderTargetView balanced (++20/--20)
+[#200 skipped ++] 
+[#201 skipped --] 
 | | | | | | | | | xul.dll!nsTArray_Impl<RefPtr<mozilla::WebGLTexture>,nsTArrayInfallibleAllocator>::Clear
 | | | | | | | | | | xul.dll!nsTArray_Impl<RefPtr<mozilla::WebGLTexture>,nsTArrayInfallibleAllocator>::ClearAndRetainStorage
 | | | | | | | | | | | xul.dll!nsTArray_Impl<RefPtr<mozilla::WebGLTexture>,nsTArrayInfallibleAllocator>::DestructRange
@@ -535,78 +476,59 @@ ntdll.dll!00007ff95e5c31aa
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef52da80
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847a046
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 46 -> 45    (#202) 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11VertexShader balanced (++6/--6)
-[skipped ++] 
-[skipped --] 
+[#203 skipped ++] 
+[#204 skipped --] 
+[#205 skipped --] 
+[#206 skipped ++] 
+[#207 skipped --] 
+[#208 skipped --] 
+[#209 skipped ++] 
+[#210 skipped --] 
+[#211 skipped --] ID3D11Buffer balanced (++26/--26)
+[#212 skipped ++] 
+[#213 skipped --] 
+[#214 skipped --] ID3D11Buffer balanced (++26/--26)
+[#215 skipped ++] 
+[#216 skipped --] 
+[#217 skipped --] ID3D11Buffer balanced (++26/--26)
+[#218 skipped ++] 
+[#219 skipped --] 
+[#220 skipped --] ID3D11Buffer balanced (++26/--26)
+[#221 skipped ++] 
+[#222 skipped --] 
+[#223 skipped --] ID3D11VertexShader balanced (++6/--6)
+[#224 skipped ++] 
+[#225 skipped --] 
+[#226 skipped --] ID3D11PixelShader balanced (++2/--2)
+[#227 skipped ++] 
+[#228 skipped --] 
+[#229 skipped --] ID3D11Buffer balanced (++26/--26)
+[#230 skipped ++] 
+[#231 skipped --] 
+[#232 skipped --] ID3D11Buffer balanced (++26/--26)
+[#233 skipped ++] 
+[#234 skipped --] 
+[#235 skipped --] ID3D11Buffer balanced (++26/--26)
+[#236 skipped ++] 
+[#237 skipped --] 
+[#238 skipped --] ID3D11Buffer balanced (++26/--26)
 | | | | | | | | | xul.dll!mozilla::gl::GLContext::MarkDestroyed
 | | | | | | | | | | xul.dll!mozilla::UniquePtr<mozilla::gl::GLBlitHelper,mozilla::DefaultDelete<mozilla::gl::GLBlitHelper>>::operator=
 | | | | | | | | | | | xul.dll!mozilla::UniquePtr<mozilla::gl::GLBlitHelper,mozilla::DefaultDelete<mozilla::gl::GLBlitHelper>>::reset
 | | | | | | | | | | | | xul.dll!mozilla::DefaultDelete<mozilla::gl::GLBlitHelper>::operator()
 | | | | | | | | | | | | | xul.dll!mozilla::gl::GLBlitHelper::~GLBlitHelper
-| | | | | | | | | | | | | | xul.dll!mozilla::gl::DrawBlitProg::~DrawBlitProg
-| | | | | | | | | | | | | | | xul.dll!mozilla::gl::GLContext::fDeleteProgram
-| | | | | | | | | | | | | | | | libGLESv2.dll!glDeleteProgram
-| | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Context::deleteProgram
-| | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::ShaderProgramManager::deleteProgram
-| | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::ShaderProgramManager::deleteObject<gl::Program,gl::ShaderProgramID>
-| | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Program::onDestroy
-| | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::ProgramImpl>
-| | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Program11::~Program11
-| | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::~ProgramD3D
-| | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::reset
-| | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::vector<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>,std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>::clear
-| | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Destroy_range<std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Default_allocator_traits<std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>::destroy<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::PixelExecutable::~PixelExecutable
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::ShaderExecutableD3D>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ShaderExecutable11::~ShaderExecutable11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11<ID3D11PixelShader>::~Resource11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11Base<ID3D11PixelShader,rx::UniquePtr,rx::TypedData<ID3D11PixelShader>>::~Resource11Base
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::TypedData<ID3D11PixelShader>::~TypedData
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef52da80
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847a046
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 38 -> 37    (#226) 
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
 | | | | | | | | | | | | | | xul.dll!RefPtr<ID3D11Device>::~RefPtr
 | | | | | | | | | | | | | | | xul.dll!RefPtr<ID3D11Device>::ConstRemovingRefPtrTraits<ID3D11Device>::Release
 | | | | | | | | | | | | | | | | xul.dll!mozilla::RefPtrTraits<ID3D11Device>::Release
 | | | | | | | | | | | | | | | | | -- ref 33 -> 32    (#239) 
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11VertexShader balanced (++6/--6)
-[skipped ++] 
-[skipped --] 
+[#240 skipped ++] 
+[#241 skipped --] 
+[#242 skipped --] ID3D11VertexShader balanced (++6/--6)
+[#243 skipped ++] 
+[#244 skipped --] 
+[#245 skipped --] ID3D11PixelShader balanced (++2/--2)
+[#246 skipped ++] 
+[#247 skipped --] 
 | | | | | | | | | xul.dll!RefPtr<mozilla::gl::GLContext>::operator=
 | | | | | | | | | | xul.dll!RefPtr<mozilla::gl::GLContext>::assign_assuming_AddRef
 | | | | | | | | | | | xul.dll!RefPtr<mozilla::gl::GLContext>::ConstRemovingRefPtrTraits<mozilla::gl::GLContext>::Release
@@ -614,34 +536,6 @@ ntdll.dll!00007ff95e5c31aa
 | | | | | | | | | | | | | xul.dll!mozilla::detail::GenericRefCounted<0>::Release
 | | | | | | | | | | | | | | xul.dll!mozilla::gl::GLContextEGL::~GLContextEGL
 | | | | | | | | | | | | | | | xul.dll!mozilla::gl::DestroySurface
-| | | | | | | | | | | | | | | | libEGL.dll!eglMakeCurrent
-| | | | | | | | | | | | | | | | | libGLESv2.dll!egl::Display::releaseContext
-| | | | | | | | | | | | | | | | | | libGLESv2.dll!egl::Display::releaseContextImpl
-| | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Context::onDestroy
-| | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::State::reset
-| | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Program::release
-| | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Program::deleteSelf
-| | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::ShaderProgramManager::deleteProgram
-| | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::ShaderProgramManager::deleteObject<gl::Program,gl::ShaderProgramID>
-| | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!gl::Program::onDestroy
-| | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::ProgramImpl>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Program11::~Program11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::~ProgramD3D
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::reset
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::vector<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>,std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>::clear
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Destroy_range<std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Default_allocator_traits<std::allocator<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>>::destroy<std::unique_ptr<rx::ProgramD3D::PixelExecutable,std::default_delete<rx::ProgramD3D::PixelExecutable>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ProgramD3D::PixelExecutable::~PixelExecutable
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::ShaderExecutableD3D>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ShaderExecutable11::~ShaderExecutable11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11<ID3D11PixelShader>::~Resource11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11Base<ID3D11PixelShader,rx::UniquePtr,rx::TypedData<ID3D11PixelShader>>::~Resource11Base
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::TypedData<ID3D11PixelShader>::~TypedData
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef52da80
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847a046
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 31 -> 30    (#245) 
-[skipped ++] 
-[skipped --] 
 | | | | | | | | | | | | | | | | xul.dll!mozilla::gl::EglDisplay::fDestroySurface
 | | | | | | | | | | | | | | | | | xul.dll!mozilla::gl::GLLibraryEGL::fDestroySurface
 | | | | | | | | | | | | | | | | | | libEGL.dll!eglDestroySurface
@@ -658,18 +552,18 @@ ntdll.dll!00007ff95e5c31aa
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef52da80
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847a046
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 30 -> 29    (#248) 
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped --] 
-[skipped --] 
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11RenderTargetView balanced (++20/--20)
-[skipped ++] 
-[skipped --] 
-[skipped --] 
+[#249 skipped ++] 
+[#250 skipped --] 
+[#251 skipped --] ID3D11RenderTargetView balanced (++20/--20)
+[#252 skipped ++] 
+[#253 skipped --] 
+[#254 skipped --] 
+[#255 skipped ++] 
+[#256 skipped --] 
+[#257 skipped --] ID3D11RenderTargetView balanced (++20/--20)
+[#258 skipped ++] 
+[#259 skipped --] 
+[#260 skipped --] 
 | | | | | | | | | | | | | | | xul.dll!std::shared_ptr<mozilla::gl::EglDisplay>::~shared_ptr
 | | | | | | | | | | | | | | | | xul.dll!std::_Ptr_base<mozilla::gl::EglDisplay>::_Decref
 | | | | | | | | | | | | | | | | | xul.dll!std::_Ref_count_base::_Decref
@@ -682,92 +576,72 @@ ntdll.dll!00007ff95e5c31aa
 | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!egl::Device::~Device
 | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::DeviceD3D::~DeviceD3D
 | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 25 -> 24    (#261) 
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11InputLayout balanced  +3/-3
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11InputLayout balanced  +3/-3
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
+[#262 skipped ++] 
+[#263 skipped --] 
+[#264 skipped --] ID3D11InputLayout balanced  +3/-3
+[#265 skipped ++] 
+[#266 skipped --] 
+[#267 skipped --] ID3D11InputLayout balanced  +3/-3
+[#268 skipped ++] 
+[#269 skipped --] 
+[#270 skipped --] ID3D11Buffer balanced (++26/--26)
+[#271 skipped ++] 
+[#272 skipped --] 
+[#273 skipped --] ID3D11Buffer balanced (++26/--26)
+[#274 skipped ++] 
+[#275 skipped --] 
+[#276 skipped --] ID3D11Buffer balanced (++26/--26)
+[#277 skipped ++] 
+[#278 skipped --] 
+[#279 skipped --] ID3D11BlendState balanced (++1/--1)
+[#280 skipped ++] 
+[#281 skipped --] 
+[#282 skipped --] ID3D11DepthStencilState balanced (+2/-2)
+[#283 skipped ++] 
+[#284 skipped --] 
+[#285 skipped --] ID3D11SamplerState balanced (+8/-8)
+[#286 skipped ++] 
+[#287 skipped --] 
+[#288 skipped --] ID3D11SamplerState balanced (+8/-8)
+[#289 skipped ++] 
+[#290 skipped --] 
+[#291 skipped --] ID3D11Buffer balanced (++26/--26)
+[#292 skipped ++] 
+[#293 skipped --] 
+[#294 skipped --] ID3D11VertexShader balanced (++6/--6)
+[#295 skipped ++] 
+[#296 skipped --] 
+[#297 skipped --] ID3D11InputLayout balanced  +3/-3
+[#298 skipped ++] 
+[#299 skipped --] 
+[#300 skipped --] ID3D11DepthStencilState balanced (+2/-2)
+[#301 skipped ++] 
+[#302 skipped --] 
+[#303 skipped --] ID3D11SamplerState balanced (+8/-8)
+[#304 skipped ++] 
+[#305 skipped --] 
+[#306 skipped --] ID3D11SamplerState balanced (+8/-8)
+[#307 skipped ++] 
+[#308 skipped --] 
+[#309 skipped --] ID3D11Buffer balanced (++26/--26)
+[#310 skipped ++] 
+[#311 skipped --] 
+[#312 skipped --] matches 96 (blit shader)
+[#313 skipped ++] 
+[#314 skipped --] 
+[#315 skipped --] ID3D11RasterizerState balanced (++2/--2)
+[#316 skipped ++] 
+[#317 skipped --] 
+[#318 skipped --] ID3D11RasterizerState balanced (++2/--2)
+[#319 skipped ++] 
+[#320 skipped --] 
+[#321 skipped --] ID3D11Query matching 47
+[#322 skipped ++] 
+[#323 skipped --] 
 | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::DisplayD3D::terminate
 | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::RendererD3D>
 | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::~Renderer11
 | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Renderer11::releaseDeviceResources
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::RenderStateCache::clear
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!angle::base::MRUCacheBase<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>,std::hash<rx::d3d11::BlendStateKey>,angle::base::MRUCacheHashMap>::Clear
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::list<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,std::allocator<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>>>::clear
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_List_node<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,void *>::_Free_non_head<std::allocator<std::_List_node<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,void *>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_List_node<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,void *>::_Freenode<std::allocator<std::_List_node<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,void *>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::_Default_allocator_traits<std::allocator<std::_List_node<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>,void *>>>::destroy<std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!std::pair<rx::d3d11::BlendStateKey,rx::Resource11<ID3D11BlendState>>::~pair
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11<ID3D11BlendState>::~Resource11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11Base<ID3D11BlendState,rx::UniquePtr,rx::TypedData<ID3D11BlendState>>::~Resource11Base
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::TypedData<ID3D11BlendState>::~TypedData
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef52da80
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847a046
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 19 -> 18    (#279) 
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11DepthStencilState balanced (+2/-2)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11SamplerState balanced (+8/-8)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11SamplerState balanced (+8/-8)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11VertexShader balanced (++6/--6)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11InputLayout balanced  +3/-3
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11DepthStencilState balanced (+2/-2)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11SamplerState balanced (+8/-8)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11SamplerState balanced (+8/-8)
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Buffer balanced (++26/--26)
-[skipped ++] 
-[skipped --] 
-[skipped --] matches 96 (blit shader)
-[skipped ++] 
-[skipped --] 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeDelete<rx::Clear11>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Clear11::~Clear11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11<ID3D11RasterizerState>::~Resource11
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::Resource11Base<ID3D11RasterizerState,rx::UniquePtr,rx::TypedData<ID3D11RasterizerState>>::~Resource11Base
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::TypedData<ID3D11RasterizerState>::~TypedData
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef52da80
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847a046
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 7 -> 6    (#315) 
-[skipped ++] 
-[skipped --] 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 6 -> 5    (#318) 
-[skipped ++] 
-[skipped --] 
-[skipped --] ID3D11Query matching 47
-[skipped ++] 
-[skipped --] 
 | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeRelease<ID3D11DeviceContext *>
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef52da80
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847a046
