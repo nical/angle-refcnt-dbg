@@ -1,0 +1,160 @@
+# Syntax: NUMBER: COMMENT
+
+24: First event that diverges with Erich's recording
+
+# When we do a QueryInterface we often addreff and immediately release via d3d11_3SDKLayers.dll!00007ff8ef555d36
+77: Matches 76
+8: Matches 7
+32: Matches 31
+
+180: ============================== Shut down the WebGL context after this =================================
+
+190: Matches 49 (view)
+193: Matches (resource)
+196: Matches (texture helper)
+
+48: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+49: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+50: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+51: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+52: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+53: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+54: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+55: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+58: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+190: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+191: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+192: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+193: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+194: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+195: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+196: DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+
+# blit shader
+312: matches 96 (blit shader)
+96: matches 312 (blit shader)
+
+97: ID3D11InputLayout balanced  +3/-3
+150: ID3D11InputLayout balanced  +3/-3
+176: ID3D11InputLayout balanced  +3/-3
+297: ID3D11InputLayout balanced  +3/-3
+264: ID3D11InputLayout balanced  +3/-3
+267: ID3D11InputLayout balanced  +3/-3
+
+321: ID3D11Query matching 47
+47: ID3D11Query matching 321
+
+129: ID3D11DepthStencilState balanced (+2/-2)
+94: ID3D11DepthStencilState balanced (+2/-2)
+282: ID3D11DepthStencilState balanced (+2/-2)
+300: ID3D11DepthStencilState balanced (+2/-2)
+
+92: ID3D11SamplerState balanced (+8/-8)
+93: ID3D11SamplerState balanced (+8/-8)
+130: ID3D11SamplerState balanced (+8/-8)
+170: ID3D11SamplerState balanced (+8/-8)
+285: ID3D11SamplerState balanced (+8/-8)
+288: ID3D11SamplerState balanced (+8/-8)
+303: ID3D11SamplerState balanced (+8/-8)
+306: ID3D11SamplerState balanced (+8/-8)
+
+17: ID3D11ShaderResourceView balanced (++40/--40) 
+18: ID3D11ShaderResourceView balanced (++40/--40) 
+19: ID3D11ShaderResourceView balanced (++40/--40) 
+20: ID3D11ShaderResourceView balanced (++40/--40) 
+21: ID3D11ShaderResourceView balanced (++40/--40) 
+41: ID3D11ShaderResourceView balanced (++40/--40) 
+42: ID3D11ShaderResourceView balanced (++40/--40) 
+43: ID3D11ShaderResourceView balanced (++40/--40) 
+44: ID3D11ShaderResourceView balanced (++40/--40) 
+45: ID3D11ShaderResourceView balanced (++40/--40) 
+68: ID3D11ShaderResourceView balanced (++40/--40) 
+69: ID3D11ShaderResourceView balanced (++40/--40) 
+70: ID3D11ShaderResourceView balanced (++40/--40) 
+71: ID3D11ShaderResourceView balanced (++40/--40) 
+72: ID3D11ShaderResourceView balanced (++40/--40) 
+86: ID3D11ShaderResourceView balanced (++40/--40) 
+87: ID3D11ShaderResourceView balanced (++40/--40) 
+88: ID3D11ShaderResourceView balanced (++40/--40) 
+89: ID3D11ShaderResourceView balanced (++40/--40) 
+90: ID3D11ShaderResourceView balanced (++40/--40) 
+122: ID3D11ShaderResourceView balanced (++40/--40) 
+123: ID3D11ShaderResourceView balanced (++40/--40) 
+124: ID3D11ShaderResourceView balanced (++40/--40) 
+125: ID3D11ShaderResourceView balanced (++40/--40) 
+126: ID3D11ShaderResourceView balanced (++40/--40) 
+131: ID3D11ShaderResourceView balanced (++40/--40) 
+132: ID3D11ShaderResourceView balanced (++40/--40) 
+133: ID3D11ShaderResourceView balanced (++40/--40) 
+134: ID3D11ShaderResourceView balanced (++40/--40) 
+135: ID3D11ShaderResourceView balanced (++40/--40) 
+136: ID3D11ShaderResourceView balanced (++40/--40) 
+137: ID3D11ShaderResourceView balanced (++40/--40) 
+138: ID3D11ShaderResourceView balanced (++40/--40) 
+139: ID3D11ShaderResourceView balanced (++40/--40) 
+140: ID3D11ShaderResourceView balanced (++40/--40) 
+141: ID3D11ShaderResourceView balanced (++40/--40) 
+142: ID3D11ShaderResourceView balanced (++40/--40) 
+143: ID3D11ShaderResourceView balanced (++40/--40) 
+144: ID3D11ShaderResourceView balanced (++40/--40) 
+145: ID3D11ShaderResourceView balanced (++40/--40) 
+171: ID3D11ShaderResourceView balanced (++40/--40) 
+172: ID3D11ShaderResourceView balanced (++40/--40) 
+173: ID3D11ShaderResourceView balanced (++40/--40) 
+174: ID3D11ShaderResourceView balanced (++40/--40) 
+175: ID3D11ShaderResourceView balanced (++40/--40)
+
+59: ID3D11VertexShader balanced (++6/--6) 
+98: ID3D11VertexShader balanced (++6/--6) 
+116: ID3D11VertexShader balanced (++6/--6) 
+223: ID3D11VertexShader balanced (++6/--6) 
+242: ID3D11VertexShader balanced (++6/--6) 
+294: ID3D11VertexShader balanced (++6/--6) 
+
+46: ID3D11Buffer balanced (++26/--26) 
+61: ID3D11Buffer balanced (++26/--26) 
+62: ID3D11Buffer balanced (++26/--26) 
+91: ID3D11Buffer balanced (++26/--26) 
+95: ID3D11Buffer balanced (++26/--26) 
+99: ID3D11Buffer balanced (++26/--26) 
+146: ID3D11Buffer balanced (++26/--26) 
+147: ID3D11Buffer balanced (++26/--26) 
+148: ID3D11Buffer balanced (++26/--26) 
+149: ID3D11Buffer balanced (++26/--26) 
+151: ID3D11Buffer balanced (++26/--26) 
+177: ID3D11Buffer balanced (++26/--26) 
+178: ID3D11Buffer balanced (++26/--26) 
+211: ID3D11Buffer balanced (++26/--26) 
+214: ID3D11Buffer balanced (++26/--26) 
+217: ID3D11Buffer balanced (++26/--26) 
+220: ID3D11Buffer balanced (++26/--26) 
+229: ID3D11Buffer balanced (++26/--26) 
+232: ID3D11Buffer balanced (++26/--26) 
+235: ID3D11Buffer balanced (++26/--26) 
+238: ID3D11Buffer balanced (++26/--26) 
+270: ID3D11Buffer balanced (++26/--26) 
+273: ID3D11Buffer balanced (++26/--26) 
+276: ID3D11Buffer balanced (++26/--26) 
+291: ID3D11Buffer balanced (++26/--26) 
+309: ID3D11Buffer balanced (++26/--26) 
+
+12: ID3D11RenderTargetView balanced (++20/--20)
+15: ID3D11RenderTargetView balanced (++20/--20)
+16: ID3D11RenderTargetView balanced (++20/--20)
+27: ID3D11RenderTargetView balanced (++20/--20)
+36: ID3D11RenderTargetView balanced (++20/--20)
+39: ID3D11RenderTargetView balanced (++20/--20)
+40: ID3D11RenderTargetView balanced (++20/--20)
+64: ID3D11RenderTargetView balanced (++20/--20)
+67: ID3D11RenderTargetView balanced (++20/--20)
+73: ID3D11RenderTargetView balanced (++20/--20)
+81: ID3D11RenderTargetView balanced (++20/--20)
+84: ID3D11RenderTargetView balanced (++20/--20)
+85: ID3D11RenderTargetView balanced (++20/--20)
+118: ID3D11RenderTargetView balanced (++20/--20)
+121: ID3D11RenderTargetView balanced (++20/--20)
+127: ID3D11RenderTargetView balanced (++20/--20)
+181: ID3D11RenderTargetView balanced (++20/--20)
+199: ID3D11RenderTargetView balanced (++20/--20)
+251: ID3D11RenderTargetView balanced (++20/--20)
+257: ID3D11RenderTargetView balanced (++20/--20)

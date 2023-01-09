@@ -1,2 +1,41 @@
 d3d11.dll!00007ff958479f4d    # this is the redundant addref inside each dtor..
 d3d11.dll!00007ff958479f7e    # .. and its matching release.
+
+xul.dll!mozilla::gl::DepthAndStencilBuffer::Create # DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+xul.dll!RefPtr<mozilla::gl::DepthAndStencilBuffer>::~RefPtr # DepthAndStencilBuffer::Create balanced by ~DepthAndStencilBuffer +3/-3
+
+libGLESv2.dll!std::map<rx::Blit11::BlitShaderType,rx::Blit11::Shader,std::less<rx::Blit11::BlitShaderType>,std::allocator<std::pair<const rx::Blit11::BlitShaderType,rx::Blit11::Shader>>>::~map # blit shader
+libGLESv2.dll!rx::Blit11::addBlitShaderToMap # blit shader
+
+# ID3D11InputLayout is balanced (+3/-3)
+libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11InputLayout>
+libGLESv2.dll!angle::base::MRUCacheBase<rx::PackedAttributeLayout,rx::Resource11<ID3D11InputLayout>,std::hash<rx::PackedAttributeLayout>,angle::base::MRUCacheHashMap>::Clear
+libGLESv2.dll!rx::Resource11<ID3D11InputLayout>::~Resource11
+
+# ID3D11Query is balanced (+1/-1)
+libGLESv2.dll!rx::Renderer11::allocateResource<D3D11_QUERY_DESC,rx::Resource11<ID3D11Query>>
+libGLESv2.dll!rx::TypedData<ID3D11Query>::~TypedData
+
+# ID3D11DepthStencilState balanced (+2/-2)
+libGLESv2.dll!rx::Resource11<ID3D11DepthStencilState>::~Resource11
+libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11DepthStencilState>
+
+# ID3D11SamplerState balanced (+8/-8)
+libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11SamplerState>
+libGLESv2.dll!rx::Resource11<ID3D11SamplerState>::~Resource11
+
+# ID3D11ShaderResourceView balanced (++40/--40)
+libGLESv2.dll!rx::TypedData<ID3D11ShaderResourceView>::~TypedData
+libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11ShaderResourceView>
+
+# ID3D11VertexShader balanced (++6/--6)
+libGLESv2.dll!rx::TypedData<ID3D11VertexShader>::~TypedData
+libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11VertexShader>
+
+# ID3D11Buffer balanced (++26/--26)
+libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11Buffer>
+libGLESv2.dll!rx::TypedData<ID3D11Buffer>::~TypedData
+
+# ID3D11RenderTargetView balanced (++20/--20)
+libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11RenderTargetView>
+libGLESv2.dll!rx::TypedData<ID3D11RenderTargetView>::~TypedData

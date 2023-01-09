@@ -252,3 +252,129 @@ libGLESv2.dll!glDeleteRenderbuffers
 libGLESv2.dll!gl::Context::deleteRenderbuffers
 libGLESv2.dll!glDeleteTextures
 libGLESv2.dll!gl::Context::deleteTextures
+d3d11.dll!00007ff95844d894 # always parent of d3d11.dll!00007ff958464084
+libGLESv2.dll!Concurrency::details::_TaskProcHandle::_RunChoreBridge
+libGLESv2.dll!Concurrency::details::_PPLTaskHandle<unsigned char,Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~3/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>,Concurrency::details::_TaskProcHandle>::invoke
+libGLESv2.dll!Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~3/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>::_Perform
+libGLESv2.dll!Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~3/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>::_Init
+libGLESv2.dll!Concurrency::task<unsigned char>::_InitialTaskHandle<void,`lambda at C:/PROGRA~1/MICROS~3/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',Concurrency::details::_TypeSelectorNoAsync>::_LogWorkItemAndInvokeUserLambda<std::function<unsigned char ()>>
+libGLESv2.dll!std::_Func_class<unsigned char>::operator()
+libGLESv2.dll!std::_Func_impl_no_alloc<`lambda at C:/PROGRA~1/MICROS~3/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\ppltasks.h:2356:16',unsigned char>::_Do_call
+libGLESv2.dll!std::_Invoker_ret<unsigned char>::_Call<`lambda at C:/PROGRA~1/MICROS~3/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\ppltasks.h:2356:16' &>
+libGLESv2.dll!std::invoke<`lambda at C:/PROGRA~1/MICROS~3/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\ppltasks.h:2356:16' &>
+libGLESv2.dll!Concurrency::details::_MakeVoidToUnitFunc::<lambda_1>::operator()
+libGLESv2.dll!std::_Func_class<void>::operator()
+libGLESv2.dll!std::_Func_impl_no_alloc<`lambda at C:/PROGRA~1/MICROS~3/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44',void>::_Do_call
+libGLESv2.dll!std::_Invoker_ret<void>::_Call<`lambda at C:/PROGRA~1/MICROS~3/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44' &>
+libGLESv2.dll!std::invoke<`lambda at C:/PROGRA~1/MICROS~3/2022/COMMUN~1/VC/Tools/MSVC/1434~1.319/include\future:699:44' &>
+libGLESv2.dll!std::_Task_async_state<void>::_Task_async_state<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Nical/dev/unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>>::<lambda_1>::operator()
+libGLESv2.dll!std::_Packaged_state<void ()>::_Call_immediate
+libGLESv2.dll!std::_Func_class<void>::operator()
+libGLESv2.dll!std::_Func_impl_no_alloc<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Nical/dev/unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>,void>::_Do_call
+libGLESv2.dll!std::_Invoker_ret<void>::_Call<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Nical/dev/unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'> &>
+libGLESv2.dll!std::invoke<std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Nical/dev/unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'> &>
+libGLESv2.dll!std::_Fake_no_copy_callable_adapter<`lambda at C:/Users/Nical/dev/unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>::operator()
+libGLESv2.dll!std::_Invoke_stored<`lambda at C:/Users/Nical/dev/unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>
+libGLESv2.dll!std::_Invoke_stored_explicit<`lambda at C:/Users/Nical/dev/unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54',0>
+libGLESv2.dll!std::invoke<`lambda at C:/Users/Nical/dev/unified/gfx/angle/checkout/src/libANGLE/WorkerThread.cpp:191:54'>
+libGLESv2.dll!angle::AsyncWorkerPool::checkToRunPendingTasks::<lambda_0>::operator()
+libGLESv2.dll!rx::ProgramD3D::GetExecutableTask::operator()
+xul.dll!mozilla::WebGLContext::BufferData
+xul.dll!mozilla::WebGLBuffer::BufferData
+xul.dll!mozilla::gl::GLContext::fBufferData
+libGLESv2.dll!glBufferData
+libGLESv2.dll!gl::Context::bufferData
+libGLESv2.dll!gl::Buffer::bufferData
+libGLESv2.dll!gl::Buffer::bufferDataImpl
+libGLESv2.dll!rx::BufferImpl::setDataWithUsageFlags
+libGLESv2.dll!rx::Buffer11::setData
+libGLESv2.dll!gl::Context::syncState
+libGLESv2.dll!gl::Context::syncDirtyObjects
+xul.dll!std::apply<`lambda at C:/Users/Nical/dev/unified/dom/canvas/WebGLCommandQueue.h:245:11',std::tuple<unsigned long long,mozilla::layers::TextureType,bool,mozilla::webgl::SwapChainOptions> &>
+xul.dll!std::_Apply_impl<`lambda at C:/Users/Nical/dev/unified/dom/canvas/WebGLCommandQueue.h:245:11',std::tuple<unsigned long long,mozilla::layers::TextureType,bool,mozilla::webgl::SwapChainOptions> &,0,1,2,3>
+xul.dll!std::invoke<`lambda at C:/Users/Nical/dev/unified/dom/canvas/WebGLCommandQueue.h:245:11',unsigned long long &,mozilla::layers::TextureType &,bool &,mozilla::webgl::SwapChainOptions &>
+xul.dll!mozilla::MethodDispatcher<mozilla::WebGLMethodDispatcher,51,void (mozilla::HostWebGLContext::*)(unsigned long long, mozilla::layers::TextureType, bool, const mozilla::webgl::SwapChainOptions &) const,&mozilla::HostWebGLContext::Present>::DispatchCommand<mozilla::HostWebGLContext>::<lambda_1>::operator()<unsigned long long,mozilla::layers::TextureType,bool,mozilla::webgl::SwapChainOptions>
+libGLESv2.dll!gl::Context::syncState
+libGLESv2.dll!gl::Context::syncDirtyObjects
+libGLESv2.dll!gl::State::syncDirtyObjects
+libGLESv2.dll!gl::State::syncDrawFramebuffer
+libGLESv2.dll!gl::Framebuffer::syncState
+libGLESv2.dll!gl::FramebufferAttachment::getRenderTargetImpl
+libGLESv2.dll!gl::FramebufferAttachmentObject::getAttachmentRenderTarget
+libGLESv2.dll!rx::TextureD3D::getAttachmentRenderTarget
+libGLESv2.dll!rx::TextureD3D_2D::getRenderTarget
+libGLESv2.dll!rx::Renderer11::allocateTexture<D3D11_TEXTURE2D_DESC>
+libGLESv2.dll!rx::FramebufferD3D::clear
+libGLESv2.dll!rx::Framebuffer11::blitImpl
+libGLESv2.dll!glBlitFramebuffer
+libGLESv2.dll!gl::Context::blitFramebuffer
+libGLESv2.dll!gl::Framebuffer::blit
+libGLESv2.dll!rx::FramebufferD3D::blit
+libGLESv2.dll!rx::Framebuffer11::blitImpl
+xul.dll!mozilla::HostWebGLContext::TexImage
+xul.dll!mozilla::WebGLContext::TexImage
+xul.dll!mozilla::WebGLTexture::TexImage
+libGLESv2.dll!gl::Context::syncDirtyObjects
+d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2DPreValidation
+d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2D1PreValidation
+libGLESv2.dll!rx::SwapChain11::resetOffscreenBuffers
+libGLESv2.dll!rx::SwapChain11::resetOffscreenColorBuffer
+libGLESv2.dll!egl::Display::destroySurface
+libGLESv2.dll!egl::Display::destroySurfaceImpl
+libGLESv2.dll!egl::Surface::onDestroy
+libGLESv2.dll!egl::Surface::destroyImpl
+libGLESv2.dll!SafeDelete<rx::SurfaceImpl>
+libGLESv2.dll!rx::PbufferSurfaceD3D::~PbufferSurfaceD3D
+libGLESv2.dll!egl::DestroySurface
+libGLESv2.dll!std::_Ptr_base<rx::GenericData>::_Decref
+libGLESv2.dll!std::_Ref_count<rx::GenericData>::_Destroy
+xul.dll!mozilla::gl::GLContext::fGetString
+xul.dll!mozilla::gl::GLContext::fRenderbufferStorage
+xul.dll!mozilla::gl::GLContext::fBufferData
+xul.dll!mozilla::gl::GLContext::fClear
+xul.dll!mozilla::gl::GLContext::fBlitFramebuffer
+xul.dll!mozilla::gl::GLContext::fDrawArrays
+xul.dll!mozilla::gl::GLContext::fDrawArraysInstanced
+xul.dll!mozilla::gl::GLContext::fDeleteTextures
+xul.dll!mozilla::gl::GLContext::fDeleteRenderbuffers
+xul.dll!mozilla::gl::GLContext::fDeleteBuffers
+xul.dll!mozilla::gl::GLContext::fDeleteVertexArrays
+libGLESv2.dll!rx::Blit11::mapBlitShader
+xul.dll!mozilla::gl::GLLibraryEGL::fCreatePbufferSurface
+xul.dll!mozilla::gl::EglDisplay::fCreatePbufferSurface
+xul.dll!mozilla::gl::SurfaceFactory_ANGLEShareHandle::CreateSharedImpl
+libGLESv2.dll!rx::Renderer11::allocateResource<D3D11_SHADER_RESOURCE_VIEW_DESC,ID3D11Resource,rx::SharedResource11<ID3D11ShaderResourceView>>
+libGLESv2.dll!rx::Renderer11::allocateResourceNoDesc<ID3D11Texture2D,rx::Resource11<ID3D11RenderTargetView>>
+libGLESv2.dll!egl::Display::makeCurrent
+xul.dll!mozilla::gl::GLContext::Init
+xul.dll!mozilla::gl::GLContext::InitImpl
+libGLESv2.dll!egl::MakeCurrent
+libGLESv2.dll!egl::Display::makeCurrent
+libGLESv2.dll!rx::Renderer11::finish
+libGLESv2.dll!glFinish
+libGLESv2.dll!glRenderbufferStorage
+libGLESv2.dll!rx::ProgramD3D::GetPixelExecutableTask::run
+libGLESv2.dll!rx::Renderer11::allocateTexture
+libGLESv2.dll!egl::Surface::initialize
+xul.dll!mozilla::gl::GLContextEGL::MakeCurrentImpl
+xul.dll!mozilla::gl::EglDisplay::fMakeCurrent
+xul.dll!mozilla::gl::GLLibraryEGL::fMakeCurrent
+libGLESv2.dll!rx::VertexDataManager::initialize
+xul.dll!mozilla::gl::GLLibraryEGL::fTerminate
+libEGL.dll!eglTerminate
+libGLESv2.dll!egl::Terminate
+ntdll.dll!RtlUserThreadStart
+000001f367f4002f
+ucrtbase.dll!thread_start<unsigned int (__cdecl*)(void *),1>
+libGLESv2.dll!gl::Texture::onDestroy
+libGLESv2.dll!rx::TextureD3D_2D::onDestroy
+xul.dll!mozilla::UniquePtr<mozilla::HostWebGLContext,mozilla::DefaultDelete<mozilla::HostWebGLContext>>::operator=
+xul.dll!mozilla::DefaultDelete<mozilla::HostWebGLContext>::operator()
+xul.dll!RefPtr<mozilla::WebGLContext>::~RefPtr
+xul.dll!RefPtr<mozilla::WebGLContext>::ConstRemovingRefPtrTraits<mozilla::WebGLContext>::Release
+xul.dll!mozilla::detail::RefCounted<mozilla::VRefCounted,1>::Release
+xul.dll!mozilla::UniquePtr<mozilla::gl::MozFramebuffer,mozilla::DefaultDelete<mozilla::gl::MozFramebuffer>>::reset
+xul.dll!mozilla::DefaultDelete<mozilla::gl::MozFramebuffer>::operator()
+libGLESv2.dll!gl::Texture::onDestroy
+libGLESv2.dll!rx::TextureD3D_2D::onDestroy
+xul.dll!mozilla::gl::GLContext::DeleteTexture
