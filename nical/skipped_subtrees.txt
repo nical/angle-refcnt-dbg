@@ -56,3 +56,13 @@ libGLESv2.dll!rx::StreamProducerD3DTexture::validateD3DTexture
 
 libGLESv2.dll!SafeRelease<ID3D11Debug *>
 libGLESv2.dll!rx::d3d11::DynamicCastComObject<ID3D11Debug>
+
+# Validates balances itself (1 increment and 1 decrement inside of it)
+d3d11.dll!CCreateTexture2DValidator::Validate
+
+# three textures on the stack in BlitAngleYCbCr
+xul.dll!mozilla::gl::OpenSharedTexture
+xul.dll!RefPtr<ID3D11Texture2D>::ConstRemovingRefPtrTraits<ID3D11Texture2D>::Release
+
+# Validate balances itself (1 increment, 1 decrement)
+d3d11_3SDKLayers.dll!CCreateTexture2DValidator::Validate

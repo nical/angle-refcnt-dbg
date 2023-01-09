@@ -173,3 +173,12 @@
 279: ID3D11BlendState balanced (++1/--1)
 
 327: Matches 5 # ID3D11Debug
+
+239: Destruction of GLContext::mBlitHelper, matches one of the addrefs near 102
+
+102: One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 169
+105: One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 166
+108: One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 163
+163: One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 108
+166: One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 105
+169: One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 102

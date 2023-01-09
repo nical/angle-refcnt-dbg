@@ -1,10 +1,13 @@
 nss3.dll!pr_root [process_root]
-d3d11_3SDKLayers.dll!00007ff8ef5155d9 d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2D
+# d3d11_3SDKLayers.dll!00007ff8ef5155d9 d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2D
+# d3d11_3SDKLayers.dll!00007ff8ef555c96 d3d11_3SDKLayers.dll!CCreateTexture2DValidator::Validate
+d3d11_3SDKLayers.dll!00007ff8ef5155d9 d3d11_3SDKLayers.dll!CCreateTexture2DValidator::Validate
 d3d11_3SDKLayers.dll!00007ff8ef514f1e d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2DPreValidation
 d3d11_3SDKLayers.dll!00007ff8ef51528e d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2D1PreValidation
-d3d11_3SDKLayers.dll!00007ff8ef555c96 d3d11_3SDKLayers.dll!CCreateTexture2DValidator::Validate
 d3d11_3SDKLayers.dll!00007ff8ef4ebc11 d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
 d3d11.dll!00007ff95846df53 d3d11.dll!ATL::AtlInternalQueryInterface
 d3d11_3SDKLayers.dll!00007ff8ef4e9af8 d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
 d3d11_3SDKLayers.dll!00007ff8ef4eb528 d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
 d3d11.dll!00007ff958464084 d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
+d3d11.dll!00007ff95844d6ae d3d11.dll!CCreateTexture2DValidator::Validate
+d3d11.dll!00007ff9584cdbe8 d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface

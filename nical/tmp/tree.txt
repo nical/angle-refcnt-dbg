@@ -37,6 +37,10 @@ parsing file "tmp/vs-dump.txt", command "tree"
 | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
 | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef4eb4d9
 | | | | | | | | | | | | | | | ++ ref 4 -> 5    (#6) 
+[#7 skipped ++] 
+[#8 skipped --] Matches 7
+[#9 skipped ++] 
+[#10 skipped --] 
 | | | xul.dll!mozilla::gl::GLContextEGL::CreateEGLPBufferOffscreenContext
 | | | | xul.dll!mozilla::gl::GLContextEGL::CreateEGLPBufferOffscreenContextImpl
 | | | | | xul.dll!mozilla::gl::GLContextEGL::CreatePBufferSurfaceTryingPowerOfTwo
@@ -48,26 +52,8 @@ parsing file "tmp/vs-dump.txt", command "tree"
 | | | | | | | | | | | libGLESv2.dll!rx::SwapChain11::reset
 | | | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11Texture2D>
 | | | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
-| | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2D
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#7) 
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef555d36
-| | | | | | | | | | | | | | | | -- ref 6 -> 5    (#8) Matches 7
 | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef515607
 | | | | | | | | | | | | | | | d3d11.dll!00007ff95844d337
-| | | | | | | | | | | | | | | | d3d11.dll!00007ff95844d6ae
-| | | | | | | | | | | | | | | | | d3d11.dll!00007ff9584cdbe8
-| | | | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#9) 
-| | | | | | | | | | | | | | | | | d3d11.dll!00007ff9584cdc74
-| | | | | | | | | | | | | | | | | | -- ref 6 -> 5    (#10) 
 | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#11) 
 [#12 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
@@ -104,6 +90,10 @@ parsing file "tmp/vs-dump.txt", command "tree"
 [#28 skipped ++] 
 [#29 skipped --] 
 [#30 skipped --] 
+[#31 skipped ++] 
+[#32 skipped --] Matches 31
+[#33 skipped ++] 
+[#34 skipped --] 
 | | | | | xul.dll!mozilla::gl::GLContextEGL::CreatePBufferSurfaceTryingPowerOfTwo
 | | | | | | libEGL.dll!eglCreatePbufferSurface
 | | | | | | | libGLESv2.dll!egl::CreatePbufferSurface
@@ -113,26 +103,8 @@ parsing file "tmp/vs-dump.txt", command "tree"
 | | | | | | | | | | | libGLESv2.dll!rx::SwapChain11::reset
 | | | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11Texture2D>
 | | | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
-| | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2D
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#31) 
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef555d36
-| | | | | | | | | | | | | | | | -- ref 6 -> 5    (#32) Matches 31
 | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef515607
 | | | | | | | | | | | | | | | d3d11.dll!00007ff95844d337
-| | | | | | | | | | | | | | | | d3d11.dll!00007ff95844d6ae
-| | | | | | | | | | | | | | | | | d3d11.dll!00007ff9584cdbe8
-| | | | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#33) 
-| | | | | | | | | | | | | | | | | d3d11.dll!00007ff9584cdc74
-| | | | | | | | | | | | | | | | | | -- ref 6 -> 5    (#34) 
 | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#35) 
 [#36 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
@@ -192,6 +164,10 @@ parsing file "tmp/vs-dump.txt", command "tree"
 [#73 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
 [#74 skipped ++] ID3D11RasterizerState balanced (++2/--2)
 [#75 skipped ++] ID3D11RasterizerState balanced (++2/--2)
+[#76 skipped ++] 
+[#77 skipped --] Matches 76
+[#78 skipped ++] 
+[#79 skipped --] 
 | | | | xul.dll!mozilla::gl::SwapChain::Acquire
 | | | | | xul.dll!mozilla::gl::SurfaceFactory::CreateShared
 | | | | | | xul.dll!mozilla::gl::SharedSurface_ANGLEShareHandle::Create
@@ -204,26 +180,8 @@ parsing file "tmp/vs-dump.txt", command "tree"
 | | | | | | | | | | | | | libGLESv2.dll!rx::SwapChain11::reset
 | | | | | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11Texture2D>
 | | | | | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2D
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | ++ ref 22 -> 23    (#76) 
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef555d36
-| | | | | | | | | | | | | | | | | | -- ref 23 -> 22    (#77) Matches 76
 | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef515607
 | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95844d337
-| | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95844d6ae
-| | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff9584cdbe8
-| | | | | | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | ++ ref 22 -> 23    (#78) 
-| | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff9584cdc74
-| | | | | | | | | | | | | | | | | | | | -- ref 23 -> 22    (#79) 
 | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | | | | | | | ++ ref 22 -> 23    (#80) 
 [#81 skipped ++] ID3D11RenderTargetView balanced (++20/--20)
@@ -245,49 +203,15 @@ parsing file "tmp/vs-dump.txt", command "tree"
 [#97 skipped ++] ID3D11InputLayout balanced  +3/-3
 [#98 skipped ++] ID3D11VertexShader balanced (++6/--6)
 [#99 skipped ++] ID3D11Buffer balanced (++26/--26)
-| | xul.dll!mozilla::dom::WebGLParent::RecvTexImage
-| | | xul.dll!mozilla::webgl::TexUnpackImage::TexOrSubImage
-| | | | xul.dll!mozilla::gl::GLBlitHelper::BlitSdToFramebuffer
-| | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitDescriptor
-| | | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitAngleYCbCr
-| | | | | | | xul.dll!mozilla::gl::OpenSharedTexture
-| | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef51d2ff
-| | | | | | | | | d3d11.dll!00007ff9584839b2
-| | | | | | | | | | d3d11.dll!00007ff95844cf46
-| | | | | | | | | | | d3d11.dll!00007ff958450af5
-| | | | | | | | | | | | d3d11.dll!00007ff95844d6ae
-| | | | | | | | | | | | | d3d11.dll!00007ff9584cdbe8
-| | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | ++ ref 34 -> 35    (#100) 
-| | | | | | | | | | | | | d3d11.dll!00007ff9584cdc74
-| | | | | | | | | | | | | | -- ref 35 -> 34    (#101) 
-| | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | ++ ref 34 -> 35    (#102) 
-| | | | | | | | | | | | d3d11.dll!00007ff95844d6ae
-| | | | | | | | | | | | | d3d11.dll!00007ff9584cdbe8
-| | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | ++ ref 35 -> 36    (#103) 
-| | | | | | | | | | | | | d3d11.dll!00007ff9584cdc74
-| | | | | | | | | | | | | | -- ref 36 -> 35    (#104) 
-| | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | ++ ref 35 -> 36    (#105) 
-| | | | | | | | | | | | d3d11.dll!00007ff95844d6ae
-| | | | | | | | | | | | | d3d11.dll!00007ff9584cdbe8
-| | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | ++ ref 36 -> 37    (#106) 
-| | | | | | | | | | | | | d3d11.dll!00007ff9584cdc74
-| | | | | | | | | | | | | | -- ref 37 -> 36    (#107) 
-| | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | ++ ref 36 -> 37    (#108) 
+[#100 skipped ++] 
+[#101 skipped --] 
+[#102 skipped ++] One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 169
+[#103 skipped ++] 
+[#104 skipped --] 
+[#105 skipped ++] One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 166
+[#106 skipped ++] 
+[#107 skipped --] 
+[#108 skipped ++] One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 163
 [#109 skipped ++] 
 [#110 skipped --] 
 [#111 skipped ++] 
@@ -296,6 +220,11 @@ parsing file "tmp/vs-dump.txt", command "tree"
 [#114 skipped --] 
 [#115 skipped ++] ID3D11PixelShader balanced (++2/--2)
 [#116 skipped ++] ID3D11VertexShader balanced (++6/--6)
+| | xul.dll!mozilla::dom::WebGLParent::RecvTexImage
+| | | xul.dll!mozilla::webgl::TexUnpackImage::TexOrSubImage
+| | | | xul.dll!mozilla::gl::GLBlitHelper::BlitSdToFramebuffer
+| | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitDescriptor
+| | | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitAngleYCbCr
 | | | | | | | xul.dll!mozilla::gl::DrawBlitProg::Draw
 | | | | | | | | libGLESv2.dll!glDrawArrays
 | | | | | | | | | libGLESv2.dll!gl::Context::drawArrays
@@ -358,18 +287,13 @@ parsing file "tmp/vs-dump.txt", command "tree"
 [#160 skipped --] 
 [#161 skipped ++] 
 [#162 skipped --] 
-| | | | | | | xul.dll!RefPtr<ID3D11Texture2D>::~RefPtr
-| | | | | | | | xul.dll!RefPtr<ID3D11Texture2D>::ConstRemovingRefPtrTraits<ID3D11Texture2D>::Release
-| | | | | | | | | xul.dll!mozilla::RefPtrTraits<ID3D11Texture2D>::Release
-| | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef52da80
-| | | | | | | | | | | d3d11.dll!00007ff95847a046
-| | | | | | | | | | | | -- ref 51 -> 50    (#163) 
+[#163 skipped --] One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 108
 [#164 skipped ++] 
 [#165 skipped --] 
-| | | | | | | | | | | | -- ref 50 -> 49    (#166) 
+[#166 skipped --] One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 105
 [#167 skipped ++] 
 [#168 skipped --] 
-| | | | | | | | | | | | -- ref 49 -> 48    (#169) 
+[#169 skipped --] One of the 3 planes (YCbCr) on GLBlitHelper::BlitAngleYCbCr's stack, matches 102
 [#170 skipped ++] ID3D11SamplerState balanced (+8/-8)
 [#171 skipped ++] ID3D11ShaderResourceView balanced (++40/--40)
 [#172 skipped --] ID3D11ShaderResourceView balanced (++40/--40)
@@ -497,7 +421,7 @@ parsing file "tmp/vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | xul.dll!RefPtr<ID3D11Device>::~RefPtr
 | | | | | | | | | | | | | | | xul.dll!RefPtr<ID3D11Device>::ConstRemovingRefPtrTraits<ID3D11Device>::Release
 | | | | | | | | | | | | | | | | xul.dll!mozilla::RefPtrTraits<ID3D11Device>::Release
-| | | | | | | | | | | | | | | | | -- ref 33 -> 32    (#239) 
+| | | | | | | | | | | | | | | | | -- ref 33 -> 32    (#239) Destruction of GLContext::mBlitHelper, matches one of the addrefs near 102
 [#240 skipped ++] 
 [#241 skipped --] 
 [#242 skipped --] ID3D11VertexShader balanced (++6/--6)

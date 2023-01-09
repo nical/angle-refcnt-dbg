@@ -53,6 +53,10 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
 | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | | | | | | ++ ref 4 -> 5    (#7) 
+[#8 skipped ++] 
+[#9 skipped --] 
+[#10 skipped ++] 
+[#11 skipped --] 
 | | | xul.dll!mozilla::gl::GLContextEGL::CreateWithoutSurface
 | | | | xul.dll!mozilla::gl::GLContextEGL::CreateWithoutSurface::<lambda_0>::operator()
 | | | | | xul.dll!mozilla::gl::GLContextEGL::CreatePBufferSurfaceTryingPowerOfTwo
@@ -65,33 +69,8 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11Texture2D>
 | | | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
 | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2D
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface
-| | | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0
-| | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#8) 
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | -- ref 6 -> 5    (#9) 
 | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateTexture2D
 | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateTexture2D_Worker
-| | | | | | | | | | | | | | | | | d3d11.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface
-| | | | | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0
-| | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 5 -> 6    (#10) 
-| | | | | | | | | | | | | | | | | | d3d11.dll!ATL::CComPtrBase<ID3D11BlendState>::~CComPtrBase<ID3D11BlendState>
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | -- ref 6 -> 5    (#11) 
 | | | | | | | | | | | | | | | | | d3d11.dll!NOutermost::CDevice::CreateLayeredChild
 | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCEstablishCyclicReferences
 | | | | | | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCEstablishCyclicReferences
@@ -146,6 +125,10 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 [#30 skipped ++] 
 [#31 skipped --] 
 [#32 skipped --] 
+[#33 skipped ++] 
+[#34 skipped --] 
+[#35 skipped ++] 
+[#36 skipped --] 
 | | | | | xul.dll!mozilla::gl::GLContextEGL::CreatePBufferSurfaceTryingPowerOfTwo
 | | | | | | libEGL.dll!eglCreatePbufferSurface
 | | | | | | | libGLESv2.dll!egl::CreatePbufferSurface
@@ -156,33 +139,8 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11Texture2D>
 | | | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
 | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2D
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface
-| | | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0
-| | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | ++ ref 6 -> 7    (#33) 
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | -- ref 7 -> 6    (#34) 
 | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateTexture2D
 | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateTexture2D_Worker
-| | | | | | | | | | | | | | | | | d3d11.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface
-| | | | | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0
-| | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 6 -> 7    (#35) 
-| | | | | | | | | | | | | | | | | | d3d11.dll!ATL::CComPtrBase<ID3D11BlendState>::~CComPtrBase<ID3D11BlendState>
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | -- ref 7 -> 6    (#36) 
 | | | | | | | | | | | | | | | | | d3d11.dll!NOutermost::CDevice::CreateLayeredChild
 | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCEstablishCyclicReferences
 | | | | | | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCEstablishCyclicReferences
@@ -253,6 +211,10 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 [#74 skipped ++] 
 [#75 skipped ++] 
 [#76 skipped ++] 
+[#77 skipped ++] 
+[#78 skipped --] 
+[#79 skipped ++] 
+[#80 skipped --] 
 | | | | | | | xul.dll!mozilla::gl::SwapChain::Acquire
 | | | | | | | | xul.dll!mozilla::gl::SurfaceFactory::CreateShared
 | | | | | | | | | xul.dll!mozilla::gl::SharedSurface_ANGLEShareHandle::Create
@@ -266,33 +228,8 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11Texture2D>
 | | | | | | | | | | | | | | | | | | libGLESv2.dll!rx::`anonymous namespace'::CreateResource
 | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::CreateTexture2D
-| | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface
-| | | | | | | | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0
-| | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 22 -> 23    (#77) 
-| | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | -- ref 23 -> 22    (#78) 
 | | | | | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateTexture2D
 | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CDevice::CreateTexture2D_Worker
-| | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface
-| | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | ++ ref 22 -> 23    (#79) 
-| | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!ATL::CComPtrBase<ID3D11BlendState>::~CComPtrBase<ID3D11BlendState>
-| | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 23 -> 22    (#80) 
 | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!NOutermost::CDevice::CreateLayeredChild
 | | | | | | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCEstablishCyclicReferences
 | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCEstablishCyclicReferences
@@ -318,74 +255,15 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 [#98 skipped ++] 
 [#99 skipped ++] 
 [#100 skipped ++] 
-| | xul.dll!mozilla::dom::WebGLParent::RecvTexImage
-| | | xul.dll!mozilla::webgl::TexUnpackImage::TexOrSubImage
-| | | | xul.dll!mozilla::gl::GLBlitHelper::BlitSdToFramebuffer
-| | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitDescriptor
-| | | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitAngleYCbCr
-| | | | | | | xul.dll!mozilla::gl::OpenSharedTexture
-| | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::OpenSharedResource
-| | | | | | | | | d3d11.dll!CDevice::OpenSharedResource
-| | | | | | | | | | d3d11.dll!CDevice::OpenSharedResourceInternal_Worker
-| | | | | | | | | | | d3d11.dll!CDevice::OpenSharedResourceInternalImpl
-| | | | | | | | | | | | d3d11.dll!CDevice::CreateTexture2D_Worker
-| | | | | | | | | | | | | d3d11.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface
-| | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | ++ ref 34 -> 35    (#101) 
-| | | | | | | | | | | | | | d3d11.dll!ATL::CComPtrBase<ID3D11BlendState>::~CComPtrBase<ID3D11BlendState>
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | -- ref 35 -> 34    (#102) 
-| | | | | | | | | | | | | d3d11.dll!NOutermost::CDevice::CreateLayeredChild
-| | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCEstablishCyclicReferences
-| | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCEstablishCyclicReferences
-| | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | ++ ref 34 -> 35    (#103) 
-| | | | | | | | | | | | | d3d11.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface
-| | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | ++ ref 35 -> 36    (#104) 
-| | | | | | | | | | | | | | d3d11.dll!ATL::CComPtrBase<ID3D11BlendState>::~CComPtrBase<ID3D11BlendState>
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | -- ref 36 -> 35    (#105) 
-| | | | | | | | | | | | | d3d11.dll!NOutermost::CDevice::CreateLayeredChild
-| | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCEstablishCyclicReferences
-| | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCEstablishCyclicReferences
-| | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | ++ ref 35 -> 36    (#106) 
-| | | | | | | | | | | | | d3d11.dll!CCreateTexture2DValidator::Validate
-| | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface
-| | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | ++ ref 36 -> 37    (#107) 
-| | | | | | | | | | | | | | d3d11.dll!ATL::CComPtrBase<ID3D11BlendState>::~CComPtrBase<ID3D11BlendState>
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | -- ref 37 -> 36    (#108) 
-| | | | | | | | | | | | | d3d11.dll!NOutermost::CDevice::CreateLayeredChild
-| | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCEstablishCyclicReferences
-| | | | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCEstablishCyclicReferences
-| | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | ++ ref 36 -> 37    (#109) 
+[#101 skipped ++] 
+[#102 skipped --] 
+[#103 skipped ++] 
+[#104 skipped ++] 
+[#105 skipped --] 
+[#106 skipped ++] 
+[#107 skipped ++] 
+[#108 skipped --] 
+[#109 skipped ++] 
 [#110 skipped ++] 
 [#111 skipped --] 
 [#112 skipped ++] 
@@ -394,6 +272,11 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 [#115 skipped --] 
 [#116 skipped ++] 
 [#117 skipped ++] 
+| | xul.dll!mozilla::dom::WebGLParent::RecvTexImage
+| | | xul.dll!mozilla::webgl::TexUnpackImage::TexOrSubImage
+| | | | xul.dll!mozilla::gl::GLBlitHelper::BlitSdToFramebuffer
+| | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitDescriptor
+| | | | | | xul.dll!mozilla::gl::GLBlitHelper::BlitAngleYCbCr
 | | | | | | | xul.dll!mozilla::gl::DrawBlitProg::Draw
 | | | | | | | | libGLESv2.dll!glDrawArrays
 | | | | | | | | | libGLESv2.dll!gl::Context::drawArrays
@@ -459,38 +342,15 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 [#159 skipped ++] 
 [#160 skipped --] 
 [#161 skipped --] 
-| | | | | | | xul.dll!RefPtr<ID3D11Texture2D>::~RefPtr
-| | | | | | | | xul.dll!RefPtr<ID3D11Texture2D>::ConstRemovingRefPtrTraits<ID3D11Texture2D>::Release
-| | | | | | | | | xul.dll!mozilla::RefPtrTraits<ID3D11Texture2D>::Release
-| | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CBlendState>::CContainedObject::Release
-| | | | | | | | | | | d3d11.dll!CUseCountedObject<NOutermost::CDeviceChild>::Release
-| | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | ++ ref 51 -> 52    (#162) 
-| | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCBreakCyclicReferences
-| | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCBreakCyclicReferences
-| | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | -- ref 52 -> 51    (#163) 
-| | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | -- ref 51 -> 50    (#164) 
-| | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | ++ ref 50 -> 51    (#165) 
-| | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCBreakCyclicReferences
-| | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCBreakCyclicReferences
-| | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | -- ref 51 -> 50    (#166) 
-| | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | -- ref 50 -> 49    (#167) 
-| | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | ++ ref 49 -> 50    (#168) 
-| | | | | | | | | | | | d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCBreakCyclicReferences
-| | | | | | | | | | | | | d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCBreakCyclicReferences
-| | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | -- ref 50 -> 49    (#169) 
-| | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | -- ref 49 -> 48    (#170) 
+[#162 skipped ++] 
+[#163 skipped --] 
+[#164 skipped --] 
+[#165 skipped ++] 
+[#166 skipped --] 
+[#167 skipped --] 
+[#168 skipped ++] 
+[#169 skipped --] 
+[#170 skipped --] 
 [#171 skipped ++] 
 [#172 skipped ++] 
 [#173 skipped --] 
