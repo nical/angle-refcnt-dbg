@@ -51,3 +51,8 @@ libGLESv2.dll!rx::TypedData<ID3D11RasterizerState>::~TypedData
 # ID3D11BlendState balanced (++1/--1)
 libGLESv2.dll!rx::ResourceManager11::allocate<ID3D11BlendState>
 libGLESv2.dll!rx::TypedData<ID3D11BlendState>::~TypedData
+
+libGLESv2.dll!rx::StreamProducerD3DTexture::validateD3DTexture
+
+libGLESv2.dll!SafeRelease<ID3D11Debug *>
+libGLESv2.dll!rx::d3d11::DynamicCastComObject<ID3D11Debug>

@@ -44,14 +44,7 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
 | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | | -- ref 4 -> 3    (#5) 
-| | | | | | | | | | | | | | libGLESv2.dll!rx::d3d11::DynamicCastComObject<ID3D11Debug>
-| | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::QueryInterface
-| | | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-| | | | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | | | | ++ ref 3 -> 4    (#6) 
+[#6 skipped ++] 
 | | | | | | | | | | | libGLESv2.dll!rx::DeviceD3D::initialize
 | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::QueryInterface
 | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
@@ -393,42 +386,12 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | d3d11.dll!CLayeredObject<CDevice>::CContainedObject::AddRef
 | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | | | | | | ++ ref 36 -> 37    (#109) 
-| | | | | | | | xul.dll!mozilla::gl::StreamFromD3DTexture
-| | | | | | | | | xul.dll!mozilla::gl::EglDisplay::fStreamPostD3DTextureANGLE
-| | | | | | | | | | xul.dll!mozilla::gl::GLLibraryEGL::fStreamPostD3DTextureANGLE
-| | | | | | | | | | | libGLESv2.dll!egl::ValidateStreamPostD3DTextureANGLE
-| | | | | | | | | | | | libGLESv2.dll!egl::Stream::validateD3D11Texture
-| | | | | | | | | | | | | libGLESv2.dll!rx::StreamProducerD3DTexture::validateD3DTexture
-| | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDeviceChild<ID3D11BlendState1>::GetDevice
-| | | | | | | | | | | | | | | d3d11.dll!CDeviceChild<ID3D11AuthenticatedChannel>::GetDevice
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | ++ ref 37 -> 38    (#110) 
-| | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::~ComPtr
-| | | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::InternalRelease
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | -- ref 38 -> 37    (#111) 
-| | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDeviceChild<ID3D11BlendState1>::GetDevice
-| | | | | | | | | | | | | | | d3d11.dll!CDeviceChild<ID3D11AuthenticatedChannel>::GetDevice
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | ++ ref 37 -> 38    (#112) 
-| | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::~ComPtr
-| | | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::InternalRelease
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | -- ref 38 -> 37    (#113) 
-| | | | | | | | | | | | | | d3d11_3SDKLayers.dll!NDebug::CDeviceChild<ID3D11BlendState1>::GetDevice
-| | | | | | | | | | | | | | | d3d11.dll!CDeviceChild<ID3D11AuthenticatedChannel>::GetDevice
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-| | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-| | | | | | | | | | | | | | | | | | ++ ref 37 -> 38    (#114) 
-| | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::~ComPtr
-| | | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::InternalRelease
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release
-| | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | -- ref 38 -> 37    (#115) 
+[#110 skipped ++] 
+[#111 skipped --] 
+[#112 skipped ++] 
+[#113 skipped --] 
+[#114 skipped ++] 
+[#115 skipped --] 
 [#116 skipped ++] 
 [#117 skipped ++] 
 | | | | | | | xul.dll!mozilla::gl::DrawBlitProg::Draw
@@ -814,11 +777,8 @@ parsing file "tmp/erich-vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 3 -> 2    (#326) 
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 2 -> 1    (#327) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::Release
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 1 -> 0    (#328) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::`scalar deleting destructor'
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::~TComObject<NOutermost::CDevice>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | !! ref 0 -> 3221225473    (#329) 
+[#328 skipped --] 
+[#329 skipped !!] 
 | xul.dll!nsCOMPtr<nsIRunnable>::operator=
 | | xul.dll!nsCOMPtr<nsIRunnable>::assign_assuming_AddRef
 | | | xul.dll!mozilla::Runnable::Release

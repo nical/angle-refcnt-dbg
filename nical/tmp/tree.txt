@@ -31,11 +31,7 @@ parsing file "tmp/vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | ++ ref 3 -> 4    (#3) 
 | | | | | | | | | | | | | | libGLESv2.dll!SafeRelease<ID3D11InfoQueue *>
 | | | | | | | | | | | | | | | -- ref 4 -> 3    (#4) 
-| | | | | | | | | | | | | | libGLESv2.dll!rx::d3d11::DynamicCastComObject<ID3D11Debug>
-| | | | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
-| | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-| | | | | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef4eb4d9
-| | | | | | | | | | | | | | | | | | ++ ref 3 -> 4    (#5) 
+[#5 skipped ++] 
 | | | | | | | | | | | libGLESv2.dll!rx::DeviceD3D::initialize
 | | | | | | | | | | | | d3d11.dll!ATL::AtlInternalQueryInterface
 | | | | | | | | | | | | | d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
@@ -292,31 +288,12 @@ parsing file "tmp/vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | -- ref 37 -> 36    (#107) 
 | | | | | | | | | | | | d3d11.dll!TComObject<NOutermost::CDevice>::AddRef
 | | | | | | | | | | | | | ++ ref 36 -> 37    (#108) 
-| | | | | | | xul.dll!mozilla::gl::BindAnglePlanes::BindAnglePlanes
-| | | | | | | | xul.dll!mozilla::gl::StreamFromD3DTexture
-| | | | | | | | | xul.dll!mozilla::gl::EglDisplay::fStreamPostD3DTextureANGLE
-| | | | | | | | | | xul.dll!mozilla::gl::GLLibraryEGL::fStreamPostD3DTextureANGLE
-| | | | | | | | | | | libGLESv2.dll!egl::ValidateStreamPostD3DTextureANGLE
-| | | | | | | | | | | | libGLESv2.dll!egl::Stream::validateD3D11Texture
-| | | | | | | | | | | | | libGLESv2.dll!rx::StreamProducerD3DTexture::validateD3DTexture
-| | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef53ebeb
-| | | | | | | | | | | | | | | d3d11.dll!00007ff95843a3a8
-| | | | | | | | | | | | | | | | ++ ref 37 -> 38    (#109) 
-| | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::~ComPtr
-| | | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::InternalRelease
-| | | | | | | | | | | | | | | | -- ref 38 -> 37    (#110) 
-| | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef53ebeb
-| | | | | | | | | | | | | | | d3d11.dll!00007ff95843a3a8
-| | | | | | | | | | | | | | | | ++ ref 37 -> 38    (#111) 
-| | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::~ComPtr
-| | | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::InternalRelease
-| | | | | | | | | | | | | | | | -- ref 38 -> 37    (#112) 
-| | | | | | | | | | | | | | d3d11_3SDKLayers.dll!00007ff8ef53ebeb
-| | | | | | | | | | | | | | | d3d11.dll!00007ff95843a3a8
-| | | | | | | | | | | | | | | | ++ ref 37 -> 38    (#113) 
-| | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::~ComPtr
-| | | | | | | | | | | | | | | libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::InternalRelease
-| | | | | | | | | | | | | | | | -- ref 38 -> 37    (#114) 
+[#109 skipped ++] 
+[#110 skipped --] 
+[#111 skipped ++] 
+[#112 skipped --] 
+[#113 skipped ++] 
+[#114 skipped --] 
 [#115 skipped ++] ID3D11PixelShader balanced (++2/--2)
 [#116 skipped ++] ID3D11VertexShader balanced (++6/--6)
 | | | | | | | xul.dll!mozilla::gl::DrawBlitProg::Draw
@@ -650,8 +627,5 @@ parsing file "tmp/vs-dump.txt", command "tree"
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 3 -> 2    (#325) 
 | | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeRelease<ID3D11Device1 *>
 | | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 2 -> 1    (#326) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | libGLESv2.dll!SafeRelease<ID3D11Debug *>
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | -- ref 1 -> 0    (#327) 
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff95847bfe9
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | d3d11.dll!00007ff958441a54
-| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | !! ref 0 -> 3221225473    (#328) 
+[#327 skipped --] Matches 5
+[#328 skipped !!] 

@@ -43,14 +43,26 @@ fn main() {
     iter_file_lines("skipped_frames.txt", &mut |line| {
         skipped_frames.insert(strip_comment(line).to_string());
     }).unwrap();
+    iter_file_lines("skipped_frames_erich.txt", &mut |line| {
+        skipped_frames.insert(strip_comment(line).to_string());
+    }).unwrap();
 
     let mut skipped_subtrees = HashSet::new();
     iter_file_lines("skipped_subtrees.txt", &mut |line| {
         skipped_subtrees.insert(strip_comment(line).to_string());
     }).unwrap();
+    iter_file_lines("skipped_subtrees_erich.txt", &mut |line| {
+        skipped_subtrees.insert(strip_comment(line).to_string());
+    }).unwrap();
 
     let mut renamed_frames = HashMap::new();
     iter_file_lines("renamed_frames.txt", &mut |line| {
+        let mut line = strip_comment(line).split(" ");
+        let from = line.next().unwrap_or("").to_string();
+        let to = line.next().unwrap_or("").to_string();
+        renamed_frames.insert(from, to);
+    }).unwrap();
+    iter_file_lines("renamed_frames_erich.txt", &mut |line| {
         let mut line = strip_comment(line).split(" ");
         let from = line.next().unwrap_or("").to_string();
         let to = line.next().unwrap_or("").to_string();
