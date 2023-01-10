@@ -34,6 +34,7 @@ struct CliArgs {
 
 #[derive(Debug, clap::Parser)]
 enum CliSubcommand {
+    Init,
     Lint,
     ShowExec,
 }
@@ -493,6 +494,10 @@ fn main() -> anyhow::Result<()> {
     }
 
     match subcommand {
+        CliSubcommand::Init => {
+            println!("x");
+            Ok(())
+        }
         CliSubcommand::Lint => {
             let start_event = lazy_format!("{:?}", RefcountEventKindName::Start).fg(Color::Green);
 
