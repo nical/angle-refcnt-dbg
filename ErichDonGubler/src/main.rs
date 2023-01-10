@@ -20,7 +20,7 @@ use clap::Parser as _;
 use format::lazy_format;
 use log::LevelFilter;
 
-use crate::config::{CallStackMatcher, RefcountEventParsingConfig};
+use crate::config::{RefcountEventParsingConfig, RefcountOpClassifier};
 
 mod config;
 
@@ -114,7 +114,7 @@ impl RefcountEvent {
     }
 
     fn parser(
-        stack_matchers: &[CallStackMatcher],
+        stack_matchers: &[RefcountOpClassifier],
     ) -> impl Parser<char, Spanned<Self>, Error = Simple<char>> + '_ {
         take_until(just(START_OF_EVENT).labelled(concat!(
             "next refcount event sentinel (`",
@@ -353,7 +353,7 @@ struct RefcountEventLog {
 
 impl RefcountEventLog {
     fn parser(
-        stack_matchers: &[CallStackMatcher],
+        stack_matchers: &[RefcountOpClassifier],
     ) -> impl Parser<char, Self, Error = Simple<char>> + '_ {
         RefcountEvent::parser(stack_matchers)
             .repeated()
@@ -386,7 +386,7 @@ fn main() -> anyhow::Result<()> {
             .into()
     };
 
-    let RefcountEventParsingConfig { stack_matchers } = {
+    let RefcountEventParsingConfig { op_classifiers } = {
         let config_path = input_dir.join(config_basename!());
         knuffel::parse(
             &config_path.to_str().unwrap(),
@@ -410,7 +410,7 @@ fn main() -> anyhow::Result<()> {
 
     // OPT: We might be paying a minor perf penalty for not pre-allocating here?
     let (events_opt, errs) =
-        RefcountEventLog::parser(&stack_matchers[..]).parse_recovery(&vs_output_window_text[..]);
+        RefcountEventLog::parser(&op_classifiers[..]).parse_recovery(&vs_output_window_text[..]);
 
     struct Reporter {
         vs_output_window_text_path_str: ArcStr,

@@ -9,18 +9,18 @@ pub(crate) struct RefcountEventParsingConfig {
     // TODO: Get a better diagnostic upstream, this failed hard when I specified `children`
     // erroneously
     #[knuffel(child, unwrap(children))]
-    pub stack_matchers: Vec<CallStackMatcher>,
+    pub op_classifiers: Vec<RefcountOpClassifier>,
 }
 
 #[derive(Debug, knuffel::Decode, Eq, PartialEq)]
-pub(crate) struct CallStackMatcher {
+pub(crate) struct RefcountOpClassifier {
     #[knuffel(node_name)]
     classification: Classification,
     #[knuffel(child, unwrap(children))]
     top: Vec<StackFrameMatcher>,
 }
 
-impl CallStackMatcher {
+impl RefcountOpClassifier {
     pub(crate) fn matches(&self, callstack: &CallStack) -> Option<Classification> {
         let Self {
             classification,

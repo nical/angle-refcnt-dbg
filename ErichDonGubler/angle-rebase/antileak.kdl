@@ -1,4 +1,4 @@
-stack-matchers {
+op-classifiers {
 	increment {
 		top {
 			symbolicated module="d3d11.dll" symbol-name="TComObject<NOutermost::CDevice>::AddRef"
