@@ -45,9 +45,9 @@ macro_rules! start_of_event {
 }
 const START_OF_EVENT: &str = start_of_event!();
 
-macro_rules! config_toml {
+macro_rules! config_basename {
     () => {
-        "config.toml"
+        "antileak.kdl"
     };
 }
 
@@ -387,14 +387,25 @@ fn main() -> anyhow::Result<()> {
     };
 
     let RefcountEventParsingConfig { stack_matchers } = {
-        let config_path = input_dir.join(config_toml!());
-        toml::from_str(&fs::read_to_string(&config_path).with_context(|| {
-            format!(
-                "failed to read configuration from {}",
-                config_path.display()
-            )
-        })?)
-        .context(concat!("failed to deserialize `", config_toml!(), "`"))?
+        let config_path = input_dir.join(config_basename!());
+        knuffel::parse(
+            &config_path.to_str().unwrap(),
+            &fs::read_to_string(&config_path).with_context(|| {
+                format!(
+                    "failed to read configuration from {}",
+                    config_path.display()
+                )
+            })?,
+        )
+        .map_err(|e| {
+            eprintln!("{}", miette::Report::new(e));
+
+            anyhow!(concat!(
+                "failed to deserialize `",
+                config_basename!(),
+                "`(see above for more details)"
+            ))
+        })?
     };
 
     // OPT: We might be paying a minor perf penalty for not pre-allocating here?
@@ -608,9 +619,9 @@ fn main() -> anyhow::Result<()> {
                                         );
                                         report.set_help(format!(
                                             concat!(
-                                                "You should change your `[[stack_matcher]]` \
+                                                "You should change your stack matching \
                                                 configuration in your `",
-                                                config_toml!(),
+                                                config_basename!(),
                                                 "` so that it classifies this call stack \
                                                 correctly.{}"
                                             ),

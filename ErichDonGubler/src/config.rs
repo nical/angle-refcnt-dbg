@@ -1,16 +1,22 @@
-use serde::Deserialize;
+use std::str::FromStr;
+
+use anyhow::anyhow;
 
 use crate::{CallStack, RefcountModifyKind, StackFrame};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, knuffel::Decode, Eq, PartialEq)]
 pub(crate) struct RefcountEventParsingConfig {
-    #[serde(rename = "stack_matcher")]
+    // TODO: Get a better diagnostic upstream, this failed hard when I specified `children`
+    // erroneously
+    #[knuffel(child, unwrap(children))]
     pub stack_matchers: Vec<CallStackMatcher>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, knuffel::Decode, Eq, PartialEq)]
 pub(crate) struct CallStackMatcher {
+    #[knuffel(node_name)]
     classification: Classification,
+    #[knuffel(child, unwrap(children))]
     top: Vec<StackFrameMatcher>,
 }
 
@@ -27,14 +33,18 @@ impl CallStackMatcher {
     }
 }
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "snake_case", tag = "type")]
+#[derive(Debug, knuffel::Decode, Eq, PartialEq)]
 pub(crate) enum StackFrameMatcher {
     ExternalCode,
-    Symbolicated {
-        module: Option<String>,
-        symbol_name: Option<String>,
-    },
+    Symbolicated(SymbolicatedStackFrameMatcher),
+}
+
+#[derive(Debug, knuffel::Decode, Eq, PartialEq)]
+pub(crate) struct SymbolicatedStackFrameMatcher {
+    #[knuffel(property)]
+    pub(crate) module: Option<String>,
+    #[knuffel(property)]
+    pub(crate) symbol_name: Option<String>,
 }
 
 impl StackFrameMatcher {
@@ -42,10 +52,10 @@ impl StackFrameMatcher {
         match (self, callstack) {
             (Self::ExternalCode, StackFrame::ExternalCode { .. }) => true,
             (
-                Self::Symbolicated {
+                Self::Symbolicated(SymbolicatedStackFrameMatcher {
                     module: m,
                     symbol_name: sn,
-                },
+                }),
                 StackFrame::Symbolicated {
                     module,
                     symbol_name,
@@ -59,12 +69,24 @@ impl StackFrameMatcher {
     }
 }
 
-#[derive(Clone, Copy, Debug, Deserialize)]
-#[serde(rename_all = "snake_case")]
+#[derive(Clone, Copy, Debug, knuffel::DecodeScalar, Eq, PartialEq)]
 pub(crate) enum Classification {
     Increment,
     Decrement,
     Destructor,
+}
+
+impl FromStr for Classification {
+    type Err = anyhow::Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "increment" => Ok(Self::Increment),
+            "decrement" => Ok(Self::Decrement),
+            "destructor" => Ok(Self::Destructor),
+            _ => Err(anyhow!("{s:?} is not a valid call stack classification")),
+        }
+    }
 }
 
 impl From<Classification> for RefcountModifyKind {

@@ -1,0 +1,17 @@
+stack-matchers {
+	increment {
+		top {
+			symbolicated module="d3d11.dll" symbol-name="TComObject<NOutermost::CDevice>::AddRef"
+		}
+	}
+	decrement {
+		top {
+			symbolicated module="d3d11.dll" symbol-name="TComObject<NOutermost::CDevice>::Release"
+		}
+	}
+	destructor {
+		top {
+			symbolicated module="d3d11.dll" symbol-name="TComObject<NOutermost::CDevice>::~TComObject<NOutermost::CDevice>"
+		}
+	}
+}
