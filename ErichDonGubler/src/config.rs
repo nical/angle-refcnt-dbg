@@ -98,3 +98,39 @@ impl From<Classification> for RefcountModifyKind {
         }
     }
 }
+
+// #[derive(Debug, Deserialize)]
+// pub(crate) struct Collapse {
+//     pub when: CollapseWhen,
+//     pub and: CollapseAnd,
+//     pub repeat: CollapseRepeat,
+// }
+
+// #[derive(Debug, Deserialize)]
+// pub(crate) struct CollapseWhen(StackFrame);
+
+// #[derive(Debug, Deserialize)]
+// pub(crate) struct CollapseAnd {
+//     index: CollapseAndIndex,
+//     #[serde(flatten)]
+//     stack_frame: StackFrame,
+// }
+
+// #[derive(Debug, Deserialize)]
+// pub enum CollapseAndIndex {
+//     Count(usize),
+//     #[serde(rename = "*")]
+//     Any,
+// }
+
+// impl Default for CollapseAndIndex {
+//     fn default() -> Self {
+//         Self::Count(0)
+//     }
+// }
+
+// #[derive(Debug, Deserialize)]
+// pub(crate) enum CollapseRepeat {
+//     #[serde(rename = "*")]
+//     Any,
+// }
