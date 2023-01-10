@@ -842,16 +842,18 @@ fn main() -> anyhow::Result<()> {
 
             wind_up(0, previous_event);
             for next_event in event_iter {
+                let shared_idx = |prev: &[_], next: &[_]| {
+                    prev.iter()
+                        .rev()
+                        .zip(next.iter().rev())
+                        .position(|(f1, f2)| f1 != f2)
+                        .unwrap_or(prev.len())
+                };
                 let previous_frames = &previous_event.callstack.frames;
-
-                let shared_up_to_idx = previous_frames
-                    .iter()
-                    .rev()
-                    .zip(next_event.callstack.frames.iter().rev())
-                    .position(|(f1, f2)| f1 != f2)
-                    .unwrap_or(previous_frames.len());
-                wind_down(previous_frames, shared_up_to_idx);
-                wind_up(shared_up_to_idx, next_event);
+                let next_frames = &next_event.callstack.frames;
+                let common_frames_idx = shared_idx(previous_frames, &next_frames);
+                wind_down(previous_frames, common_frames_idx);
+                wind_up(common_frames_idx, next_event);
                 previous_event = next_event;
             }
             wind_down(&previous_event.callstack.frames, 0);
