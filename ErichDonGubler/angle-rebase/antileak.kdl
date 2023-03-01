@@ -1,17 +1,229 @@
-op-classifiers {
-	increment {
-		top {
-			symbolicated module="d3d11.dll" symbol-name="TComObject<NOutermost::CDevice>::AddRef"
-		}
-	}
-	decrement {
-		top {
-			symbolicated module="d3d11.dll" symbol-name="TComObject<NOutermost::CDevice>::Release"
-		}
-	}
-	destructor {
-		top {
-			symbolicated module="d3d11.dll" symbol-name="TComObject<NOutermost::CDevice>::~TComObject<NOutermost::CDevice>"
+platform "windows"
+
+// TODO: consider nesting `classify` rules and `triaged` under a stage-associated node, like
+// `triage`
+classify name="COM `AddRef` call" {
+	execution {
+		"d3d11.dll!TComObject<NOutermost::CDevice>::AddRef" {
+			increment
 		}
 	}
 }
+
+classify name="COM `Release` call" {
+	execution {
+		"d3d11.dll!TComObject<NOutermost::CDevice>::Release" {
+			decrement
+		}
+	}
+}
+
+classify name="`IDXGIDevice` destructor" {
+	execution {
+		"d3d11.dll!TComObject<NOutermost::CDevice>::~TComObject<NOutermost::CDevice>" {
+			destructor set-value=0x00000000c0000001
+		}
+	}
+}
+
+// TODO: Implement automatic division between triaging stage and balancing stage
+// // triaged problem-starts-at=#1234
+
+// TODO: `disable-unwind-compression`
+
+// TODO: add prompt heuristics for finding potential `balance "local"`s
+
+balance type="local" name="`CCreateTexture2DValidator::Validate` for ???" {
+	execution {
+		"d3d11_3SDKLayers.dll!CCreateTexture2DValidator::Validate" {
+			"d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface" {
+				"d3d11.dll!ATL::AtlInternalQueryInterface" {
+					"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface" {
+						"d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface" {
+							"d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0" {
+								"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef" {
+									"d3d11.dll!TComObject<NOutermost::CDevice>::AddRef" {
+										increment
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release" {
+				"d3d11.dll!TComObject<NOutermost::CDevice>::Release" {
+					decrement
+				}
+			}
+		}
+	}
+	// TODO: lint if we don't have locally valid sequences (i.e., dec. before inc.)
+}
+
+balance type="local" name="`CCreateTexture2DValidator::Validate` for `BlendState`" {
+	execution {
+		"d3d11.dll!CCreateTexture2DValidator::Validate" {
+			"d3d11.dll!CLayeredObject<CDevice>::CContainedObject::QueryInterface" {
+				"d3d11.dll!ATL::AtlInternalQueryInterface" {
+					"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface" {
+						"d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface" {
+							"d3d11_3SDKLayers.dll!NDebug::CDevice::QIDXGIDevice0" {
+								"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef" {
+									"d3d11.dll!TComObject<NOutermost::CDevice>::AddRef" {
+										decrement
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			"d3d11.dll!ATL::CComPtrBase<ID3D11BlendState>::~CComPtrBase<ID3D11BlendState>" {
+				"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release" {
+					"d3d11.dll!TComObject<NOutermost::CDevice>::Release" {
+						decrement
+					}
+				}
+			}
+		}
+	}
+}
+
+balance type="local" name="`CCreateShaderResourceViewValidator::Validate` in `d3d11.dll`" {
+	execution {
+		"d3d11.dll!CCreateShaderResourceViewValidator::Validate" {
+			"d3d11.dll!CDeviceChild<ID3D11AuthenticatedChannel>::GetDevice" {
+				"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef" {
+					"d3d11.dll!TComObject<NOutermost::CDevice>::AddRef" {
+						increment
+					}
+				}
+			}
+			"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release" {
+				"d3d11.dll!TComObject<NOutermost::CDevice>::Release" {
+					decrement
+				}
+			}
+		}
+	}
+}
+
+balance type="local" name="`CCreateShaderResourceViewValidator::Validate` in `d3d11_3SDKLayers.dll`" {
+	execution {
+		"d3d11_3SDKLayers.dll!CCreateShaderResourceViewValidator::Validate" {
+			"d3d11_3SDKLayers.dll!NDebug::CDeviceChild<ID3D11BlendState1>::GetDevice" {
+				"d3d11.dll!CDeviceChild<ID3D11AuthenticatedChannel>::GetDevice" {
+					"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef" {
+						"d3d11.dll!TComObject<NOutermost::CDevice>::AddRef" {
+							increment
+						}
+					}
+				}
+			}
+			"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release" {
+				"d3d11.dll!TComObject<NOutermost::CDevice>::Release" {
+					decrement
+				}
+			}
+		}
+	}
+}
+
+balance type="local" name="`StreamProducerD3DTexture::validateD3DTexture`" {
+	tail-frames {
+		"libGLESv2.dll!rx::StreamProducerD3DTexture::validateD3DTexture"
+	}
+	execution {
+		"d3d11_3SDKLayers.dll!NDebug::CDeviceChild<ID3D11BlendState1>::GetDevice" {
+			"d3d11.dll!CDeviceChild<ID3D11AuthenticatedChannel>::GetDevice" {
+				"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef" {
+					"d3d11.dll!TComObject<NOutermost::CDevice>::AddRef" {
+						increment
+					}
+				}
+			}
+		}
+		"libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::~ComPtr" {
+			"libGLESv2.dll!Microsoft::WRL::ComPtr<ID3D11Device>::InternalRelease" {
+				"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release" {
+					"d3d11.dll!TComObject<NOutermost::CDevice>::Release" {
+						decrement
+					}
+				}
+			}
+		}
+	}
+}
+
+balance type="local" name="`BlendState` destructor 1" {
+	tail-frames {
+		"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CBlendState>::CContainedObject::Release"
+		"d3d11.dll!CUseCountedObject<NOutermost::CDeviceChild>::Release"
+	}
+	execution {
+		"d3d11.dll!TComObject<NOutermost::CDevice>::AddRef" {
+			increment
+		}
+		"d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCBreakCyclicReferences" {
+			"d3d11.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDXGI::CResource> >::UCBreakCyclicReferences" {
+				"d3d11.dll!CLayeredObject<CDevice>::CContainedObject::Release" {
+					"d3d11.dll!TComObject<NOutermost::CDevice>::Release" {
+						decrement
+					}
+				}
+			}
+		}
+	}
+}
+
+balance type="local" name="`BlendState` destructor 2" {
+	tail-frames {
+		"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CBlendState>::CContainedObject::Release"
+		"d3d11.dll!CUseCountedObject<NOutermost::CDeviceChild>::Release"
+	}
+	execution {
+		"d3d11.dll!TComObject<NOutermost::CDevice>::AddRef" {
+			increment
+		}
+		"d3d11_3SDKLayers.dll!CBridgeImpl<IUseCounted,ID3D11LayeredUseCounted,CLayeredObject<NDebug::CBlendState> >::UCBreakCyclicReferences" {
+			"d3d11.dll!CLayeredObject<CDevice>::CContainedObject::Release" {
+				"d3d11.dll!TComObject<NOutermost::CDevice>::Release" {
+					decrement
+				}
+			}
+		}
+	}
+}
+
+// compress tail "`QueryInterface` call" {
+//	execution {
+//		"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::QueryInterface" {
+//			"d3d11.dll!ATL::AtlInternalQueryInterface" {
+//				"d3d11.dll!ATL::AtlInternalQueryInterface" {
+//					"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface" {
+//						"d3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface" {
+//							"d3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef" {
+//								"d3d11.dll!TComObject<NOutermost::CDevice>::AddRef" {
+//									increment
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+// }
+//
+// compress "`SafeRelease` call" {
+//	execution {
+//		symbolicated module="libGLESv2.dll" symbol_name=(regex)"SafeRelease<.*?>" {
+//			symbolicated module="d3d11_3SDKLayers.dll" symbol_name="CLayeredObject<NDebug::CDevice>::CContainedObject::Release" {
+//				symbolicated module="d3d11.dll" symbol_name="TComObject<NOutermost::CDevice>::Release" {
+//					decrement
+//				}
+//			}
+//		}
+//	}
+// }

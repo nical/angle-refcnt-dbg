@@ -1,28 +1,29 @@
-use std::{
-    cmp::Ordering,
-    fmt::{self, Debug, Formatter},
-    fs,
-    ops::Range,
-    path::PathBuf,
-};
+#![allow(unreachable_code)]
 
-use anyhow::{anyhow, bail, Context};
+use std::{fmt::Display, fs, num::NonZeroUsize, ops::Range, path::PathBuf};
+
 use arcstr::ArcStr;
 use ariadne::{sources, Color, Fmt, Label, Report, ReportBuilder, ReportKind};
-use chumsky::{
-    error::SimpleReason,
-    prelude::Simple,
-    primitive::{choice, end, filter, just, take_until},
-    text::{ident, newline},
-    Parser,
-};
+use chumsky::{error::SimpleReason, Parser};
 use clap::Parser as _;
 use format::lazy_format;
 use log::LevelFilter;
+use miette::{bail, ensure, miette, Context, IntoDiagnostic};
 
-use crate::config::{RefcountEventParsingConfig, RefcountOpClassifier};
+use crate::{
+    config::RefcountEventParsingConfig,
+    event_log::EventLog,
+    matcher::{Balance, BalanceKind, Classify, Local, Pair},
+    platform::SupportedPlatform,
+    spanned::Spanned,
+};
 
 mod config;
+mod event_log;
+mod matcher;
+mod platform;
+mod spanned;
+mod state_machine;
 
 #[derive(Debug, clap::Parser)]
 struct CliArgs {
@@ -38,306 +39,10 @@ enum CliSubcommand {
     ShowExec,
 }
 
-macro_rules! start_of_event {
-    () => {
-        "--!! "
-    };
-}
-const START_OF_EVENT: &str = start_of_event!();
-
 macro_rules! config_basename {
     () => {
         "antileak.kdl"
     };
-}
-
-#[derive(Debug, PartialEq)]
-pub struct Spanned<T>(T, Range<usize>);
-
-#[derive(Debug)]
-struct RefcountEvent {
-    address: Address,
-    /// TODO: This doesn't take into account the size of the refcount maybe _not_ being 64 bits. We
-    /// should do that, if this ever needs to be robust.
-    count: u64,
-    callstack: CallStack,
-    kind: RefcountEventKind,
-}
-
-#[derive(Debug)]
-enum RefcountEventKind {
-    Start { variable_name: String },
-    Modify { kind: RefcountModifyKind },
-}
-
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-enum RefcountModifyKind {
-    Increment,
-    Decrement,
-    Destructor,
-    Unidentified,
-}
-
-#[derive(Clone, Debug)]
-struct ComputedRefcount {
-    refcount: u64,
-    num_unidentified: u64,
-    num_dupe_start_events: u64,
-}
-
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-enum RefcountEventKindName {
-    Start,
-    Increment,
-    Decrement,
-    Destructor,
-    Unidentified,
-}
-
-impl From<RefcountModifyKind> for RefcountEventKindName {
-    fn from(value: RefcountModifyKind) -> Self {
-        match value {
-            RefcountModifyKind::Increment => Self::Increment,
-            RefcountModifyKind::Decrement => Self::Decrement,
-            RefcountModifyKind::Destructor => Self::Destructor,
-            RefcountModifyKind::Unidentified => Self::Unidentified,
-        }
-    }
-}
-
-impl RefcountEvent {
-    pub fn kind_name(&self) -> RefcountEventKindName {
-        match &self.kind {
-            RefcountEventKind::Start { .. } => RefcountEventKindName::Start,
-            &RefcountEventKind::Modify { kind, .. } => kind.into(),
-        }
-    }
-
-    fn parser(
-        stack_matchers: &[RefcountOpClassifier],
-    ) -> impl Parser<char, Spanned<Self>, Error = Simple<char>> + '_ {
-        take_until(just(START_OF_EVENT).labelled(concat!(
-            "next refcount event sentinel (`",
-            start_of_event!(),
-            "`)"
-        )))
-        .ignore_then(
-            choice((
-                just("Ref count was changed for ")
-                    .ignore_then(u64_address_value_debug_pair())
-                    .then_ignore(just(":"))
-                    .then(CallStack::parser().labelled("call stack"))
-                    .map(|((address, count), callstack)| {
-                        let kind = stack_matchers
-                            .iter()
-                            .find_map(|matcher| matcher.matches(&callstack))
-                            .map(Into::into)
-                            .unwrap_or(RefcountModifyKind::Unidentified);
-                        Self {
-                            address,
-                            count,
-                            callstack,
-                            kind: RefcountEventKind::Modify { kind },
-                        }
-                    }),
-                just("Starting to track refs for `")
-                    .ignore_then(ident().labelled("COM object identifier"))
-                    .then_ignore(just("` at "))
-                    .then(u64_address_value_debug_pair())
-                    .then_ignore(just(":"))
-                    .then(CallStack::parser().labelled("call stack"))
-                    .map(|((variable_name, (address, count)), callstack)| Self {
-                        kind: RefcountEventKind::Start { variable_name },
-                        address,
-                        count,
-                        callstack,
-                    }),
-            ))
-            .labelled("event body")
-            .map_with_span(Spanned),
-        )
-        .labelled("refcount event")
-    }
-}
-
-#[derive(Debug)]
-struct CallStack {
-    frames: Vec<StackFrame>,
-}
-
-impl CallStack {
-    fn parser() -> impl Parser<char, Self, Error = Simple<char>> {
-        // OPT: We're probably paying a non-trivial amount here for parsing dozens of frames
-        // without trying to set capacity first.
-        StackFrame::parser()
-            .repeated()
-            .at_least(1)
-            .then_ignore(just("\t").then(newline()))
-            .labelled("`$CALLSTACK` output")
-            .map(|frames| Self { frames })
-    }
-}
-
-#[test]
-fn parse_call_stack() {
-    let data = "\td3d11.dll!TComObject<NOutermost::CDevice>::AddRef
-\td3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::AddRef
-\td3d11_3SDKLayers.dll!ATL::CComObjectRootBase::InternalQueryInterface
-\td3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::QueryInterface
-\td3d11.dll!ATL::AtlInternalQueryInterface
-\td3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::QueryInterface
-\tlibGLESv2.dll!rx::Renderer11::initializeD3DDevice
-\tlibGLESv2.dll!rx::Renderer11::initialize
-\tlibGLESv2.dll!rx::CreateRendererD3D
-\tlibGLESv2.dll!rx::DisplayD3D::initialize
-\tlibGLESv2.dll!egl::Display::initialize
-\tlibGLESv2.dll!egl::Initialize
-\tlibGLESv2.dll!EGL_Initialize
-\tlibEGL.dll!eglInitialize
-\txul.dll!mozilla::gl::GLLibraryEGL::fInitialize
-\txul.dll!mozilla::gl::EglDisplay::Create
-\txul.dll!mozilla::gl::GetAndInitDisplay
-\txul.dll!mozilla::gl::GetAndInitDisplayForAccelANGLE
-\txul.dll!mozilla::gl::GLLibraryEGL::CreateDisplayLocked
-\txul.dll!mozilla::gl::GLLibraryEGL::DefaultDisplay
-\txul.dll!mozilla::gl::DefaultEglDisplay
-\txul.dll!mozilla::gl::GLContextProviderEGL::CreateHeadless
-\txul.dll!mozilla::WebGLContext::CreateAndInitGL::<lambda_0>::operator()
-\txul.dll!mozilla::WebGLContext::CreateAndInitGL::<lambda>
-\txul.dll!mozilla::WebGLContext::CreateAndInitGL
-\txul.dll!mozilla::WebGLContext::Create::<lambda>
-\txul.dll!mozilla::WebGLContext::Create
-\txul.dll!mozilla::HostWebGLContext::Create
-\txul.dll!mozilla::dom::WebGLParent::RecvInitialize
-\txul.dll!mozilla::dom::PWebGLParent::OnMessageReceived
-\txul.dll!mozilla::gfx::PCanvasManagerParent::OnMessageReceived
-\txul.dll!mozilla::ipc::MessageChannel::DispatchSyncMessage
-\txul.dll!mozilla::ipc::MessageChannel::DispatchMessage
-\txul.dll!mozilla::ipc::MessageChannel::RunMessage
-\txul.dll!mozilla::ipc::MessageChannel::MessageTask::Run
-\txul.dll!nsThread::ProcessNextEvent
-\txul.dll!NS_ProcessNextEvent
-\txul.dll!mozilla::ipc::MessagePumpForNonMainThreads::Run
-\txul.dll!MessageLoop::RunInternal
-\txul.dll!MessageLoop::RunHandler
-\txul.dll!MessageLoop::Run
-\txul.dll!nsThread::ThreadFunc
-\tnss3.dll!_PR_NativeRunThread
-\tnss3.dll!pr_root
-\tucrtbase.dll!thread_start<unsigned int (__cdecl*)(void *),1>
-\t000002147c35002f
-\tmozglue.dll!mozilla::interceptor::FuncHook<mozilla::interceptor::WindowsDllInterceptor<mozilla::interceptor::VMSharingPolicyShared>,void (*)(int, void *, void *)>::operator()<int &,void *&,void *&>
-\tmozglue.dll!patched_BaseThreadInitThunk
-\tntdll.dll!RtlUserThreadStart
-\t\n";
-
-    insta::assert_debug_snapshot!(CallStack::parser().parse(data).unwrap());
-}
-
-#[derive(Debug, Eq, PartialEq)]
-enum StackFrame {
-    ExternalCode { address: Address },
-    Symbolicated { module: String, symbol_name: String },
-}
-
-fn u64_address_value_debug_pair() -> impl Parser<char, (Address, u64), Error = Simple<char>> {
-    just("0x")
-        .ignore_then(Address::parser().labelled("changed refcount address"))
-        .then_ignore(just(" {0x"))
-        .then(u64_from_all_digits())
-        .then_ignore(just("}"))
-}
-
-fn u64_from_all_digits() -> impl Parser<char, u64, Error = Simple<char>> {
-    filter(char::is_ascii_hexdigit)
-        .repeated()
-        .exactly(16)
-        .labelled("full ASCII hex digits of `u64`")
-        // OPT: s/String/&str?
-        .map(|digits| String::from_iter(digits.into_iter()))
-        .map(|digits| u64::from_str_radix(&digits, 16).unwrap())
-}
-
-#[derive(Eq, PartialEq)]
-struct Address {
-    value: u64,
-}
-
-impl Debug for Address {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        let Self { value } = self;
-        write!(f, "{value:#010X}")
-    }
-}
-
-impl Address {
-    fn parser() -> impl Parser<char, Self, Error = Simple<char>> {
-        u64_from_all_digits().map(|value| Self { value })
-    }
-}
-
-impl StackFrame {
-    fn parser() -> impl Parser<char, Self, Error = Simple<char>> {
-        fn non_newline(c: &char) -> bool {
-            let mut buf = [0; 4];
-            let s = &*c.encode_utf8(&mut buf);
-            end::<Simple<char>>().parse(s).is_err() && newline::<Simple<char>>().parse(s).is_err()
-        }
-        let external_code = Address::parser()
-            .map(|address| Self::ExternalCode { address })
-            .labelled("external code");
-
-        let chars_until = |pred: fn(&char) -> bool| {
-            filter(pred)
-                .repeated()
-                .at_least(1)
-                // TODO: max bounds?
-                // OPT: eww, y u no `str`?
-                .map(String::from_iter)
-        };
-        let module = chars_until(|c| non_newline(c) && *c != '!')
-            .then_ignore(just("!"))
-            .labelled("module");
-        let symbol_name = chars_until(non_newline).labelled("symbol name");
-        let symbolicated_stack_frame =
-            module
-                .then(symbol_name)
-                .map(|(module, symbol_name)| Self::Symbolicated {
-                    module,
-                    symbol_name,
-                });
-        choice((external_code, symbolicated_stack_frame))
-            .labelled("inner stack frame line")
-            .delimited_by(just("\t"), newline())
-            .labelled("full stack frame line")
-    }
-}
-
-#[test]
-fn parse_symbolicated_stack_frames() {
-    assert_eq!(
-        StackFrame::parser().parse("\ta!b\n").unwrap(),
-        StackFrame::Symbolicated {
-            module: "a".to_string(),
-            symbol_name: "b".to_string(),
-        }
-    );
-    assert_eq!(
-        StackFrame::parser().parse(
-            "\td3d11_3SDKLayers.dll!CLayeredObject<NDebug::CDevice>::CContainedObject::Release\n"
-        )
-        .unwrap(),
-        StackFrame::Symbolicated {
-            module: "d3d11_3SDKLayers.dll".to_string(),
-            symbol_name: "CLayeredObject<NDebug::CDevice>::CContainedObject::Release"
-                .to_string(),
-        }
-    );
-    assert!(StackFrame::parser().parse("\td3d11_").is_err());
-    assert!(StackFrame::parser().parse("\td3d11_\n").is_err());
-    assert!(StackFrame::parser().parse("\td3d11!\n").is_err());
-    assert!(StackFrame::parser().parse("\t!\n").is_err());
-    assert!(StackFrame::parser().parse("\t!asdf\n").is_err());
 }
 
 // OPT: intern frame names, source names?
@@ -347,23 +52,7 @@ struct SourceLocation {
     line: u64,
 }
 
-struct RefcountEventLog {
-    events: Vec<Spanned<RefcountEvent>>,
-}
-
-impl RefcountEventLog {
-    fn parser(
-        stack_matchers: &[RefcountOpClassifier],
-    ) -> impl Parser<char, Self, Error = Simple<char>> + '_ {
-        RefcountEvent::parser(stack_matchers)
-            .repeated()
-            .at_least(1)
-            .labelled("refcount event log")
-            .map(|events| Self { events })
-    }
-}
-
-fn main() -> anyhow::Result<()> {
+fn main() -> miette::Result<()> {
     env_logger::builder()
         .filter_level(LevelFilter::Info)
         .parse_default_env()
@@ -382,25 +71,32 @@ fn main() -> anyhow::Result<()> {
     // OPT: buffered reading a chunk at a time for parsing plz
     let vs_output_window_text: ArcStr = {
         fs::read_to_string(&vs_output_window_text_path)
-            .context("failed to read {vs_output_window_text_path:?}")?
+            .into_diagnostic()
+            .wrap_err_with(|| format!("failed to read {vs_output_window_text_path:?}"))?
             .into()
     };
 
-    let RefcountEventParsingConfig { op_classifiers } = {
+    let RefcountEventParsingConfig {
+        platform,
+        classifiers,
+        balancers,
+    } = {
         let config_path = input_dir.join(config_basename!());
-        knuffel::parse(
+        knuffel::parse::<RefcountEventParsingConfig<SupportedPlatform>>(
             &config_path.to_str().unwrap(),
-            &fs::read_to_string(&config_path).with_context(|| {
-                format!(
-                    "failed to read configuration from {}",
-                    config_path.display()
-                )
-            })?,
+            &fs::read_to_string(&config_path)
+                .into_diagnostic()
+                .wrap_err_with(|| {
+                    format!(
+                        "failed to read configuration from {}",
+                        config_path.display()
+                    )
+                })?,
         )
         .map_err(|e| {
-            eprintln!("{}", miette::Report::new(e));
+            eprintln!("{:?}", miette::Report::new(e));
 
-            anyhow!(concat!(
+            miette!(concat!(
                 "failed to deserialize `",
                 config_basename!(),
                 "`(see above for more details)"
@@ -408,42 +104,9 @@ fn main() -> anyhow::Result<()> {
         })?
     };
 
+    log::info!("parsing refcount event log...");
     // OPT: We might be paying a minor perf penalty for not pre-allocating here?
-    let (events_opt, errs) =
-        RefcountEventLog::parser(&op_classifiers[..]).parse_recovery(&vs_output_window_text[..]);
-
-    struct Reporter {
-        vs_output_window_text_path_str: ArcStr,
-        vs_output_window_text: ArcStr,
-    }
-
-    impl Reporter {
-        fn report(
-            &self,
-            kind: ReportKind,
-            start: usize,
-            configure: impl FnOnce(&mut ReportBuilder<(ArcStr, Range<usize>)>),
-        ) {
-            let Self {
-                vs_output_window_text_path_str,
-                vs_output_window_text,
-            } = self;
-
-            let mut report = Report::build(kind, vs_output_window_text_path_str.clone(), start);
-            configure(&mut report);
-            report
-                .finish()
-                .eprint(sources([(
-                    vs_output_window_text_path_str.clone(),
-                    vs_output_window_text.clone(),
-                )]))
-                .unwrap();
-        }
-
-        fn label(&self, span: Range<usize>) -> Label<(ArcStr, Range<usize>)> {
-            Label::new((self.vs_output_window_text_path_str.clone(), span))
-        }
-    }
+    let (events_opt, errs) = EventLog::parser(platform).parse_recovery(&vs_output_window_text[..]);
 
     let reporter = Reporter {
         vs_output_window_text_path_str,
@@ -454,7 +117,7 @@ fn main() -> anyhow::Result<()> {
         // TODO: This is not a great way to determine if something is a warning or error.
         // We should let the error API of the parser report with finer granularity.
         let report_kind = if events_opt.is_some() {
-            ReportKind::Warning
+            ReportKind::Warning // TODO: check if there are any of these cases left
         } else {
             ReportKind::Error
         };
@@ -492,34 +155,101 @@ fn main() -> anyhow::Result<()> {
         bail!("one or more errors found during parsing; see above logs for more details");
     }
 
+    let events = events_opt
+        .ok_or_else(|| miette!("unrecoverable errors encountered while parsing, aborting"))?;
+
+    run(events, &classifiers, &balancers, reporter, subcommand)
+
+    // TODO: Prompt ideas:
+    // * Search for runs of balanced operations to triage for locally balanced stuff
+    // * Order manual matching search by symbol prefix?
+    // * For all prompt searches, show source, if available.
+
+    // TODO: lint on source not being available, document how to get source lines?
+}
+
+// TODO: extract output channels as an interface, rather than using `{,e}print!`
+fn run(
+    event_log: EventLog,
+    classifiers: &[Classify],
+    balancers: &[Balance],
+    reporter: Reporter,
+    subcommand: CliSubcommand,
+) -> miette::Result<()> {
+    let EventLog { events } = event_log;
+
+    // OPT: Would it be possible to operate on an arbitrary peek buffer and iterate by
+    // original value instead, peeking when necessary? We're doing a lot of redundant
+    // copying and classifying.
+    let events = events
+        .into_iter()
+        .zip(0..)
+        .map(|(parsed, id)| {
+            let (event_log::Event { data, callstack }, evt_span) = parsed.into_parts();
+            let event_log::EventData {
+                address,
+                count,
+                kind,
+            } = data;
+
+            let classification = match kind {
+                event_log::EventKind::Start { variable_name } => {
+                    Some(state_machine::EventKind::Start { variable_name })
+                }
+                event_log::EventKind::Modify => classifiers
+                    .iter()
+                    .find_map(|c| c.matches(&callstack.as_inner().frames).map(|cl| cl.into()))
+                    .map(|(rule_name, kind)| {
+                        state_machine::EventKind::Modify(state_machine::ModifyEvent {
+                            rule_name,
+                            kind: kind.into(),
+                        })
+                    }),
+            };
+
+            Spanned::new(
+                state_machine::Event {
+                    id,
+                    kind: classification,
+                    address,
+                    count,
+                    callstack,
+                },
+                evt_span,
+            )
+        })
+        .collect::<Vec<_>>();
+
+    let mut events = events.iter();
+
     match subcommand {
         CliSubcommand::Lint => {
-            let start_event = lazy_format!("{:?}", RefcountEventKindName::Start).fg(Color::Green);
-
-            let RefcountEventLog { events } =
-                events_opt.context("unrecoverable errors encountered while parsing, aborting")?;
+            let start_event =
+                lazy_format!("{:?}", state_machine::EventKindName::Start).fg(Color::Green);
 
             let mut found_issue = false;
-            let count_at_start = match events.first() {
+            // TODO: handle multiple refcount lifecycles?
+            let (start_event_span, count_at_start) = match events.next() {
                 Some(Spanned(
-                    RefcountEvent {
-                        kind: RefcountEventKind::Start { .. },
-                        count,
+                    evt @ state_machine::Event {
+                        count: Spanned(count, count_span),
                         ..
                     },
-                    span,
-                )) => {
+                    evt_span,
+                )) if evt.kind_name() == state_machine::EventKindName::Start => {
                     if *count == 0 {
-                        reporter.report(ReportKind::Error, span.start, |report| {
+                        reporter.report(ReportKind::Error, evt_span.start, |report| {
                             report.set_message("refcount start event has count of 0");
-                            report.add_label(reporter.label(span.clone()).with_message(format!(
+                            report.add_label(reporter.label(count_span.clone()).with_message(
+                                format!(
                                 "this {start_event} event has a refcount of 0, which is almost \
                                 certainly wrong",
-                            )));
+                            ),
+                            ));
                         });
                         found_issue = true;
                     }
-                    *count
+                    (evt_span, count)
                 }
                 None => {
                     log::info!("no events found, so log is trivially linted");
@@ -527,8 +257,8 @@ fn main() -> anyhow::Result<()> {
                 }
                 Some(Spanned(event, span)) => {
                     reporter.report(ReportKind::Warning, span.start, |report| {
-                        let start_event =
-                            lazy_format!("{:?}", RefcountEventKindName::Start).fg(Color::Green);
+                        let start_event = lazy_format!("{:?}", state_machine::EventKindName::Start)
+                            .fg(Color::Green);
                         report.set_message("first refcount event is not a start");
                         report.add_label(reporter.label(span.clone()).with_message(format!(
                             "expected a {start_event} event, but found this {} event instead",
@@ -547,19 +277,15 @@ fn main() -> anyhow::Result<()> {
                 }
             };
 
-            // TODO: handle multiple refcount lifecycles?
-            // TODO: use a smaller span for errors, track spans in parsed things
-            let mut events = events.iter().skip(1); // skipping the start event we
-                                                    // validated earlier
             let mut computed = ComputedRefcount {
-                refcount: count_at_start,
+                refcount: *count_at_start,
                 num_unidentified: 0,
                 num_dupe_start_events: 0,
             };
             let misbehavior_help_msg = "If you're looking for root causes of program misbehavior, \
                 then you may have found a lead!";
             let destructor_event =
-                lazy_format!("{:?}", RefcountEventKindName::Destructor).fg(Color::Magenta);
+                lazy_format!("{:?}", state_machine::EventKindName::Destructor).fg(Color::Magenta);
             let only_support_one_thing_msg =
                 "This tool does not currently support more than a single lifecycle of single \
                 refcounted pointer. Make sure you record only a single refcount lifecycle for \
@@ -574,130 +300,130 @@ fn main() -> anyhow::Result<()> {
                 // we've already verified that everything can fit in memory.
                 match events.next() {
                     // We should already have done something about this, so skippit.
-                    Some(Spanned(event, span)) => match event {
-                        RefcountEvent {
-                            kind: RefcountEventKind::Start { .. },
-                            ..
-                        } => {
-                            computed.num_dupe_start_events =
-                                computed.num_dupe_start_events.checked_add(1).unwrap();
-                            reporter.report(ReportKind::Error, span.start, |report| {
-                                report.set_message("multiple start events found");
-                                report.set_help(only_support_one_thing_msg);
-                                report.add_label(reporter.label(span.clone()).with_message(
-                                    "this {start_event} event occurs after the first one (TODO: \
-                                    span)",
-                                ));
-                                report.set_note(computed_note(&computed));
-                            });
-                            found_issue = true;
-                        }
-                        RefcountEvent {
-                            count,
-                            kind: RefcountEventKind::Modify { kind, .. },
-                            ..
-                        } => {
-                            match kind {
-                                RefcountModifyKind::Unidentified { .. } => {
-                                    computed.num_unidentified =
-                                        computed.num_unidentified.checked_add(1).unwrap();
-                                    let suggested_match = match *count {
-                                        c if c == computed.refcount - 1 => Some("decrement"),
-                                        c if c == computed.refcount.checked_add(1).unwrap() => {
-                                            Some("increment")
-                                        }
-                                        _ => None,
-                                    };
-                                    reporter.report(ReportKind::Error, span.start, |report| {
-                                        report.set_message("failed to classify event");
-                                        report.add_label(
-                                            reporter.label(span.clone()).with_message(
-                                                "could not classify this event based on its call
-                                                stack from current configuration; refcounts are \
-                                                going to be wrong!",
-                                            ),
-                                        );
-                                        report.set_help(format!(
-                                            concat!(
-                                                "You should change your stack matching \
-                                                configuration in your `",
-                                                config_basename!(),
-                                                "` so that it classifies this call stack \
-                                                correctly.{}"
-                                            ),
-                                            lazy_format!(|f| {
-                                                match suggested_match {
-                                                    None => Ok(()),
-                                                    Some(suggested_match) => write!(
-                                                        f,
-                                                        " Perhaps this should be marked as {}?",
-                                                        lazy_format!("{suggested_match:?}")
-                                                            .fg(Color::Yellow)
-                                                    ),
-                                                }
-                                            })
-                                        ));
-                                        report.set_note(computed_note(&computed));
-                                    });
-                                    found_issue = true;
-                                }
-                                RefcountModifyKind::Increment { .. } => {
-                                    computed.refcount = computed.refcount.checked_add(1).unwrap()
-                                    // TODO: `INFO`-level logging
-                                }
-                                RefcountModifyKind::Decrement { .. } => {
-                                    computed.refcount = computed.refcount.checked_sub(1).unwrap();
-                                    // TODO: `INFO`-level logging
-                                    if computed.refcount == 0 {
-                                        // TODO: `INFO`-level logging
-                                        break;
-                                    }
-                                }
-                                RefcountModifyKind::Destructor { .. } => {
-                                    reporter.report(ReportKind::Warning, span.start, |report| {
-                                    report.set_message("destructor called before refcount was zero");
-                                    // TODO: track previous event span?
-                                    report.add_label(reporter.label(span.clone()).with_message(
-                                        format!(
-                                            "This {} operation happened while the refcount was still \
-                                            positive, which is invalid.",
-                                            destructor_event
-                                        ),
-                                    ));
-                                    report.set_help(misbehavior_help_msg);
-                                report.set_note(computed_note(&computed));
-                                });
-                                    found_issue = true;
-                                    break;
-                                }
-                            };
-                            if computed.refcount != *count {
+                    Some(Spanned(event, span)) => {
+                        let kind_name = event.kind_name();
+                        let count = *event.count.as_inner();
+                        match kind_name {
+                            state_machine::EventKindName::Start => {
+                                computed.num_dupe_start_events =
+                                    computed.num_dupe_start_events.checked_add(1).unwrap();
                                 reporter.report(ReportKind::Error, span.start, |report| {
-                                    report.set_message(
-                                        "refcount in log diverges from computed value",
-                                    );
-                                    // TODO: track previous event span?
+                                    report.set_message("multiple start events found");
+                                    report.set_help(only_support_one_thing_msg);
                                     report.add_label(reporter.label(span.clone()).with_message(
-                                        format!(
-                                        "This {} operation happened while the refcount was still \
-                                        positive, which is invalid.",
-                                        destructor_event
-                                    ),
+                                        "this {start_event} event occurs after the first one",
                                     ));
-                                    report.set_help(
-                                    "This is either a bug in this tool, or something _spooky_ in \
-                                    the logged code."
-                                );
+                                    report.add_label(
+                                        reporter
+                                            .label(start_event_span.clone())
+                                            .with_message("this is the first event"),
+                                    );
                                     report.set_note(computed_note(&computed));
                                 });
                                 found_issue = true;
                             }
+                            state_machine::EventKindName::Unidentified => {
+                                computed.num_unidentified =
+                                    computed.num_unidentified.checked_add(1).unwrap();
+
+                                let suggested_match = match count {
+                                    c if c == computed.refcount - 1 => Some("decrement"),
+                                    c if c == computed.refcount.checked_add(1).unwrap() => {
+                                        Some("increment")
+                                    }
+                                    _ => None,
+                                };
+                                reporter.report(ReportKind::Error, span.start, |report| {
+                                    report.set_message("failed to classify event");
+                                    report.add_label(reporter.label(span.clone()).with_message(
+                                        "could not classify this event based on its call stack \
+                                        from current configuration; refcounts are going to be \
+                                        wrong!",
+                                    ));
+                                    // TODO: It might be nice to have a flag to accept and
+                                    // persist automatic classifications!
+                                    //
+                                    // This might need to be a separate step, i.e., `antileak
+                                    // analyze`.
+                                    report.set_help(format!(
+                                        concat!(
+                                            "You should change your stack matching configuration \
+                                            in your `",
+                                            config_basename!(),
+                                            "` so that it classifies this call stack \
+                                            correctly.{}"
+                                        ),
+                                        lazy_format!(|f| {
+                                            match suggested_match {
+                                                None => Ok(()),
+                                                Some(suggested_match) => write!(
+                                                    f,
+                                                    " Perhaps this should be marked as {}?",
+                                                    lazy_format!("{suggested_match:?}")
+                                                        .fg(Color::Yellow)
+                                                ),
+                                            }
+                                        })
+                                    ));
+                                    report.set_note(computed_note(&computed));
+                                });
+                                found_issue = true;
+                            }
+                            state_machine::EventKindName::Increment { .. } => {
+                                computed.refcount = computed.refcount.checked_add(1).unwrap()
+                                // TODO: `INFO`-level logging
+                            }
+                            state_machine::EventKindName::Decrement { .. } => {
+                                computed.refcount = computed.refcount.checked_sub(1).unwrap();
+                                // TODO: `INFO`-level logging
+                                if computed.refcount == 0 {
+                                    // TODO: `INFO`-level logging
+                                    break;
+                                }
+                            }
+                            state_machine::EventKindName::Destructor { .. } => {
+                                reporter.report(ReportKind::Warning, span.start, |report| {
+                                    report
+                                        .set_message("destructor called before refcount was zero");
+                                    // TODO: track previous event span?
+                                    report.add_label(reporter.label(span.clone()).with_message(
+                                        format!(
+                                            "This {} operation happened while the refcount was \
+                                            still positive, which is invalid.",
+                                            destructor_event
+                                        ),
+                                    ));
+                                    report.set_help(misbehavior_help_msg);
+                                    report.set_note(computed_note(&computed));
+                                });
+                                found_issue = true;
+                                break;
+                            }
+                        };
+                        if computed.refcount != count {
+                            reporter.report(ReportKind::Error, span.start, |report| {
+                                report.set_message("refcount in log diverges from computed value");
+                                // TODO: track previous event span?
+                                report.add_label(reporter.label(span.clone()).with_message(
+                                    format!(
+                                        "This {} operation happened while the refcount was still \
+                                positive, which is invalid.",
+                                        destructor_event
+                                    ),
+                                ));
+                                report.set_help(
+                                    "This is either a bug in this tool, or something _spooky_ in \
+                                    the logged code.",
+                                );
+                                report.set_note(computed_note(&computed));
+                            });
+                            found_issue = true;
                         }
-                    },
+                    }
                     None => {
                         reporter.report(
                             ReportKind::Warning,
-                            vs_output_window_text.len() - 1, // TODO: is this a sensible value?
+                            reporter.source_len() - 1, // TODO: is this a sensible value?
                             |report| {
                                 report.set_message("log ends while refcount is above 0");
                                 report.set_note(computed_note(&computed));
@@ -712,22 +438,16 @@ fn main() -> anyhow::Result<()> {
 
             match events.clone().next() {
                 Some(Spanned(
-                    RefcountEvent {
-                        kind:
-                            RefcountEventKind::Modify {
-                                kind: RefcountModifyKind::Destructor,
-                            },
-                        ..
-                    },
+                    dtor_evt,
                     _, // TODO: use this span as part of a label
-                )) => {
+                )) if dtor_evt.kind_name() == state_machine::EventKindName::Destructor => {
                     if let Some(Spanned(event, span)) = events.nth(1) {
-                        let extra_maybe = if event.kind_name() == RefcountEventKindName::Destructor
-                        {
-                            "extra "
-                        } else {
-                            ""
-                        };
+                        let extra_maybe =
+                            if event.kind_name() == state_machine::EventKindName::Destructor {
+                                "extra "
+                            } else {
+                                ""
+                            };
                         let remaining_event_count = events.count();
                         reporter.report(ReportKind::Error, span.start, |report| {
                             report.set_message("expected destructor call as final operation");
@@ -763,102 +483,265 @@ fn main() -> anyhow::Result<()> {
                 None => {
                     // TODO: keep track of previous event's span, add this as a label and the
                     // offset of error message
-                    reporter.report(
-                        ReportKind::Warning,
-                        vs_output_window_text.len() - 1,
-                        |report| {
-                            report.set_message(format!(
-                                "no events remain in log after the previous one (TODO: add span), \
+                    reporter.report(ReportKind::Warning, reporter.source_len() - 1, |report| {
+                        report.set_message(format!(
+                            "no events remain in log after the previous one (TODO: add span), \
                                 but a {destructor_event} event was expected"
-                            ));
-                            // format!(
-                            //     "expected destructor call as next operation after refcount was \
-                            //         computed to reach 0, but no more events are found (computed: \
-                            //         {computed:?})"
-                            // ),
-                            report.set_note(format!("computed refcount state: {computed:?}"));
-                            report.set_help(misbehavior_help_msg);
-                        },
-                    );
+                        ));
+                        // format!(
+                        //     "expected destructor call as next operation after refcount was \
+                        //         computed to reach 0, but no more events are found (computed: \
+                        //         {computed:?})"
+                        // ),
+                        report.set_note(format!("computed refcount state: {computed:?}"));
+                        report.set_help(misbehavior_help_msg);
+                    });
                     found_issue = true;
                 }
             }
 
-            if found_issue {
-                Err(anyhow!(
-                    "found one or more issues while analyzing this log; see logs above for more \
-                    details"
-                ))
-            } else {
-                Ok(())
-            }
+            ensure!(
+                !found_issue,
+                "found one or more issues while analyzing this log; see logs above for more \
+                details"
+            );
+            Ok(())
         }
         CliSubcommand::ShowExec => {
-            let mut event_iter = events_opt
-                .iter()
-                .flat_map(|log| log.events.iter().map(|Spanned(event, _span)| event));
-            let mut previous_event = match event_iter.next() {
-                None => {
-                    println!("! no events found");
-                    return Ok(());
-                }
-                Some(event) => event,
-            };
+            log::info!("parsing refcount events from log...");
 
-            let wind_up = |idx, event: &RefcountEvent| {
-                let frames = &event.callstack.frames;
-                for (idx, frame) in frames.iter().rev().enumerate().skip(idx) {
+            if events.clone().next().is_none() {
+                println!("! no events found");
+                return Ok(());
+            }
+
+            let mut prev_frames: &[_] = &[];
+            loop {
+                if events.clone().next().is_none() {
+                    break;
+                }
+
+                let skipped = {
+                    balancers.iter().find_map(|balance| {
+                        let Balance { name, kind } = balance;
+                        match kind {
+                            BalanceKind::Local(Local(events_matcher)) => {
+                                impl matcher::Events {
+                                    pub(crate) fn matches<'a, I>(
+                                        &self,
+                                        iter: &mut I,
+                                    ) -> Option<NonZeroUsize>
+                                    where
+                                        I: Clone + Iterator<Item = &'a state_machine::Event<'a>>,
+                                    {
+                                        let Self(matchers) = self;
+                                        let mut matchers = matchers.iter().map(|m| m.matches(iter));
+                                        matchers
+                                            .next()
+                                            .flatten()
+                                            .map(|consumed| {
+                                                matchers.try_fold(consumed, |acc, consumed| {
+                                                    consumed.map(|consumed| {
+                                                        acc.checked_add(consumed.get()).unwrap()
+                                                    })
+                                                })
+                                            })
+                                            .flatten()
+                                    }
+                                }
+                                impl matcher::Event {
+                                    pub(crate) fn matches<'a, I>(
+                                        &self,
+                                        iter: &mut I,
+                                    ) -> Option<NonZeroUsize>
+                                    where
+                                        I: Clone + Iterator<Item = &'a state_machine::Event<'a>>,
+                                    {
+                                        match self {
+                                            Self::TailFrames(_) => todo!(),
+                                            Self::Execution(_) => todo!(),
+                                        }
+                                    }
+                                }
+                                events_matcher
+                                    .matches(&mut events.clone().map(|Spanned(evt, _span)| evt))
+                                    .map(|skipped| (skipped, name))
+                            }
+                            BalanceKind::Pair(Pair {
+                                increment,
+                                decrement,
+                            }) => events
+                                .clone()
+                                .next()
+                                .map(|Spanned(state_machine::Event { id, .. }, _span)| {
+                                    [*increment, *decrement]
+                                        .contains(&id)
+                                        .then(|| (NonZeroUsize::new(1).unwrap(), name))
+                                })
+                                .flatten(),
+                        }
+                    })
+                };
+
+                let wind_up_frames;
+                let op_display: &dyn Display;
+                let skipped_display;
+                let just_next_display;
+                if let Some((skip_count, pattern_name)) = skipped {
+                    let (frames, ids) = events.by_ref().take(skip_count.get()).fold(
+                        (None, Vec::new()),
+                        |(trimmed_frames, mut ids_skipped), evt| {
+                            let state_machine::Event { id, callstack, .. } = evt.as_inner();
+                            ids_skipped.push(id);
+                            let these_frames = &callstack.as_inner().frames;
+                            let trimmed_frames = trimmed_frames
+                                .map(|trimmed_frames| {
+                                    &these_frames[..common_frames_idx(trimmed_frames, these_frames)]
+                                })
+                                .unwrap_or(&these_frames[..]);
+                            (Some(trimmed_frames), ids_skipped)
+                        },
+                    );
+                    let frames = frames.unwrap();
+                    events.nth(skip_count.get().checked_sub(1).unwrap()); // Skip stuff!
+                    wind_up_frames = frames;
+                    skipped_display = lazy_format!(move |f| {
+                        write!(
+                            f,
+                            ": Skipping {skip_count} events (#{ids:?}) under balanced tree rule {pattern_name:?}",
+                        )
+                    });
+                    // TODO: BUG: no unwind underscores being printed before skipped nodes
+                    op_display = &skipped_display;
+                } else {
+                    let first_next = match events.next() {
+                        Some(evt) => evt,
+                        None => break,
+                    };
+                    let kind_name = first_next.as_inner().kind_name();
+                    let (
+                        state_machine::Event {
+                            id,
+                            kind: _,
+                            count,
+                            address,
+                            callstack: Spanned(state_machine::CallStack { frames }, _),
+                        },
+                        _span,
+                    ) = first_next.as_parts();
+                    let count = count.as_inner();
+                    wind_up_frames = frames;
+                    just_next_display =
+                        lazy_format!("* #{id}: {kind_name:?} of {address:?} -> {count}");
+                    op_display = &just_next_display;
+                }
+                let wind_up_offset = wind_down(prev_frames, wind_up_frames);
+
+                // Print wound-up frames.
+                for (idx, frame) in wind_up_frames.iter().rev().enumerate().skip(wind_up_offset) {
                     let stack_frame = lazy_format!(|f| match frame {
-                        StackFrame::ExternalCode { address } => write!(f, "{address:?}"),
-                        StackFrame::Symbolicated {
-                            module,
-                            symbol_name,
-                        } => write!(f, "{module}!{symbol_name}"),
+                        state_machine::StackFrame::ExternalCode { address } =>
+                            write!(f, "{address:?}"),
+                        state_machine::StackFrame::Symbolicated(
+                            state_machine::SymbolicatedStackFrame {
+                                module,
+                                symbol_name,
+                            },
+                        ) => write!(f, "{module}!{symbol_name}"),
                     });
                     println!("{:>frames_up$}\\ {stack_frame}", "", frames_up = idx);
                 }
-                println!("{:>frames_up$}|", "", frames_up = frames.len());
+                println!("{:>frames_up$}|", "", frames_up = wind_up_frames.len());
                 println!(
-                    "{:>frames_up$}* {:?} of {:?} -> {}",
+                    "{:>frames_up$}{op_display}",
                     "",
-                    event.kind_name(),
-                    event.address,
-                    event.count,
-                    frames_up = frames.len()
+                    frames_up = wind_up_frames.len()
                 );
-            };
-            let wind_down = |frames: &[StackFrame], idx| match frames.len().cmp(&idx) {
-                Ordering::Less => unreachable!(),
-                Ordering::Equal => (),
-                Ordering::Greater => {
-                    println!(
-                        "{0:>space$}{0:_>frames_down$}|",
-                        "",
-                        space = idx,
-                        frames_down = frames.len().checked_sub(idx).unwrap()
-                    );
-                }
-            };
 
-            wind_up(0, previous_event);
-            for next_event in event_iter {
-                let shared_idx = |prev: &[_], next: &[_]| {
-                    prev.iter()
-                        .rev()
-                        .zip(next.iter().rev())
-                        .position(|(f1, f2)| f1 != f2)
-                        .unwrap_or(prev.len())
-                };
-                let previous_frames = &previous_event.callstack.frames;
-                let next_frames = &next_event.callstack.frames;
-                let common_frames_idx = shared_idx(previous_frames, &next_frames);
-                wind_down(previous_frames, common_frames_idx);
-                wind_up(common_frames_idx, next_event);
-                previous_event = next_event;
+                prev_frames = wind_up_frames;
             }
-            wind_down(&previous_event.callstack.frames, 0);
+            wind_down(prev_frames, &[]);
+
+            // TODO: `ShowExec` doesn't take multiple threads into account. Yikes!
+            // TODO: Printing stats for matches would be nice!
 
             Ok(())
         }
     }
+}
+
+enum ExecutionEvent<'a> {
+    PushStackFrame(&'a state_machine::StackFrame),
+    RefcountOp(&'a state_machine::EventKind<'a>),
+    PopStackFrame,
+}
+
+#[derive(Clone, Debug)]
+struct ComputedRefcount {
+    refcount: u64,
+    num_unidentified: u64,
+    num_dupe_start_events: u64,
+}
+
+struct Reporter {
+    vs_output_window_text_path_str: ArcStr,
+    vs_output_window_text: ArcStr,
+}
+
+impl Reporter {
+    fn report(
+        &self,
+        kind: ReportKind,
+        start: usize,
+        configure: impl FnOnce(&mut ReportBuilder<(ArcStr, Range<usize>)>),
+    ) {
+        let Self {
+            vs_output_window_text_path_str,
+            vs_output_window_text,
+        } = self;
+
+        let mut report = Report::build(kind, vs_output_window_text_path_str.clone(), start);
+        configure(&mut report);
+        report
+            .finish()
+            .eprint(sources([(
+                vs_output_window_text_path_str.clone(),
+                vs_output_window_text.clone(),
+            )]))
+            .unwrap();
+    }
+
+    fn label(&self, span: Range<usize>) -> Label<(ArcStr, Range<usize>)> {
+        Label::new((self.vs_output_window_text_path_str.clone(), span))
+    }
+
+    fn source_len(&self) -> usize {
+        self.vs_output_window_text.len()
+    }
+}
+
+fn wind_down(previous: &[state_machine::StackFrame], next: &[state_machine::StackFrame]) -> usize {
+    let common_frames_idx = common_frames_idx(previous, next);
+    println!(
+        "{0:>space$}{0:_>frames_down$}|",
+        "",
+        space = common_frames_idx,
+        frames_down = previous.len().checked_sub(common_frames_idx).unwrap()
+    );
+    common_frames_idx
+}
+
+fn common_frames_idx(
+    previous: &[state_machine::StackFrame],
+    next: &[state_machine::StackFrame],
+) -> usize {
+    if previous.is_empty() || next.is_empty() {
+        return 0;
+    }
+    previous
+        .iter()
+        .rev()
+        .zip(next.iter().rev())
+        .position(|(f1, f2)| f1 != f2)
+        .unwrap_or(previous.len())
 }
