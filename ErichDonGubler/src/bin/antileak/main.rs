@@ -644,23 +644,75 @@ fn run(
                         let Balance { name, kind } = balance;
                         match kind {
                             BalanceKind::Local(Local(events_matcher)) => {
+                                struct EventsMatchResults<'a> {
+                                    num_matched: NonZeroUsize,
+                                    highest_common_frames: &'a [state_machine::StackFrame],
+                                }
+                                struct EventsState<'a, I>
+                                {
+                                    events: I,
+                                    last_callstack: &'a [state_machine::StackFrame],
+                                    results: Option<EventsMatchResults<'a>>,
+                                }
+
+                                impl<'a, I> EventsState<'a, I> {
+                                    pub fn new(
+                                        events: I,
+                                        current_callstack: &[state_machine::StackFrame]
+                                    ) -> Self {
+                                        Self {
+                                            events,
+                                            last_callstack: current_callstack,
+                                            results: None,
+                                        }
+                                    }
+
+                                    pub fn last_callstack(self) -> &[state_machine::StackFrame] {
+                                        self.last_callstack
+                                    }
+
+                                    pub fn check_last_callstack(self, )
+
+                                    pub fn check_next_event<F>(self, f: F) -> Result<Self, Option<EventsMatchResults<'a>>>
+                                    where
+                                        I: Iterator<Item = &'a state_machine::Event<'a>>,
+                                        F: FnOnce(&'a state_machine::Event<'a>) -> bool,
+                                    {
+                                        if let Some(evt) = self.events.next() {
+                                            if f(evt) {
+                                                return Ok(self);
+                                            }
+                                        }
+                                        Err(self.results)
+                                    }
+                                }
+
                                 impl matcher::Events {
                                     pub(crate) fn matches<'a, I>(
                                         &self,
                                         iter: &mut I,
-                                    ) -> Option<NonZeroUsize>
+                                        current_callstack: &[state_machine::StackFrame],
+                                    ) -> Option<EventsMatchResults>
                                     where
-                                        I: Clone + Iterator<Item = &'a state_machine::Event<'a>>,
+                                        I: Iterator<Item = &'a state_machine::Event<'a>>,
                                     {
+                                        let state = EventsState::new(iter, current_callstack);
                                         let Self(matchers) = self;
-                                        let mut matchers = matchers.iter().map(|m| m.matches(iter));
+                                        let mut matchers = matchers
+                                            .iter()
+                                            .map(|m| m.matches(iter, current_callstack));
+                                        let mut match_results = EventsMatchResults {
+                                            num_matched: 0,
+                                            highest_common_frames: current_callstack,
+                                        };
+                                        matchers.for_each()
                                         matchers
                                             .next()
                                             .flatten()
                                             .map(|consumed| {
                                                 matchers.try_fold(consumed, |acc, consumed| {
                                                     consumed.map(|consumed| {
-                                                        acc.checked_add(consumed.get()).unwrap()
+                                                        acc.checked_add(consumed).unwrap()
                                                     })
                                                 })
                                             })
@@ -670,13 +722,15 @@ fn run(
                                 impl matcher::Event {
                                     pub(crate) fn matches<'a, I>(
                                         &self,
-                                        iter: &mut I,
-                                    ) -> Option<NonZeroUsize>
+                                        state: EventsState<'a, I>,
+                                    ) -> Result<EventsState<'a, I>, Option<EventsMatchResults<'a>>>
                                     where
-                                        I: Clone + Iterator<Item = &'a state_machine::Event<'a>>,
+                                        I: Iterator<Item = &'a state_machine::Event<'a>>,
                                     {
                                         match self {
-                                            Self::TailFrames(_) => todo!(),
+                                            Self::TailFrames(tf) => {
+                                                tf.matches(state.last_callstack()).then_some(state).ok()
+                                            }
                                             Self::Execution(_) => todo!(),
                                         }
                                     }
