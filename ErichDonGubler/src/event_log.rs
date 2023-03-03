@@ -11,7 +11,8 @@ use crate::{
     state_machine::{Address, CallStack},
 };
 
-pub(crate) struct EventLog {
+#[derive(Debug)]
+pub struct EventLog {
     pub events: Vec<Spanned<Event>>,
 }
 
@@ -36,7 +37,7 @@ macro_rules! start_of_event {
 const START_OF_EVENT: &str = start_of_event!();
 
 #[derive(Debug)]
-pub(crate) struct Event {
+pub struct Event {
     pub data: EventData,
     pub callstack: Spanned<CallStack>,
 }
@@ -116,7 +117,7 @@ impl Event {
 }
 
 #[derive(Debug)]
-pub(crate) struct EventData {
+pub struct EventData {
     pub address: Spanned<Address>,
     /// TODO: This doesn't take into account the size of the refcount maybe _not_ being 64 bits. We
     /// should do that, if this ever needs to be robust.
@@ -125,7 +126,7 @@ pub(crate) struct EventData {
 }
 
 #[derive(Debug)]
-pub(crate) enum EventKind {
+pub enum EventKind {
     Start { variable_name: Spanned<String> },
     Modify,
 }

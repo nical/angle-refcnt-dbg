@@ -1,36 +1,30 @@
 use std::fmt::Display;
 
 use chumsky::{
-    error::SimpleReason,
     prelude::Simple,
     primitive::{choice, end, filter, just},
     text::newline,
     Parser,
 };
 use format::lazy_format;
-use knuffel::{ast::SpannedNode, decode::Context, errors::DecodeError, traits::ErrorSpan, Decode};
-use miette::miette;
 
-use crate::{
-    matcher,
-    state_machine::{Address, CallStack, StackFrame, SymbolicatedStackFrame},
-};
+use crate::state_machine::{Address, CallStack, StackFrame, SymbolicatedStackFrame};
 
-use super::{Platform, PlatformKdl, PlatformLogSyntax};
+use super::PlatformLogSyntax;
 
 #[derive(Debug, Eq, PartialEq)]
-pub(crate) struct Windows;
+pub struct Windows;
 
 impl Windows {
-    fn address_parser() -> impl Parser<char, Address, Error = Simple<char>> {
+    pub fn address_parser() -> impl Parser<char, Address, Error = Simple<char>> {
         u64_from_all_digits().map(Address::new)
     }
 
-    fn display_address(address: &Address) -> impl Display + '_ {
+    pub fn display_address(address: &Address) -> impl Display + '_ {
         lazy_format!("{address:?}")
     }
 
-    fn stack_frame_parser() -> impl Parser<char, StackFrame, Error = Simple<char>> {
+    pub fn stack_frame_parser() -> impl Parser<char, StackFrame, Error = Simple<char>> {
         let external_code = Windows::address_parser()
             .map(|address| StackFrame::ExternalCode { address })
             .labelled("external code");
@@ -43,7 +37,7 @@ impl Windows {
             .labelled("full stack frame line")
     }
 
-    fn symbolicated_stack_frame_parser(
+    pub fn symbolicated_stack_frame_parser(
     ) -> impl Parser<char, SymbolicatedStackFrame, Error = Simple<char>> {
         fn non_newline(c: &char) -> bool {
             let mut buf = [0; 4];
@@ -73,7 +67,7 @@ impl Windows {
             .labelled("symbolicated stack frame")
     }
 
-    fn call_stack_parser() -> impl Parser<char, CallStack, Error = Simple<char>> {
+    pub fn call_stack_parser() -> impl Parser<char, CallStack, Error = Simple<char>> {
         // OPT: We're probably paying a non-trivial amount here for parsing dozens of frames
         // without trying to set capacity first.
         Self::stack_frame_parser()
@@ -139,77 +133,6 @@ fn parse_call_stack() {
 \t\n";
 
     insta::assert_debug_snapshot!(Windows::call_stack_parser().parse(data).unwrap());
-}
-
-impl<S> Platform<S> for Windows
-where
-    S: ErrorSpan,
-{
-    fn from_kdl(node: &SpannedNode<S>, ctx: &mut Context<S>) -> Result<Self, DecodeError<S>> {
-        #[derive(knuffel::Decode)]
-        struct WindowsPlatformNode {}
-
-        let WindowsPlatformNode {} = WindowsPlatformNode::decode_node(node, ctx)?;
-
-        Ok(Self)
-    }
-}
-
-impl<S> PlatformKdl<S> for Windows
-where
-    S: ErrorSpan,
-{
-    fn decode_stack_frame_matcher_from_kdl(
-        &self,
-        node: &SpannedNode<S>,
-        ctx: &mut Context<S>,
-    ) -> Result<matcher::StackFrame, DecodeError<S>> {
-        #[derive(Debug, knuffel::Decode)]
-        struct JustAName {
-            #[knuffel(node_name)]
-            node_name: String,
-        }
-        let JustAName { node_name } = Decode::decode_node(node, ctx)?;
-        let span = node.node_name.span();
-
-        Self::symbolicated_stack_frame_parser()
-            .parse(&*node_name)
-            .map(Into::into)
-            .map_err(|mut errs| {
-                assert_eq!(errs.len(), 1);
-                let e = errs.pop().unwrap(); // TODO: oof, what if there's more than one?
-
-                // TODO: We should probably try using a custom error type here? :think:
-                let expected = lazy_format!(|f| {
-                    let mut expected = e.expected();
-                    if let Some(expected) = expected.next() {
-                        write!(f, "{expected:?}")?;
-                    }
-                    for expected in e.expected() {
-                        write!(f, ", {expected:?}")?;
-                    }
-                    Ok(())
-                });
-                match e.reason().clone() {
-                    SimpleReason::Unexpected => match e.found() {
-                        Some(found) => DecodeError::Unexpected {
-                            span: span.clone(),
-                            kind: "symbolicated stack frame",
-                            message: format!("expected one of {expected}, found {found:?}",),
-                        },
-                        None => DecodeError::Missing {
-                            span: span.clone(),
-                            message: format!("missing {expected}"),
-                        },
-                    },
-                    SimpleReason::Unclosed { .. } => unreachable!(),
-                    SimpleReason::Custom(source) => DecodeError::Conversion {
-                        span: span.clone(),
-                        source: miette!(source).into(),
-                    },
-                }
-            })
-    }
 }
 
 impl PlatformLogSyntax for Windows {

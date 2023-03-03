@@ -3,22 +3,23 @@ use std::fmt::{self, Debug, Formatter};
 use crate::spanned::Spanned;
 
 #[derive(Debug)]
-pub(crate) struct CallStack {
+pub struct CallStack {
     pub frames: Vec<StackFrame>,
 }
 
 #[derive(Debug, Eq, PartialEq)]
-pub(crate) enum StackFrame {
+pub enum StackFrame {
     ExternalCode { address: Address },
     Symbolicated(SymbolicatedStackFrame),
 }
 
 #[derive(Debug, Eq, PartialEq)]
-pub(crate) struct SymbolicatedStackFrame {
+pub struct SymbolicatedStackFrame {
     pub module: String,
     pub symbol_name: String,
     // TODO: source line and column!
 }
+
 impl From<SymbolicatedStackFrame> for StackFrame {
     fn from(value: SymbolicatedStackFrame) -> Self {
         Self::Symbolicated(value)
@@ -26,7 +27,7 @@ impl From<SymbolicatedStackFrame> for StackFrame {
 }
 
 #[derive(Clone, Eq, PartialEq)]
-pub(crate) struct Address {
+pub struct Address {
     value: u64,
 }
 
@@ -43,7 +44,7 @@ impl Debug for Address {
     }
 }
 
-pub(crate) struct Event<'a> {
+pub struct Event<'a> {
     pub id: u64,
     pub kind: Option<EventKind<'a>>,
     pub address: Spanned<Address>,
@@ -57,24 +58,24 @@ impl Event<'_> {
     }
 }
 
-pub(crate) enum EventKind<'a> {
+pub enum EventKind<'a> {
     Start { variable_name: Spanned<String> },
     Modify(ModifyEvent<'a>),
 }
 
-pub(crate) struct ModifyEvent<'a> {
+pub struct ModifyEvent<'a> {
     pub rule_name: &'a str, // TODO: span on this!
     pub kind: ModifyEventKind,
 }
 
-pub(crate) enum ModifyEventKind {
+pub enum ModifyEventKind {
     Increment,
     Decrement,
     Destructor,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub(crate) enum EventKindName {
+pub enum EventKindName {
     Start,
     Increment,
     Decrement,
@@ -99,7 +100,7 @@ impl<'a> From<Option<&'a EventKind<'a>>> for EventKindName {
 }
 
 #[derive(Clone, Copy, Debug, knuffel::Decode, Eq, PartialEq)]
-pub(crate) enum Classification {
+pub enum Classification {
     Increment,
     Decrement,
     Destructor(DestructorClassification),
@@ -116,7 +117,7 @@ impl From<Classification> for ModifyEventKind {
 }
 
 #[derive(Clone, Copy, Debug, knuffel::Decode, Eq, PartialEq)]
-pub(crate) struct DestructorClassification {
+pub struct DestructorClassification {
     #[knuffel(property)]
     set_value: u64,
 }
